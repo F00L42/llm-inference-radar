@@ -1,0 +1,385 @@
+- id: S01
+  name: "vLLM 博客与季度路线图"
+  url: "https://vllm.ai/blog"
+  why_follow: "调度、KV、图编译、投机解码、PD、并行；RFC/roadmap能在正式发布前看到问题定义与路线"
+  channels:
+    - {id: 'github/vllm-project/vllm', adapter: github, enabled: true, repo: 'vllm-project/vllm'}
+- id: S02
+  name: "SGLang 与 LMSYS 官方博客"
+  url: "https://www.sglang.io/blog"
+  why_follow: "HiCache、混合注意力缓存、Breakable CUDA Graph、低延迟融合、弹性EP和投机解码"
+  channels:
+    - {id: 'github/sgl-project/sglang', adapter: github, enabled: true, repo: 'sgl-project/sglang'}
+- id: S03
+  name: "vLLM Ascend"
+  url: "https://github.com/vllm-project/vllm-ascend/releases"
+  why_follow: "Ascend硬件映射、A2/A3/950适配、图执行、DSpark/MTP、PCP/DCP、EPLB、KV Pool"
+  channels:
+    - {id: 'github/vllm-project/vllm-ascend', adapter: github, enabled: true, repo: 'vllm-project/vllm-ascend'}
+- id: S04
+  name: "FlashInfer"
+  url: "https://github.com/flashinfer-ai/flashinfer/releases"
+  why_follow: "Attention/MLA、稀疏indexer、MoE、低精度KV、通信计算融合、采样与投机验证；常先于上层框架完整整合出现"
+  channels: []
+- id: S05
+  name: "LMCache"
+  url: "https://github.com/LMCache/LMCache/releases"
+  why_follow: "分层KV、跨请求/跨实例复用、预取、CXL/Device-DAX、缓存协调与连接器"
+  channels: []
+- id: S06
+  name: "Mooncake"
+  url: "https://github.com/kvcache-ai/Mooncake/releases"
+  why_follow: "KV Store、Transfer Engine、RDMA、PD/EPD、共享host memory、弹性EP/Process Group及多硬件传输"
+  channels: []
+- id: S07
+  name: "NVIDIA Dynamo 与 NIXL"
+  url: "https://ai-dynamo.org/"
+  why_follow: "PD/EPD、KV感知路由、多节点部署、弹性通信、服务评测工具；hub提供code-freeze/QA/release日程"
+  channels: []
+- id: S08
+  name: "llm-d"
+  url: "https://llm-d.ai/blog"
+  why_follow: "Kubernetes/多租户、KV感知调度、SLO、配额、优先级、背压、P/D服务编排和真实请求回放"
+  channels: []
+- id: S09
+  name: "TensorRT-LLM"
+  url: "https://github.com/NVIDIA/TensorRT-LLM/releases"
+  why_follow: "NVIDIA新硬件路径、低精度执行、投机解码、EPD、attention和MoE融合、稳定性与兼容边界"
+  channels: []
+- id: S10
+  name: "xLLM"
+  url: "https://github.com/xLLM-AI/xllm/releases"
+  why_follow: "NPU上的PD、PCP、通信重叠、prefix cache、DSpark、EPLB和算子实现"
+  channels: []
+- id: S11
+  name: "DeepSeek DeepGEMM 与 DeepEP"
+  url: "https://github.com/deepseek-ai/DeepGEMM"
+  why_follow: "FP8/FP4 GEMM、MegaMoE、indexer、device-side EP通信、通信与计算融合、Ascend派生实现"
+  channels: []
+- id: S12
+  name: "FlashAttention"
+  url: "https://github.com/Dao-AILab/flash-attention/releases"
+  why_follow: "FA代际、GPU注意力实现、CuTe路径、精度/shape支持和硬件适配"
+  channels: []
+- id: S13
+  name: "TileLang"
+  url: "https://github.com/tile-ai/tilelang/releases"
+  why_follow: "自动调度/同步、warp specialization、GEMM/attention、GPU/NPU跨后端与Ascend950原生代码生成"
+  channels: []
+- id: S14
+  name: "Triton"
+  url: "https://github.com/triton-lang/triton/releases"
+  why_follow: "新硬件、布局/调度、低精度指令、tensor descriptor、autotune与编译正确性"
+  channels: []
+- id: S15
+  name: "CUTLASS 与 CuTe DSL"
+  url: "https://github.com/NVIDIA/cutlass/blob/main/CHANGELOG.md"
+  why_follow: "新硬件Tensor Core、低精度块缩放、TMA、GEMM组件与Python DSL编译路径"
+  channels: []
+- id: S16
+  name: "ROCm AITER"
+  url: "https://github.com/ROCm/aiter/releases"
+  why_follow: "AMD MoE/MLA/GEMM/通信融合、多kernel backend、低精度执行和跨硬件对照"
+  channels: []
+- id: S17
+  name: "PyTorch torchao"
+  url: "https://github.com/pytorch/ao/releases"
+  why_follow: "量化表示、Float8/低比特、低精度attention、calibration和compile协同"
+  channels: []
+- id: S18
+  name: "LMDeploy"
+  url: "https://github.com/InternLM/lmdeploy/releases"
+  why_follow: "TurboMind/PyTorch引擎、MoE并行、量化GEMM、DFlash、Mooncake KV与Ascend支持"
+  channels: []
+- id: S19
+  name: "arXiv 主题检索与版本订阅"
+  url: "https://arxiv.org/search/advanced"
+  why_follow: "推理系统、算子、编译器、模型机制；覆盖cs.DC/cs.AR/cs.OS/cs.LG/cs.CL并用关键词过滤"
+  channels:
+    - {id: arxiv, adapter: arxiv, enabled: true, query: '(cat:cs.* OR cat:stat.ML)'}
+- id: S20
+  name: "MLSys 官方论文集"
+  url: "https://proceedings.mlsys.org/"
+  why_follow: "训练/推理系统、KVCache、投机解码、算子、编译器与评估；优先LLM inference/serving子集"
+  channels: []
+- id: S21
+  name: "OSDI 官方技术议程"
+  url: "https://www.usenix.org/conference/osdi26/technical-sessions"
+  why_follow: "推理调度、PD分离、资源复用、EP通信、可靠性、批推理、Agent工作流"
+  channels: []
+- id: S22
+  name: "SOSP 官方录用与议程"
+  url: "https://www.sigops.org/s/conferences/sosp/2026/accepted.html"
+  why_follow: "生产推理系统、确定性、性能剖析、多模型调度、GPU runtime"
+  channels: []
+- id: S23
+  name: "ASPLOS 官方议程"
+  url: "https://www.asplos-conference.org/asplos2026/program/"
+  why_follow: "GPU执行、存储/通信协同、编译器和runtime、异构推理"
+  channels: []
+- id: S24
+  name: "EuroSys 官方录用论文"
+  url: "https://2026.eurosys.org/papers.html"
+  why_follow: "多SLO推理、动态管线、突发流量、专家卸载和异构集群"
+  channels: []
+- id: S25
+  name: "体系结构会议观察组"
+  url: "https://www.iscaconf.org/isca2026/program/"
+  why_follow: "ISCA/MICRO/HPCA/SC：HBM、PIM/PNM、互联、低比特、算存通信协同"
+  channels: []
+- id: S26
+  name: "UC Berkeley Sky Computing Lab Publications"
+  url: "https://sky.cs.berkeley.edu/publications/"
+  why_follow: "vLLM/SGLang相关系统、分布式推理、稀疏注意力、PrefillOnly、端侧MoE"
+  channels: []
+- id: S27
+  name: "Stanford Hazy Research Blog"
+  url: "https://hazyresearch.stanford.edu/blog"
+  why_follow: "FlashAttention/ThunderKittens/ParallelKittens/HipKittens、Megakernel、混合架构与新生成范式"
+  channels: []
+- id: S28
+  name: "CMU Catalyst Publications"
+  url: "https://catalyst.cs.cmu.edu/publications.html"
+  why_follow: "FlashInfer、XGrammar、TVM/Relax、AdaServe、Sequoia/MagicDec、异构推理"
+  channels: []
+- id: S29
+  name: "MIT HAN Lab Publications"
+  url: "https://hanlab.mit.edu/publications"
+  why_follow: "低比特量化、长上下文稀疏、DuoAttention/Quest/LServe、Fast-dLLM系列、算法系统协同"
+  channels: []
+- id: S30
+  name: "清华 MADSys Publications 与 KVCache.AI"
+  url: "https://madsys.cs.tsinghua.edu.cn/publication/"
+  why_follow: "Mooncake、KTransformers、KV缓存、数据搬运、CPU/GPU混合推理、RAG缓存"
+  channels: []
+- id: S31
+  name: "Hugging Face Daily Papers"
+  url: "https://huggingface.co/papers"
+  why_follow: "社区发现、作者讨论、论文模型代码关联"
+  channels:
+    - {id: hf_daily, adapter: hf_daily, enabled: true}
+- id: S32
+  name: "OpenReview"
+  url: "https://openreview.net/"
+  why_follow: "ICLR/NeurIPS/ICML等论文、评审、rebuttal与修订；仅针对已经命中的主题"
+  channels: []
+- id: S33
+  name: "Semantic Scholar 作者与引文追踪"
+  url: "https://www.semanticscholar.org/product/api"
+  why_follow: "追踪关键作者新作与种子论文后续工作，跨团队发现同路线"
+  channels: []
+- id: S34
+  name: "DeepSeek 官方 GitHub 组织"
+  url: "https://github.com/deepseek-ai"
+  why_follow: "模型架构与推理系统协同；DeepInfer、FlashMLA、DeepGEMM、DeepEP、Ascend 通信实现"
+  channels: []
+- id: S35
+  name: "Qwen 官方 GitHub 与技术报告"
+  url: "https://github.com/QwenLM"
+  why_follow: "混合注意力、Gated DeltaNet、稀疏MoE、MTP、长上下文、量化和推荐部署配置"
+  channels: []
+- id: S36
+  name: "NVIDIA Technical Blog"
+  url: "https://developer.nvidia.com/blog/"
+  why_follow: "TensorRT-LLM、Dynamo、NIXL、KV路由、PD/EPD、稀疏注意力、量化与GPU kernel"
+  channels: []
+- id: S37
+  name: "AMD ROCm Blogs 与 AITER"
+  url: "https://rocm.blogs.amd.com/"
+  why_follow: "ROCm、AITER、ATOM、persistent megakernel、混合模型缓存、DCP、通信、FP8/FP4"
+  channels: []
+- id: S38
+  name: "昇腾官方技术文章与 CANN"
+  url: "https://www.hiascend.com/developer/techArticles"
+  why_follow: "Ascend C/CANN/运行时、算子融合、图执行、PD调度、KV offloading和模型适配"
+  channels: []
+- id: S39
+  name: "Together AI Research 与 Inference Blog"
+  url: "https://www.together.ai/blog"
+  why_follow: "FlashAttention/ThunderKittens研究链、编译优化、投机解码、流量自适应、生产路由与prefix缓存"
+  channels: []
+- id: S40
+  name: "Baseten Inference Engineering"
+  url: "https://www.baseten.co/blog/"
+  why_follow: "投机解码、线上draft训练、suffix automaton+MTP、推理栈和生产延迟"
+  channels: []
+- id: S41
+  name: "Fireworks AI Blog"
+  url: "https://fireworks.ai/blog"
+  why_follow: "自研推理栈、量化、投机、缓存、PD、多地区服务和数值对齐"
+  channels: []
+- id: S42
+  name: "Modal Engineering Blog"
+  url: "https://modal.com/blog"
+  why_follow: "serverless冷启动、GPU部署、推理延迟、缓存和流量路由"
+  channels: []
+- id: S43
+  name: "Anyscale Blog 与 Ray Serve LLM"
+  url: "https://www.anyscale.com/blog"
+  why_follow: "Ray Serve LLM、扩缩容、路由、调度、batch inference、可观测性和故障恢复"
+  channels: []
+- id: S44
+  name: "Engineering at Meta"
+  url: "https://engineering.fb.com/"
+  why_follow: "TP/CP/EP、GPU通信、编译器、kernel自动优化、大规模生产推理"
+  channels: []
+- id: S45
+  name: "Google Research Blog 与 Cloud 技术博客"
+  url: "https://research.google/blog/"
+  why_follow: "稀疏/扩散/检索等减少计算的新路线；Cloud补充TPU/GKE/Ray服务实现"
+  channels: []
+- id: S46
+  name: "Microsoft Research Blog"
+  url: "https://www.microsoft.com/en-us/research/blog/"
+  why_follow: "系统论文、服务调度、长上下文、模型压缩和边缘/云协同"
+  channels: []
+- id: S47
+  name: "MLCommons MLPerf Inference 与 Endpoints"
+  url: "https://results.mlcommons.org/"
+  why_follow: "标准化吞吐-交互速度、代理/多轮新负载、硬件软件提交与性能方法变化"
+  channels: []
+- id: S48
+  name: "NVIDIA AIPerf"
+  url: "https://github.com/ai-dynamo/aiperf"
+  why_follow: "高并发压测、真实trace回放、AgentX、多轮/前缀复用、SLO goodput、Pareto配置搜索"
+  channels: []
+- id: S49
+  name: "GPU MODE 公开讲义与代码"
+  url: "https://github.com/gpu-mode/lectures"
+  why_follow: "通过讲者的一手讲义与代码理解kernel、DSL、通信和推理优化的实现细节，并发现值得继续追踪的作者与项目。"
+  channels: []
+- id: S50
+  name: "中文媒体发现组 机器之心与量子位"
+  url: "https://www.jiqizhixin.com/"
+  why_follow: "作为中文线索入口补充论文、机构和工程项目发现，沿报道中的链接回溯原论文、官方代码或技术博客。"
+  channels: []
+- id: S51
+  name: "SemiAnalysis InferenceX 与 AgentX"
+  url: "https://github.com/SemiAnalysisAI/InferenceX"
+  related_urls:
+    - "https://inferencex.semianalysis.com/"
+    - "https://github.com/SemiAnalysisAI/InferenceX-app"
+  why_follow: "补充引擎和硬件厂商之外的持续基准。沿 AgentX 负载、引擎配置和硬件条件核对吞吐、交互延迟与功耗。"
+  channels: []
+- id: S53
+  name: "Kubernetes Gateway API Inference Extension"
+  url: "https://github.com/kubernetes-sigs/gateway-api-inference-extension"
+  related_urls:
+    - "https://github.com/kubernetes-sigs/gateway-api-inference-extension/blob/main/site-src/api-types/inferencepool.md"
+  why_follow: "追踪 InferencePool、端点选择和一致性测试的上游接口，结合 llm-d 等实现判断路由能力的落地范围。"
+  channels:
+    - {id: 'github/kubernetes-sigs/gateway-api-inference-extension', adapter: github, enabled: false, repo: 'kubernetes-sigs/gateway-api-inference-extension'}
+- id: S54
+  name: "UCCL"
+  url: "https://github.com/uccl-project/uccl"
+  why_follow: "跟踪点对点 KV 传输和 GPU 驱动的专家并行通信；对照不同 GPU、NIC 与网络拓扑的适配边界。"
+  channels:
+    - {id: 'github/uccl-project/uccl', adapter: github, enabled: false, repo: 'uccl-project/uccl'}
+- id: S56
+  name: "PyTorch Helion"
+  url: "https://github.com/pytorch/helion"
+  why_follow: "跟踪 Python 内核 DSL 的自动调优和多后端代码生成，对照同一注意力或量化算子在各后端的实现与调优开销。"
+  channels:
+    - {id: 'github/pytorch/helion', adapter: github, enabled: false, repo: 'pytorch/helion'}
+- id: S58
+  name: "vLLM Humming"
+  url: "https://github.com/vllm-project/humming"
+  related_urls:
+    - "https://vllm.ai/blog/2026-10-21-humming"
+  why_follow: "跟踪面向量化推理的 JIT GEMM，核对权重和激活格式、shape、GPU 架构与 vLLM 实际选择的 kernel 路径。"
+  channels:
+    - {id: 'github/vllm-project/humming', adapter: github, enabled: false, repo: 'vllm-project/humming'}
+- id: S59
+  name: "vLLM-Omni"
+  url: "https://github.com/vllm-project/vllm-omni"
+  why_follow: "补充多模态生成的分阶段调度、流式输出和阶段间数据传输，关注这些机制对音频与扩散负载的影响。"
+  channels:
+    - {id: 'github/vllm-project/vllm-omni', adapter: github, enabled: false, repo: 'vllm-project/vllm-omni'}
+- id: S60
+  name: "结构化输出引擎（XGrammar 与 llguidance）"
+  url: "https://github.com/mlc-ai/xgrammar"
+  related_urls:
+    - "https://github.com/guidance-ai/llguidance"
+  why_follow: "追踪 JSON Schema 和文法约束解码，比较文法编译、逐 token 掩码、并发开销及工具调用的正确性边界。"
+  channels:
+    - {id: 'github/mlc-ai/xgrammar', adapter: github, enabled: false, repo: 'mlc-ai/xgrammar'}
+    - {id: 'github/guidance-ai/llguidance', adapter: github, enabled: false, repo: 'guidance-ai/llguidance'}
+- id: S61
+  name: "本地推理（llama.cpp 与 MLX-LM）"
+  url: "https://github.com/ggml-org/llama.cpp"
+  related_urls:
+    - "https://github.com/ml-explore/mlx-lm"
+  why_follow: "对照低并发、CPU/GPU 混合与 Apple Silicon 统一内存下的量化格式、缓存和访存瓶颈。"
+  channels: []
+- id: S62
+  name: "FlagOS 多芯片算子与编译生态"
+  url: "https://github.com/flagos-ai/FlagGems"
+  related_urls:
+    - "https://github.com/flagos-ai/FlagTree"
+    - "https://github.com/flagos-ai/FlagGems-sglang"
+  why_follow: "追踪 Triton 算子到多芯片后端及框架插件的适配，核对每个后端的算子覆盖、数值精度和测试证据。"
+  channels:
+    - {id: 'github/flagos-ai/flaggems', adapter: github, enabled: false, repo: 'flagos-ai/FlagGems'}
+- id: S64
+  name: "开源模型架构上游（Moonshot、Z.ai 与 MiniMax）"
+  url: "https://github.com/MoonshotAI"
+  related_urls:
+    - "https://github.com/zai-org"
+    - "https://github.com/MiniMax-AI"
+  why_follow: "从官方模型仓库找技术报告和部署配方，追踪注意力与 MoE 变化给 KV、稀疏索引、并行和量化带来的新约束。"
+  channels: []
+- id: S66
+  name: "ByteDance Seed 通信计算融合（Triton-distributed 与 Flux）"
+  url: "https://github.com/ByteDance-Seed/Triton-distributed"
+  related_urls:
+    - "https://github.com/bytedance/flux"
+  why_follow: "检查 GEMM 与 AllReduce 或 All-to-All 的流水重叠，核对 TP/EP 下的拓扑、同步与互联前提。"
+  channels:
+    - {id: 'github/bytedance-seed/triton-distributed', adapter: github, enabled: false, repo: 'ByteDance-Seed/Triton-distributed'}
+    - {id: 'github/bytedance/flux', adapter: github, enabled: false, repo: 'bytedance/flux'}
+- id: S67
+  name: "NVIDIA NCCL"
+  url: "https://github.com/NVIDIA/nccl/releases"
+  why_follow: "提供 TP/EP 集合通信的基线与上游变更依据。关注小消息延迟、设备侧通信和拓扑支持，再用推理负载测量实际通信占比。"
+  channels:
+    - {id: 'github/nvidia/nccl', adapter: github, enabled: false, repo: 'NVIDIA/nccl'}
+- id: S68
+  name: "PyTorch Core 与 TorchInductor"
+  url: "https://dev-discuss.pytorch.org/"
+  related_urls:
+    - "https://github.com/pytorch/pytorch/releases"
+  why_follow: "按需跟踪推理相关的动态图、Graph Break、AOTInductor 和 FlexAttention，核对引擎图编译路径依赖的 PyTorch 版本。"
+  channels: []
+- id: S69
+  name: "量化工具链（LLM Compressor 与 NVIDIA ModelOpt）"
+  url: "https://github.com/vllm-project/llm-compressor"
+  related_urls:
+    - "https://github.com/NVIDIA/Model-Optimizer"
+  why_follow: "从校准和导出上游核对低比特权重、激活及 KV 量化配方，追踪缩放粒度、混合精度和部署格式。"
+  channels:
+    - {id: 'github/vllm-project/llm-compressor', adapter: github, enabled: false, repo: 'vllm-project/llm-compressor'}
+    - {id: 'github/nvidia/model-optimizer', adapter: github, enabled: false, repo: 'NVIDIA/Model-Optimizer'}
+- id: S70
+  name: "昇腾算子与编译上游（Triton-Ascend 与 CATLASS）"
+  url: "https://github.com/triton-lang/triton-ascend"
+  related_urls:
+    - "https://gitcode.com/cann/catlass"
+  why_follow: "追踪 Ascend NPU 编译后端及 CATLASS 算子模板，核对算子、芯片代际、CANN 版本及 vLLM-Ascend 集成依据。"
+  channels:
+    - {id: 'github/triton-lang/triton-ascend', adapter: github, enabled: false, repo: 'triton-lang/triton-ascend'}
+- id: S71
+  name: "投机解码上游（EAGLE 与 SpecForge）"
+  url: "https://github.com/SafeAILab/EAGLE"
+  related_urls:
+    - "https://github.com/sgl-project/SpecForge"
+  why_follow: "追踪草稿结构、训练和服务接入，按模型和负载比较接受长度、生成正确性与端到端解码开销。"
+  channels:
+    - {id: 'github/safeailab/eagle', adapter: github, enabled: false, repo: 'SafeAILab/EAGLE'}
+    - {id: 'github/sgl-project/specforge', adapter: github, enabled: false, repo: 'sgl-project/SpecForge'}
+- id: S73
+  name: "网络系统会议（USENIX NSDI 与 ACM SIGCOMM）"
+  url: "https://www.usenix.org/conference/nsdi26/technical-sessions"
+  related_urls:
+    - "https://conferences.sigcomm.org/sigcomm/2026/"
+  why_follow: "按会议窗口找 KV 共享、跨节点数据传输及推理负载特征的论文与 Artifact，核对传输协议与测试拓扑。"
+  channels: []

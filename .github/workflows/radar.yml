@@ -1,0 +1,165 @@
+name: Inference radar
+
+on:
+  schedule:
+    - cron: '0 1 * * 1'
+    - cron: '0 1 * * 0,2-6'
+  workflow_dispatch:
+    inputs:
+      generate_report:
+        description: '生成周报'
+        type: boolean
+        default: true
+      week:
+        description: 'YYYY-Www，留空生成上一个完整周'
+        type: string
+      lookback_days:
+        description: '补采天数，留空按增量采集'
+        type: string
+      reopen_closed:
+        description: '手动重开当周已关闭且未合并的 PR'
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: read
+
+concurrency:
+  group: llm-inference-radar-writes
+  cancel-in-progress: false
+
+jobs:
+  radar:
+    runs-on: ubuntu-latest
+    env:
+      RADAR_DATA: ${{ runner.temp }}/radar-machine-data
+      REPORT_OUT: ${{ runner.temp }}/radar-weekly
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m pip install .
+      - name: Open machine data worktree
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          data_ref=$(git ls-remote --heads origin refs/heads/data)
+          if [[ -n "$data_ref" ]]; then
+            git fetch origin refs/heads/data
+            git worktree add --detach "$RADAR_DATA" FETCH_HEAD
+          else
+            git worktree add --detach "$RADAR_DATA" HEAD
+            git -C "$RADAR_DATA" switch --orphan data
+            printf '{}\n' > "$RADAR_DATA/state.json"
+            printf '{}\n' > "$RADAR_DATA/works.json"
+            touch "$RADAR_DATA/records.jsonl"
+            git -C "$RADAR_DATA" add -- state.json works.json records.jsonl
+            git -C "$RADAR_DATA" commit -m 'Initialize radar machine data'
+          fi
+      - name: Publish initial data branch
+        id: initialize
+        continue-on-error: true
+        run: |
+          if [[ "$(git -C "$RADAR_DATA" branch --show-current)" == data ]]; then
+            git -C "$RADAR_DATA" push origin HEAD:refs/heads/data
+          fi
+      - name: Collect from official APIs
+        env:
+          GITHUB_TOKEN: ${{ secrets.RADAR_GITHUB_READ_TOKEN || github.token }}
+          LOOKBACK_DAYS: ${{ inputs.lookback_days }}
+        run: |
+          args=()
+          if [[ -n "$LOOKBACK_DAYS" ]]; then args+=(--lookback-days "$LOOKBACK_DAYS"); fi
+          radar --data-dir "$RADAR_DATA" collect "${args[@]}"
+      - name: Commit machine data
+        id: persist
+        continue-on-error: true
+        run: |
+          git -C "$RADAR_DATA" add -- state.json records.jsonl works.json
+          if ! git -C "$RADAR_DATA" diff --cached --quiet; then
+            git -C "$RADAR_DATA" commit -m 'Collect radar records'
+            git -C "$RADAR_DATA" push origin HEAD:refs/heads/data
+          fi
+      - name: Generate weekly report
+        id: report
+        if: github.event.schedule == '0 1 * * 1' || inputs.generate_report
+        env:
+          WEEK: ${{ inputs.week }}
+          RADAR_DEEPSEEK_API_KEY: ${{ secrets.RADAR_DEEPSEEK_API_KEY }}
+          RADAR_OPENAI_API_KEY: ${{ secrets.RADAR_OPENAI_API_KEY }}
+          RADAR_OPENAI_BASE_URL: ${{ vars.RADAR_OPENAI_BASE_URL || 'https://api.openai.com/v1' }}
+          RADAR_OPENAI_MODEL: ${{ vars.RADAR_OPENAI_MODEL }}
+          RADAR_BACKEND: ${{ vars.RADAR_BACKEND || (secrets.RADAR_DEEPSEEK_API_KEY != '' && 'deepseek' || 'none') }}
+        run: |
+          args=(--previous-week)
+          if [[ -n "$WEEK" ]]; then args=(--week "$WEEK"); fi
+          report=$(radar --data-dir "$RADAR_DATA" report "${args[@]}" --backend "$RADAR_BACKEND" --output-dir "$REPORT_OUT")
+          echo "file=$(basename "$report")" >> "$GITHUB_OUTPUT"
+      - name: Keep report available from the run
+        if: steps.report.outcome == 'success'
+        uses: actions/upload-artifact@v4
+        with:
+          name: radar-weekly
+          path: ${{ runner.temp }}/radar-weekly/*.md
+          if-no-files-found: error
+      - name: Commit weekly selection history
+        id: history
+        if: steps.report.outcome == 'success'
+        continue-on-error: true
+        run: |
+          git -C "$RADAR_DATA" add -- works.json
+          if ! git -C "$RADAR_DATA" diff --cached --quiet; then
+            git -C "$RADAR_DATA" commit -m 'Record weekly selections'
+            git -C "$RADAR_DATA" push origin HEAD:refs/heads/data
+          fi
+      - name: Publish or update weekly draft PR
+        if: steps.report.outcome == 'success'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          FILE: ${{ steps.report.outputs.file }}
+          REOPEN: ${{ inputs.reopen_closed }}
+        run: |
+          trap 'echo "::error::报告已留存为工作流产物。发布权限需要 contents: write、pull-requests: write，并允许 Actions 创建 PR。"' ERR
+          week="${FILE%.md}"
+          [[ "$week" =~ ^[0-9]{4}-W[0-9]{2}$ ]]
+          branch="radar/weekly/$week"
+          pr=$(gh pr list --repo "$GITHUB_REPOSITORY" --state all --base main --head "$branch" \
+            --json number,state --jq 'sort_by(.number) | last | if . == null then "" else "\(.number) \(.state)" end')
+          read -r number state <<< "$pr"
+          if [[ "$state" == MERGED || ( "$state" == CLOSED && "$REOPEN" != true ) ]]; then
+            echo "Skipping ${state,,} pull request #$number."
+            exit 0
+          fi
+          branch_ref=$(git ls-remote --heads origin "refs/heads/$branch")
+          if [[ -n "$branch_ref" ]]; then
+            git fetch origin "refs/heads/$branch"
+            git switch --detach FETCH_HEAD
+          fi
+          mkdir -p reports/weekly
+          cp -- "$REPORT_OUT/$FILE" "reports/weekly/$FILE"
+          git add -- "reports/weekly/$FILE"
+          if ! git diff --cached --quiet; then
+            git commit -m "Radar weekly $week"
+          fi
+          git push origin "HEAD:refs/heads/$branch"
+          if [[ "$state" == CLOSED ]]; then
+            gh pr reopen "$number" --repo "$GITHUB_REPOSITORY"
+          elif [[ -z "$number" ]]; then
+            if git diff --quiet origin/main HEAD; then
+              echo 'The same report is already present on main.'
+              exit 0
+            fi
+            gh pr create --repo "$GITHUB_REPOSITORY" --base main --head "$branch" --draft \
+              --title "LLM 推理技术雷达 $week" --body '请核对候选、原始证据和验证计划后再合并。'
+          fi
+      - name: Surface machine data persistence failures
+        if: always() && (steps.initialize.outcome == 'failure' || steps.persist.outcome == 'failure' || steps.history.outcome == 'failure')
+        run: |
+          echo '::error::机器数据提交或推送失败，请查看对应步骤日志，确认 contents: write 及 data 分支权限。'
+          exit 1

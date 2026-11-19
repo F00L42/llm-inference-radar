@@ -1,0 +1,23 @@
+# 分支之间为 OR。context 只约束 contextual 中较宽泛的词。
+context: [inference, serving, LLM, LLMs, large language model, large language models, transformer, transformers, decode, decoding, generation, prefill, 推理]
+branches:
+  投机、并行与扩散生成:
+    arxiv: [speculative decoding, speculative sampling, parallel decoding, parallel draft, multi-token prediction, discrete diffusion, diffusion-augmented]
+    terms: [speculative decoding, speculative sampling, parallel decoding, parallel draft, multi-token prediction, MTP, 投机解码, 并行解码]
+    contextual: [discrete diffusion, diffusion distillation, diffusion-augmented, block diffusion]
+  稀疏注意力与索引器:
+    arxiv: [sparse attention, attention indexer, block sparse attention]
+    terms: [sparse attention, attention indexer, DSA indexer, block sparse attention, 稀疏注意力]
+    contextual: [indexer, top-k selection]
+  KV、调度与 P/D 分离:
+    arxiv: [KV cache, KV caching, prefix caching, continuous batching, paged attention, chunked prefill, disaggregated serving, prefill decode disaggregation]
+    terms: [KV cache, KV-cache, KV caching, KV offload, prefix caching, prefix cache, continuous batching, paged attention, PagedAttention, chunked prefill, disaggregated prefill, disaggregated serving, prefill decode disaggregation, PD disaggregation, KV 缓存, P/D 分离]
+    contextual: [scheduler, scheduling, cache eviction, cache compression]
+  量化、Kernel 与编译:
+    arxiv: [weight-only quantization, KV quantization, fused attention, fused MoE, CUDA graph, kernel fusion]
+    terms: [weight-only quantization, KV quantization, fused attention, fused MoE, CUDA graph, graph capture, W4A16, W8A8, FP8, NVFP4, 算子融合]
+    contextual: [quantization, kernel, kernel fusion, compilation, compiler, Triton]
+  并行、MoE 与通信:
+    arxiv: [tensor parallelism, expert parallelism, context parallel, collective communication, mixture-of-experts inference]
+    terms: [tensor parallel, tensor parallelism, expert parallel, expert parallelism, pipeline parallel, pipeline parallelism, context parallel, all-to-all, all-reduce, reduce-scatter, EPLB, 专家并行]
+    contextual: [mixture of experts, mixture-of-experts, MoE, collective communication]
