@@ -266,6 +266,35 @@ def test_deepseek_report_uses_dedicated_key_and_endpoint(config, tmp_path, monke
     assert "模型综合不可用" in path.read_text(encoding="utf-8")
 
 
+def test_deepseek_retries_unsupported_number_without_weakening_evidence(config, tmp_path, monkeypatch):
+    channels(config, "arxiv")
+    store = Store(tmp_path / "data")
+    collect(config, store, NOW, client=Papers())
+    monkeypatch.setenv("RADAR_DEEPSEEK_API_KEY", "test-deepseek-key")
+    calls = []
+
+    def complete(request, timeout):
+        assert timeout == 90
+        messages = json.loads(request.data)["messages"]
+        offered = json.loads(messages[1]["content"])
+        work, candidate = next(iter(offered.items()))
+        evidence = candidate["records"][0]["id"]
+        assert (work, evidence) == ("W1", "R1")
+        calls.append(messages[0]["content"])
+        item = {"priority": "值得验证", "works": [work], "evidence": [evidence], "title": "并行草稿",
+                "change": "本周首次收录", "value": "提升 999 倍" if len(calls) == 1 else "推断可减少解码耗时",
+                "conditions": "详细负载未知", "next_step": "固定输入长度并比较解码耗时"}
+        return BytesIO(json.dumps({"choices": [{"message": {"content": json.dumps({"items": [item]})}}]}).encode())
+
+    monkeypatch.setattr("radar.report.urlopen", complete)
+    path = report(store, tmp_path, WEEK, NOW, "deepseek", PROMPT)
+    body = path.read_text(encoding="utf-8")
+    assert len(calls) == 2
+    assert "正文包含证据未给出的数字" in calls[1]
+    assert "999" not in body
+    assert "https://arxiv.org/abs/2601.12345v1" in body and "## 值得验证" in body
+
+
 def test_report_reruns_and_changed_evidence(config, tmp_path, monkeypatch):
     channels(config, "arxiv", "hf_daily")
     store, client = Store(tmp_path / "data"), Papers()

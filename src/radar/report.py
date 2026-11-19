@@ -23,6 +23,10 @@ NUMBER = re.compile(r"\d+(?:[.,]\d+)*")
 CANDIDATE_PREVIEW = 12
 
 
+class DigestValidationError(ValueError):
+    """The model response did not meet the report's evidence rules."""
+
+
 def week_id(moment: datetime) -> str:
     year, week, _ = moment.astimezone(SHANGHAI).isocalendar()
     return f"{year}-W{week:02}"
@@ -133,7 +137,7 @@ def candidate_line(candidate) -> str:
 
 
 def record_for_model(record):
-    return {"id": record.key, "title": record.title, "summary": record.summary, "revision": record.revision,
+    return {"title": record.title, "summary": record.summary, "revision": record.revision,
             "kind": record.kind, "published_at": record.published_at, "updated_at": record.updated_at,
             "repo": record.upstream.get("repo"), "status": record.upstream.get("integration"),
             "author_code": record.upstream.get("author_code", {}).get("status"),
@@ -153,37 +157,61 @@ def request_digest(candidates, prompt: Path, backend: str):
         model = os.getenv("RADAR_OPENAI_MODEL")
         if not model:
             raise ValueError("缺少 RADAR_OPENAI_MODEL")
-    offered = {}
+    offered, work_ids, record_ids = {}, {}, {}
     for work_id, item in list(candidates.items())[:30]:
-        offered[work_id] = {"records": [record_for_model(record) for record in item["records"]],
-                            "previous": [record_for_model(record) for record in item["previous"]],
-                            "retain": item["retained"], "historical": item["historical"]}
+        work_ref = f"W{len(work_ids) + 1}"
+        work_ids[work_ref] = work_id
+        records = []
+        for record in item["records"]:
+            record_ref = f"R{len(record_ids) + 1}"
+            record_ids[record_ref] = record.key
+            records.append({"id": record_ref, **record_for_model(record)})
+        offered[work_ref] = {"records": records,
+                             "previous": [record_for_model(record) for record in item["previous"]],
+                             "retain": item["retained"], "historical": item["historical"]}
     payload = {"model": model, "messages": [
         {"role": "system", "content": prompt.read_text(encoding="utf-8")},
         {"role": "user", "content": json.dumps(offered, ensure_ascii=False)},
     ]}
     if backend == "deepseek":
         payload.update(response_format={"type": "json_object"}, thinking={"type": "disabled"}, max_tokens=4096)
-    request = Request(base + "/chat/completions", data=json.dumps(payload).encode(),
-                      headers={"Content-Type": "application/json"})
-    request.add_unredirected_header("Authorization", f"Bearer {key}")
-    with urlopen(request, timeout=25) as response:
-        raw = json.load(response)
-    return validate_digest(json.loads(raw["choices"][0]["message"]["content"]), offered)
+    attempts, timeout = (2, 90) if backend == "deepseek" else (1, 25)
+    for attempt in range(attempts):
+        request = Request(base + "/chat/completions", data=json.dumps(payload).encode(),
+                          headers={"Content-Type": "application/json"})
+        request.add_unredirected_header("Authorization", f"Bearer {key}")
+        try:
+            with urlopen(request, timeout=timeout) as response:
+                raw = json.load(response)
+            items = validate_digest(json.loads(raw["choices"][0]["message"]["content"]), offered)
+            return [
+                {**item, "works": [work_ids[ref] for ref in item["works"]],
+                 "evidence": [record_ids[ref] for ref in item["evidence"]]}
+                for item in items
+            ]
+        except (DigestValidationError, json.JSONDecodeError) as exc:
+            if attempt + 1 == attempts:
+                raise
+            reason = str(exc) if isinstance(exc, DigestValidationError) else "响应不是有效 JSON"
+            LOG.info("DeepSeek 响应未通过校验（%s），重新请求一次。", reason)
+            payload["messages"][0]["content"] += (
+                f"\n前一次响应未通过校验，原因为「{reason}」。重新输出完整 JSON。"
+                "正文五个字段一律使用无阿拉伯数字的表述，并逐字复制 works 和 evidence 中的 ID。"
+            )
 
 
 def validate_digest(result, offered):
     if not isinstance(result, dict) or not isinstance(items := result.get("items"), list) or len(items) > 5:
-        raise ValueError("报告应包含 0–5 个技术点")
+        raise DigestValidationError("报告应包含 0–5 个技术点")
     used = set()
     for item in items:
         if not isinstance(item, dict) or item.get("priority") not in LEVELS:
-            raise ValueError("优先级无效")
+            raise DigestValidationError("优先级无效")
         works = item.get("works")
         if not isinstance(works, list) or not works or len(works) != len(set(works)) or any(
             work in used or work not in offered for work in works
         ):
-            raise ValueError("Work 引用无效或重复")
+            raise DigestValidationError("Work 引用无效或重复")
         used.update(works)
         records_by_work = [{record["id"]: record for record in offered[work]["records"]} for work in works]
         records = {key: record for group in records_by_work for key, record in group.items()}
@@ -191,18 +219,18 @@ def validate_digest(result, offered):
         if not isinstance(evidence, list) or not evidence or any(key not in records for key in evidence) or any(
             not group.keys() & set(evidence) for group in records_by_work
         ):
-            raise ValueError("证据引用无效")
+            raise DigestValidationError("证据引用无效")
         allowed_numbers = set(NUMBER.findall(" ".join(
             f"{records[key]['title']} {records[key]['summary']} {records[key]['revision']}" for key in evidence
         )))
         for field in ("title", *FIELDS):
             value = item.get(field)
             if not isinstance(value, str) or not value.strip() or len(value) > 450 or re.search(r"https?://|www\.|\]\(", value, re.I):
-                raise ValueError("正文缺失或包含未授权链接")
+                raise DigestValidationError("正文缺失或包含未授权链接")
             if set(NUMBER.findall(value)) - allowed_numbers:
-                raise ValueError("正文包含证据未给出的数字")
+                raise DigestValidationError("正文包含证据未给出的数字")
     if any(value["retain"] and key not in used for key, value in offered.items()):
-        raise ValueError("同周重跑遗漏了已有入选项")
+        raise DigestValidationError("同周重跑遗漏了已有入选项")
     return items
 
 
@@ -218,8 +246,11 @@ def report(store: Store, target: Path, week: str, now: datetime, backend: str, p
         try:
             items = request_digest(candidates, prompt, backend)
         except (OSError, ValueError, KeyError, IndexError, TypeError, HTTPException) as exc:
-            LOG.warning("模型综合失败，已回退候选清单（%s）。", type(exc).__name__)
+            reason = str(exc) if isinstance(exc, DigestValidationError) else type(exc).__name__
+            LOG.warning("模型综合失败，已回退候选清单（%s）。", reason)
             fallback = True
+        else:
+            LOG.info("模型综合完成（%s），入选 %s 项。", backend, len(items))
     selected = set()
     if items:
         for level in LEVELS:
