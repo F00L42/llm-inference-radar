@@ -33,10 +33,10 @@ concurrency:
 jobs:
   radar:
     runs-on: ubuntu-latest
-    env:
-      RADAR_DATA: ${{ runner.temp }}/radar-machine-data
-      REPORT_OUT: ${{ runner.temp }}/radar-weekly
     steps:
+      - name: Set runner paths
+        run: |
+          printf 'RADAR_DATA=%s\nREPORT_OUT=%s\n' "$RUNNER_TEMP/radar-machine-data" "$RUNNER_TEMP/radar-weekly" >> "$GITHUB_ENV"
       - uses: actions/checkout@v4
         with:
           ref: main
