@@ -13096,7 +13096,8 @@
     "id": "github:sgl-project/sglang:issue:45847",
     "name": "[Failure Tracker] PR Test (AMD)",
     "records": [
-      "github:sgl-project/sglang:issue:45847@f133e9a160ff7efe43ffe617d67d1948d64acc3ba8975dd9fcd916373933bfbb"
+      "github:sgl-project/sglang:issue:45847@f133e9a160ff7efe43ffe617d67d1948d64acc3ba8975dd9fcd916373933bfbb",
+      "github:sgl-project/sglang:issue:45847@61002a28d4b0e77bd5a3a97ffd9c3732efaeca4e4689588845fa8e83dac49e77"
     ],
     "status": {
       "author_code": [],
@@ -27428,6 +27429,26 @@
       }
     }
   },
+  "github:sgl-project/sglang:pr:35855": {
+    "id": "github:sgl-project/sglang:pr:35855",
+    "name": "[MUSA] add platform capability support and skip CUDA-only dtype fallback",
+    "records": [
+      "github:sgl-project/sglang:pr:35855@749ead6a070ba6a33097cca0dd4dfbd8f4815364209efb253a3a8a8371b4e684"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "sgl-project/sglang": [
+          {
+            "status": "关闭未合并",
+            "url": "https://github.com/sgl-project/sglang/pull/35855"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
   "github:sgl-project/sglang:pr:35863": {
     "id": "github:sgl-project/sglang:pr:35863",
     "name": "[Fix] kimi-k3: Align reported cached tokens with prompt usage",
@@ -29583,6 +29604,26 @@
         ]
       }
     }
+  },
+  "github:sgl-project/sglang:pr:38658": {
+    "id": "github:sgl-project/sglang:pr:38658",
+    "name": "[Feat] linker: support pipeline parallelism in linker",
+    "records": [
+      "github:sgl-project/sglang:pr:38658@fe4528d8013c4b197325b340d91e7adfd8bce3e541bdf4f5778f9f11fe628a60"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "sgl-project/sglang": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/sgl-project/sglang/pull/38658"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
   },
   "github:sgl-project/sglang:pr:38663": {
     "id": "github:sgl-project/sglang:pr:38663",
@@ -36952,7 +36993,8 @@
     "id": "github:sgl-project/sglang:pr:43312",
     "name": "[Feat] [XPU] LongCat-Flash: Enable on Intel XPU and fix stale ngram skip mask in decode",
     "records": [
-      "github:sgl-project/sglang:pr:43312@13d7f5245cae795db35984495df2cab666fbdc2b87d7f2830308cb0e72b6cadc"
+      "github:sgl-project/sglang:pr:43312@13d7f5245cae795db35984495df2cab666fbdc2b87d7f2830308cb0e72b6cadc",
+      "github:sgl-project/sglang:pr:43312@3b32d67bd565cfe741076f63eedd5a5822b0ff4d361b64338bb4c5f1861ac9cb"
     ],
     "status": {
       "author_code": [],
@@ -37927,6 +37969,26 @@
         ]
       }
     }
+  },
+  "github:sgl-project/sglang:pr:43654": {
+    "id": "github:sgl-project/sglang:pr:43654",
+    "name": "[diffusion] Serve the LLaDA-Image Turbo FP8 checkpoint on one GPU",
+    "records": [
+      "github:sgl-project/sglang:pr:43654@d25e1ed08776e4ed5eb630f6b9c2324292330e82520275472eb9c95ce2dc5931"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "sgl-project/sglang": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/sgl-project/sglang/pull/43654"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
   },
   "github:sgl-project/sglang:pr:43655": {
     "id": "github:sgl-project/sglang:pr:43655",
@@ -47900,7 +47962,8 @@
     "id": "github:sgl-project/sglang:pr:46210",
     "name": "[Feat] [NVIDIA] megakernels: DSA / MLA binding view, EAGLE draft capture checks, early draft embedding sharing",
     "records": [
-      "github:sgl-project/sglang:pr:46210@f7b1de3d8a533562a96da338e87d4761bf0f7ec1a052867e8c819ec98d08e3d0"
+      "github:sgl-project/sglang:pr:46210@f7b1de3d8a533562a96da338e87d4761bf0f7ec1a052867e8c819ec98d08e3d0",
+      "github:sgl-project/sglang:pr:46210@bae087964dd37fa7374218964954af9f00d44cdc4cc856b302bee7484ebdcef5"
     ],
     "status": {
       "author_code": [],
@@ -49636,7 +49699,8 @@
     "id": "github:sgl-project/sglang:pr:46559",
     "name": "[Fix] [CPU] Fix: Qwen3.5-35B-A3B-GPTQ-Int4 quantization rule failure and accuracy degradation",
     "records": [
-      "github:sgl-project/sglang:pr:46559@a2e850aa680df3446b8dba3a41ec53748ce6e5547f26c4f9e70031ceb13d4b54"
+      "github:sgl-project/sglang:pr:46559@a2e850aa680df3446b8dba3a41ec53748ce6e5547f26c4f9e70031ceb13d4b54",
+      "github:sgl-project/sglang:pr:46559@287510c68e8a4668c0d5b71865f1362f55ce4690203705bdc577e978e9d7cfa4"
     ],
     "status": {
       "author_code": [],
@@ -50556,6 +50620,26 @@
       }
     }
   },
+  "github:sgl-project/sglang:pr:46725": {
+    "id": "github:sgl-project/sglang:pr:46725",
+    "name": "[Fix] [MUSA] fa3: Preserve draft-extend prefix KV attention",
+    "records": [
+      "github:sgl-project/sglang:pr:46725@95cfacf9282a9ee08ad87434b6d4c87721819f1d8d2f3891baaafc368e4edad3"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "sgl-project/sglang": [
+          {
+            "status": "关闭未合并",
+            "url": "https://github.com/sgl-project/sglang/pull/46725"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
   "github:sgl-project/sglang:pr:46726": {
     "id": "github:sgl-project/sglang:pr:46726",
     "name": "[Feat] metrics: expose effective request capacity",
@@ -50639,6 +50723,26 @@
         ]
       }
     }
+  },
+  "github:sgl-project/sglang:pr:46735": {
+    "id": "github:sgl-project/sglang:pr:46735",
+    "name": "[Feat] [MUSA] fa3: Port production scheduler-metadata backend",
+    "records": [
+      "github:sgl-project/sglang:pr:46735@adc6a4da19beb5c3e409218a624ab51c8c921221f2a8004349812bd5be62ae04"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "sgl-project/sglang": [
+          {
+            "status": "关闭未合并",
+            "url": "https://github.com/sgl-project/sglang/pull/46735"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
   },
   "github:sgl-project/sglang:pr:46740": {
     "id": "github:sgl-project/sglang:pr:46740",
@@ -51591,6 +51695,26 @@
         ]
       }
     }
+  },
+  "github:sgl-project/sglang:pr:46919": {
+    "id": "github:sgl-project/sglang:pr:46919",
+    "name": "[Feat] [Intel] Model-enabling: Enable MiMo-V2-Flash and MiMo-V2.5 on Xeon CPU",
+    "records": [
+      "github:sgl-project/sglang:pr:46919@668fd940a7f36b34087d2bdbb900326ef9a527cc53457d438d782dfc6211a9c6"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "sgl-project/sglang": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/sgl-project/sglang/pull/46919"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
   },
   "github:sgl-project/sglang:pr:46926": {
     "id": "github:sgl-project/sglang:pr:46926",
@@ -58844,6 +58968,26 @@
       }
     }
   },
+  "github:sgl-project/sglang:pr:48033": {
+    "id": "github:sgl-project/sglang:pr:48033",
+    "name": "[Feat] embedding: Add Cohere-compatible /v2/embed API",
+    "records": [
+      "github:sgl-project/sglang:pr:48033@482242f27b3f60710b1640fd6937f8531834f31a6542697f5dd97dcb5635c9f8"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "sgl-project/sglang": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/sgl-project/sglang/pull/48033"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
   "github:sgl-project/sglang:pr:48038": {
     "id": "github:sgl-project/sglang:pr:48038",
     "name": "[Perf] [NVIDIA] eplb: Rebalance the DSpark draft MoE as its own placement family",
@@ -62096,7 +62240,8 @@
     "id": "github:sgl-project/sglang:pr:48353",
     "name": "[Fix] [XPU] compressed-tensors: Support W8A8 int8 on XPU and quantize Whisper MLP linears.",
     "records": [
-      "github:sgl-project/sglang:pr:48353@cc8b3242db98f328afb6051c76dbbaf3ed91376c889e5fe11e1d748c2a5228f4"
+      "github:sgl-project/sglang:pr:48353@cc8b3242db98f328afb6051c76dbbaf3ed91376c889e5fe11e1d748c2a5228f4",
+      "github:sgl-project/sglang:pr:48353@85129657fac4bd861a764f73ebb84c784a1109469d60d5307037fe7e84c285d9"
     ],
     "status": {
       "author_code": [],
@@ -64359,6 +64504,26 @@
         ]
       }
     }
+  },
+  "github:sgl-project/sglang:pr:48540": {
+    "id": "github:sgl-project/sglang:pr:48540",
+    "name": "[Perf] [NPU] moe: tile local prefill expert activations",
+    "records": [
+      "github:sgl-project/sglang:pr:48540@1fbca6176d0fcbf3523ca1628ef97187623e7d63e772a311e754cf4c25bb0b3c"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "sgl-project/sglang": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/sgl-project/sglang/pull/48540"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
   },
   "github:sgl-project/sglang:pr:48541": {
     "id": "github:sgl-project/sglang:pr:48541",
@@ -68056,6 +68221,66 @@
       }
     }
   },
+  "github:sgl-project/sglang:pr:48767": {
+    "id": "github:sgl-project/sglang:pr:48767",
+    "name": "[Perf] [AMD] diffusion: Mount the Wan FFN linear+GELU site on gfx1250 with a bit-exact GELU",
+    "records": [
+      "github:sgl-project/sglang:pr:48767@c432c39164d7219601a94b992286f018d5e17337e75f6237feef98126eb98d8a"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "sgl-project/sglang": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/sgl-project/sglang/pull/48767"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
+  "github:sgl-project/sglang:pr:48768": {
+    "id": "github:sgl-project/sglang:pr:48768",
+    "name": "[Perf] [AMD] diffusion: Let aiter RMSNorm read strided Q/K rows instead of copying them",
+    "records": [
+      "github:sgl-project/sglang:pr:48768@ac52b281f104f2651d4cfb54054fab682e53adb825deff6eb34f54f50c070ebe"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "sgl-project/sglang": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/sgl-project/sglang/pull/48768"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
+  "github:sgl-project/sglang:pr:48769": {
+    "id": "github:sgl-project/sglang:pr:48769",
+    "name": "[Perf] [AMD] diffusion: Build the ROCm batched-Conv2D VAE input in one Triton pass",
+    "records": [
+      "github:sgl-project/sglang:pr:48769@7f83670ed73878d900f10fad226f075485e430eabd08185635de46431a7da66a"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "sgl-project/sglang": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/sgl-project/sglang/pull/48769"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
   "github:sgl-project/sglang:pr:48770": {
     "id": "github:sgl-project/sglang:pr:48770",
     "name": "[Perf] [AMD] DeepSeek-V4.1: Exchange only the indexer selection part attention reads under the HIP row shard",
@@ -69516,7 +69741,8 @@
     "id": "github:sgl-project/sglang:pr:48865",
     "name": "[Perf] [AMD] deepseek-v4.1: Reuse the low-ratio identity extend fill across the layers of a ratio",
     "records": [
-      "github:sgl-project/sglang:pr:48865@592d236420d9a5a1cc2796495d7730de89306caea8693d9bdf4cfdfaa91f63d0"
+      "github:sgl-project/sglang:pr:48865@592d236420d9a5a1cc2796495d7730de89306caea8693d9bdf4cfdfaa91f63d0",
+      "github:sgl-project/sglang:pr:48865@18035c243ef6fbf384432671d35f7fe5129ee5ce88842dedf7f5d7a231c86927"
     ],
     "status": {
       "author_code": [],
@@ -78388,6 +78614,26 @@
       }
     }
   },
+  "github:sgl-project/sglang:pr:49429": {
+    "id": "github:sgl-project/sglang:pr:49429",
+    "name": "[Perf] beam-search: Speed up trie-constrained beam search on SM120",
+    "records": [
+      "github:sgl-project/sglang:pr:49429@eb6b70a990b54be6207f8fb1b35f8282b8b3674616106de0044708614c57bc36"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "sgl-project/sglang": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/sgl-project/sglang/pull/49429"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
   "github:sgl-project/sglang:pr:49430": {
     "id": "github:sgl-project/sglang:pr:49430",
     "name": "[Feat] mem_cache: Evict Mamba states by GreedyDual-Size (--radix-eviction-policy gds)",
@@ -81719,6 +81965,26 @@
         ]
       }
     }
+  },
+  "github:sgl-project/sglang:pr:49607": {
+    "id": "github:sgl-project/sglang:pr:49607",
+    "name": "[Chore] deps: Bump xgrammar to 0.2.9",
+    "records": [
+      "github:sgl-project/sglang:pr:49607@0abc6b35f750acfa3f66141f509f0b06aa6552812af61dc8fb575377d426de1c"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "sgl-project/sglang": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/sgl-project/sglang/pull/49607"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
   },
   "github:sgl-project/sglang:pr:49608": {
     "id": "github:sgl-project/sglang:pr:49608",
@@ -85948,6 +86214,26 @@
       }
     }
   },
+  "github:sgl-project/sglang:pr:49883": {
+    "id": "github:sgl-project/sglang:pr:49883",
+    "name": "[Perf] [AMD] aiter: Run EAGLE target verify on unified_attention by default on gfx942",
+    "records": [
+      "github:sgl-project/sglang:pr:49883@ce2fdd4b178f100d132a71cdc639cc6ef434549c7feae70ec0fe535540d4b60a"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "sgl-project/sglang": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/sgl-project/sglang/pull/49883"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
   "github:sgl-project/sglang:pr:49884": {
     "id": "github:sgl-project/sglang:pr:49884",
     "name": "[Perf] [AMD] distributed: Run the fused AR + RMSNorm + per-group FP8 quant on gfx942",
@@ -86848,7 +87134,8 @@
     "id": "github:sgl-project/sglang:pr:49963",
     "name": "[Fix] [AMD] compat: Repair fixture and Torch fallback compatibility",
     "records": [
-      "github:sgl-project/sglang:pr:49963@c03428b03c693376a565a3fdbe67fff2d7382753aa8aad1471fc0037b861fe8b"
+      "github:sgl-project/sglang:pr:49963@c03428b03c693376a565a3fdbe67fff2d7382753aa8aad1471fc0037b861fe8b",
+      "github:sgl-project/sglang:pr:49963@b50fdccf1029df770aa24e6477d6e40f7d51c616ad13eb1fc3f4fb95cc7af073"
     ],
     "status": {
       "author_code": [],
@@ -87879,6 +88166,26 @@
         ]
       }
     }
+  },
+  "github:sgl-project/sglang:pr:50032": {
+    "id": "github:sgl-project/sglang:pr:50032",
+    "name": "[Perf] scheduler: Cut per-step host work in the batch-1 speculative decode loop",
+    "records": [
+      "github:sgl-project/sglang:pr:50032@c6dd90c659c278e9f00d63cac6b57b45fccdca4a9323f3747bf4fb1b48758d9b"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "sgl-project/sglang": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/sgl-project/sglang/pull/50032"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
   },
   "github:sgl-project/sglang:pr:50038": {
     "id": "github:sgl-project/sglang:pr:50038",
@@ -89424,7 +89731,8 @@
     "id": "github:sgl-project/sglang:pr:50116",
     "name": "[Fix] mem_cache: Fix explicit HND initialization",
     "records": [
-      "github:sgl-project/sglang:pr:50116@0fbde564cbf942513a9eb9181956a0c4ea573edd0e6d082490f236eb45700735"
+      "github:sgl-project/sglang:pr:50116@0fbde564cbf942513a9eb9181956a0c4ea573edd0e6d082490f236eb45700735",
+      "github:sgl-project/sglang:pr:50116@9bb4ed31f3eba527c86cb35cad21005ee31ef71a9dd0398b645559181a20073c"
     ],
     "status": {
       "author_code": [],
@@ -90768,7 +91076,8 @@
     "id": "github:sgl-project/sglang:pr:50213",
     "name": "[Feat] scheduler: Keep a reserve of KV and state slots for cached prefixes (--prefill-cache-reserve)",
     "records": [
-      "github:sgl-project/sglang:pr:50213@b0596cdc1a224fff3ca8b27e1fb6c7de1743a07f8dabfeca44ffc3ffbc79ee57"
+      "github:sgl-project/sglang:pr:50213@b0596cdc1a224fff3ca8b27e1fb6c7de1743a07f8dabfeca44ffc3ffbc79ee57",
+      "github:sgl-project/sglang:pr:50213@c72da543ca84bd75cc3b72a2994f1f781c80b32da4b25bb13ac698328278ca16"
     ],
     "status": {
       "author_code": [],
@@ -98800,6 +99109,26 @@
       }
     }
   },
+  "github:sgl-project/sglang:pr:50757": {
+    "id": "github:sgl-project/sglang:pr:50757",
+    "name": "[Feat] [NVIDIA] dsa: GLM-5 decode context parallelism on SM90Glm dsa dcp",
+    "records": [
+      "github:sgl-project/sglang:pr:50757@6612486d57867070c47f37fe2b39ff2bdb06c7b635f79a35b51bbb985f99fb13"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "sgl-project/sglang": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/sgl-project/sglang/pull/50757"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
   "github:sgl-project/sglang:pr:50758": {
     "id": "github:sgl-project/sglang:pr:50758",
     "name": "[Fix] rust-server: Port #44047's bounds on n, output limits, logit_bias and top_logprobs",
@@ -100116,6 +100445,26 @@
       }
     }
   },
+  "github:sgl-project/sglang:pr:50829": {
+    "id": "github:sgl-project/sglang:pr:50829",
+    "name": "[Feat] [Intel] disaggregation: Support PD incremental KV transfer on XPU",
+    "records": [
+      "github:sgl-project/sglang:pr:50829@abcf4d223ba83423aa86df9c898044def14e6b104e7f7691c2970baa42b701cb"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "sgl-project/sglang": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/sgl-project/sglang/pull/50829"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
   "github:sgl-project/sglang:pr:50830": {
     "id": "github:sgl-project/sglang:pr:50830",
     "name": "[Perf] moe: Skip group selection with one expert group",
@@ -101128,7 +101477,8 @@
     "id": "github:sgl-project/sglang:pr:50901",
     "name": "[Perf] tokenizer_manager: Drop the prompt token list once a single request is dispatched",
     "records": [
-      "github:sgl-project/sglang:pr:50901@1aa959c78e35def1cc9a382a8ac2bcc12cd27500d04bbb0d2306b6091399b016"
+      "github:sgl-project/sglang:pr:50901@1aa959c78e35def1cc9a382a8ac2bcc12cd27500d04bbb0d2306b6091399b016",
+      "github:sgl-project/sglang:pr:50901@3b3f6d532f0b9015b23237668b5bd0a5f612177b220762ff52555cdada30af23"
     ],
     "status": {
       "author_code": [],
@@ -101324,7 +101674,8 @@
     "id": "github:sgl-project/sglang:pr:50916",
     "name": "[Fix] [MUSA] kvcache: reuse public Triton store path",
     "records": [
-      "github:sgl-project/sglang:pr:50916@993b3697c13eb7d048a3d0fb63391745625690e996435075ad6d562be051c88d"
+      "github:sgl-project/sglang:pr:50916@993b3697c13eb7d048a3d0fb63391745625690e996435075ad6d562be051c88d",
+      "github:sgl-project/sglang:pr:50916@5b256296c44e0108aae39badadc081cba9dc75edd59f8ce0d5e99d08eaee6ced"
     ],
     "status": {
       "author_code": [],
@@ -101576,7 +101927,8 @@
     "id": "github:sgl-project/sglang:pr:50929",
     "name": "[Fix] dsa: Make metadata kernel batch size a runtime arg to avoid per-bs Triton recompiles",
     "records": [
-      "github:sgl-project/sglang:pr:50929@5526687f984885fb62cc19a9357ac10089ed2f112eb8e3c6891fdfb45fdf67cd"
+      "github:sgl-project/sglang:pr:50929@5526687f984885fb62cc19a9357ac10089ed2f112eb8e3c6891fdfb45fdf67cd",
+      "github:sgl-project/sglang:pr:50929@81a431c129e288225b893e62967ec2bd38071c20c9d9e33d4e669b0dd9ce65c6"
     ],
     "status": {
       "author_code": [],
@@ -106388,6 +106740,26 @@
       }
     }
   },
+  "github:sgl-project/sglang:pr:51237": {
+    "id": "github:sgl-project/sglang:pr:51237",
+    "name": "[Fix] weight_update: Rebuild each CUDA-IPC tensor once for the target and draft runners",
+    "records": [
+      "github:sgl-project/sglang:pr:51237@257e3753c2e5c74588a4f3fd77546ed6595e6c0710b67350faff9afc2aa1186e"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "sgl-project/sglang": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/sgl-project/sglang/pull/51237"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
   "github:sgl-project/sglang:pr:51242": {
     "id": "github:sgl-project/sglang:pr:51242",
     "name": "[Perf] qsa: Share compressed-key reads across draft-extend rows",
@@ -107008,7 +107380,8 @@
     "id": "github:sgl-project/sglang:pr:51276",
     "name": "[Feat] gigachat35-omni: Add GigaChat3.5-Omni image, video and audio support",
     "records": [
-      "github:sgl-project/sglang:pr:51276@65f07ad59650dc9c9ac5cfa13d5ba0b113e162df7d79b6db45916bedb2044ddd"
+      "github:sgl-project/sglang:pr:51276@65f07ad59650dc9c9ac5cfa13d5ba0b113e162df7d79b6db45916bedb2044ddd",
+      "github:sgl-project/sglang:pr:51276@d6d8a9ebbd13e9b3b2771989c188be8cf79c7999547842b9f978a36901b33d0e"
     ],
     "status": {
       "author_code": [],
@@ -107620,6 +107993,26 @@
       }
     }
   },
+  "github:sgl-project/sglang:pr:51305": {
+    "id": "github:sgl-project/sglang:pr:51305",
+    "name": "[Fix] mem_cache: Set FP4 default in page-sharded DSA test mock",
+    "records": [
+      "github:sgl-project/sglang:pr:51305@2077662575508a48ab32c78f72a6c4f69fe9488105e33fcd41dff72f63ba0ee5"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "sgl-project/sglang": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/sgl-project/sglang/pull/51305"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
   "github:sgl-project/sglang:pr:51309": {
     "id": "github:sgl-project/sglang:pr:51309",
     "name": "[Fix] detokenizer: Keep generated text after a mid-character prompt end with byte-fallback tokenizers",
@@ -107680,7 +108073,8 @@
     "id": "github:sgl-project/sglang:pr:51312",
     "name": "[Fix] model_loader: Split checkpoint prefetch among each node's own ranks",
     "records": [
-      "github:sgl-project/sglang:pr:51312@b173368bed3002dcf3e273c6a4261881be6fec8cce4f518b5d5f3c110e041ec7"
+      "github:sgl-project/sglang:pr:51312@b173368bed3002dcf3e273c6a4261881be6fec8cce4f518b5d5f3c110e041ec7",
+      "github:sgl-project/sglang:pr:51312@faa7a0f889362cec51f6327271f3af4a5ff1123b5afa79a42856871b3f6f4e48"
     ],
     "status": {
       "author_code": [],
@@ -108352,14 +108746,15 @@
     "id": "github:sgl-project/sglang:pr:51360",
     "name": "[Test] Diffusion: exercise action HTTP and WebSocket client contracts",
     "records": [
-      "github:sgl-project/sglang:pr:51360@2524b91c21779732fdf69c53b49f12870979c782fe0bbbd72624b75224325ca9"
+      "github:sgl-project/sglang:pr:51360@2524b91c21779732fdf69c53b49f12870979c782fe0bbbd72624b75224325ca9",
+      "github:sgl-project/sglang:pr:51360@2b96193b6e037151554228afc49d417391ae9d95dbf97b930a11e557136868ef"
     ],
     "status": {
       "author_code": [],
       "integration": {
         "sgl-project/sglang": [
           {
-            "status": "开放 PR",
+            "status": "主干合并",
             "url": "https://github.com/sgl-project/sglang/pull/51360"
           }
         ]
@@ -108576,14 +108971,15 @@
     "id": "github:sgl-project/sglang:pr:51377",
     "name": "[cherrypick from #50155] [Feat] sampling: Return sampling logprobs without the sampling mask",
     "records": [
-      "github:sgl-project/sglang:pr:51377@06129d5b45b98ff10a0525a933721820cb9bb682f5a161b0213a2abeb6f9975b"
+      "github:sgl-project/sglang:pr:51377@06129d5b45b98ff10a0525a933721820cb9bb682f5a161b0213a2abeb6f9975b",
+      "github:sgl-project/sglang:pr:51377@2cd5a41e17e45e9936b26dd575e263c8c4694ef6bad5f08599cb3e1df3b76608"
     ],
     "status": {
       "author_code": [],
       "integration": {
         "sgl-project/sglang": [
           {
-            "status": "开放 PR",
+            "status": "关闭未合并",
             "url": "https://github.com/sgl-project/sglang/pull/51377"
           }
         ]
@@ -109360,7 +109756,8 @@
     "id": "github:sgl-project/sglang:pr:51423",
     "name": "[Metrics] radixcache: add counters for prefix missing hits due to missing swa tails",
     "records": [
-      "github:sgl-project/sglang:pr:51423@fa357480cc5ebb553d133db558be99d2c4e55f309083b14b5fce807924450f23"
+      "github:sgl-project/sglang:pr:51423@fa357480cc5ebb553d133db558be99d2c4e55f309083b14b5fce807924450f23",
+      "github:sgl-project/sglang:pr:51423@7c606a05a5302be49c24feb0214d67f951ac1982546ea3995c50acc65d4a542f"
     ],
     "status": {
       "author_code": [],
@@ -109664,6 +110061,26 @@
       }
     }
   },
+  "github:sgl-project/sglang:pr:51439": {
+    "id": "github:sgl-project/sglang:pr:51439",
+    "name": "[Feat] sampling: Return sampling logprobs and masks through two independent flags",
+    "records": [
+      "github:sgl-project/sglang:pr:51439@73aec3a8a49c4d02eb880a07f84e63dcbc03aed496e2f3cb945ae47626d6997e"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "sgl-project/sglang": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/sgl-project/sglang/pull/51439"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
   "github:sgl-project/sglang:pr:51442": {
     "id": "github:sgl-project/sglang:pr:51442",
     "name": "[Fix] [AMD] dflash: Keep the draft KV on full-attention slots under PD disaggregation",
@@ -109832,6 +110249,26 @@
       }
     }
   },
+  "github:sgl-project/sglang:pr:51459": {
+    "id": "github:sgl-project/sglang:pr:51459",
+    "name": "[Feat] [CPU] quantization: Add per-token FP8 quantization with AVX10.2 runtime dispatch",
+    "records": [
+      "github:sgl-project/sglang:pr:51459@089ecb3853ef584c46d1171eba8c48249a9d903887d266329b443df991376a39"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "sgl-project/sglang": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/sgl-project/sglang/pull/51459"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
   "github:sgl-project/sglang:pr:51460": {
     "id": "github:sgl-project/sglang:pr:51460",
     "name": "[Feat] api.v1: Extend cancellation retirement receipts to P/D and multimodal serving",
@@ -109915,6 +110352,26 @@
         ]
       }
     }
+  },
+  "github:sgl-project/sglang:pr:51465": {
+    "id": "github:sgl-project/sglang:pr:51465",
+    "name": "[Feat] [AMD] PARD2: Support target-aligned parallel draft models as a speculative-decoding method",
+    "records": [
+      "github:sgl-project/sglang:pr:51465@b04f9bfb02f4de251db9ddc19970074e9282184ccc21e401f9d4feec640e7143"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "sgl-project/sglang": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/sgl-project/sglang/pull/51465"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
   },
   "github:sgl-project/sglang:pr:51467": {
     "id": "github:sgl-project/sglang:pr:51467",
@@ -110004,7 +110461,8 @@
     "id": "github:sgl-project/sglang:pr:51471",
     "name": "[Perf] paged-experts: optionally fuse copying missing experts with MoE kernels (Triton and Marlin)",
     "records": [
-      "github:sgl-project/sglang:pr:51471@ffd58b9f6d9c5b4c04ef91006775da88858d4d0b044f0908acf90391522ad44a"
+      "github:sgl-project/sglang:pr:51471@ffd58b9f6d9c5b4c04ef91006775da88858d4d0b044f0908acf90391522ad44a",
+      "github:sgl-project/sglang:pr:51471@8ca36b4933f3b283f0483cdbc74069621ab297e030ad32e884b0a0bc3164587b"
     ],
     "status": {
       "author_code": [],
@@ -110167,6 +110625,146 @@
         ]
       }
     }
+  },
+  "github:sgl-project/sglang:pr:51481": {
+    "id": "github:sgl-project/sglang:pr:51481",
+    "name": "[Fix] scheduler/pp: Bound dynamic chunk profiling by free KV capacity",
+    "records": [
+      "github:sgl-project/sglang:pr:51481@7dae695eaf5abd9a2049b1c5c2a0fb55babeccb90707dcdddcb9874439f3064f"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "sgl-project/sglang": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/sgl-project/sglang/pull/51481"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
+  "github:sgl-project/sglang:pr:51482": {
+    "id": "github:sgl-project/sglang:pr:51482",
+    "name": "[Perf] benchmark: Fix empty [32,32] search space in block-wise GEMM tuner",
+    "records": [
+      "github:sgl-project/sglang:pr:51482@ca4bae2386873d1162080de71b75a78a316c347466ae6a92f36ad05c750735f3"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "sgl-project/sglang": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/sgl-project/sglang/pull/51482"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
+  "github:sgl-project/sglang:pr:51483": {
+    "id": "github:sgl-project/sglang:pr:51483",
+    "name": "[Fix] moe: Release the gate-up output alias before down GEMM",
+    "records": [
+      "github:sgl-project/sglang:pr:51483@c7ba0737d7a8e9eefd2abaad0ae7bef186df8b9fd86022b34f65b913a3fda8f0"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "sgl-project/sglang": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/sgl-project/sglang/pull/51483"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
+  "github:sgl-project/sglang:pr:51485": {
+    "id": "github:sgl-project/sglang:pr:51485",
+    "name": "[Fix] models: Make the EPLB expert map without load_weights() in 3 MoE models",
+    "records": [
+      "github:sgl-project/sglang:pr:51485@851946b791f4a974e3f3166b9116ec46ba664b5c98a0c423a27146866cd8cb9d"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "sgl-project/sglang": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/sgl-project/sglang/pull/51485"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
+  "github:sgl-project/sglang:pr:51486": {
+    "id": "github:sgl-project/sglang:pr:51486",
+    "name": "[Feat] WeightCache: snapshot/loader interface",
+    "records": [
+      "github:sgl-project/sglang:pr:51486@46568750513af66cbae303bb07aff958b11252ca66ae0a2ab6321ace7dc2c808"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "sgl-project/sglang": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/sgl-project/sglang/pull/51486"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
+  "github:sgl-project/sglang:pr:51487": {
+    "id": "github:sgl-project/sglang:pr:51487",
+    "name": "[Test] [AMD] hicache: Fix the batch-copy shim crash on ROCm 7.2 images",
+    "records": [
+      "github:sgl-project/sglang:pr:51487@1d59b7e402965d03fb3c4b1bf9da3281323244611b8331f3e89a621c9043930d"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "sgl-project/sglang": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/sgl-project/sglang/pull/51487"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
+  "github:sgl-project/sglang:pr:51488": {
+    "id": "github:sgl-project/sglang:pr:51488",
+    "name": "[Feat] mem_cache: preserve branch and tail checkpoints for hybrid Linear reuse",
+    "records": [
+      "github:sgl-project/sglang:pr:51488@0e952fd48e2f2ce33ee1536840b66c53457d90a728d73aaab7a2470bfedae430"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "sgl-project/sglang": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/sgl-project/sglang/pull/51488"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
   },
   "github:vllm-project/vllm-ascend:issue:10401": {
     "id": "github:vllm-project/vllm-ascend:issue:10401",
@@ -119328,7 +119926,8 @@
     "id": "github:vllm-project/vllm-ascend:issue:22437",
     "name": "[RFC]: MoonEP redundant-expert load balancing for inference prefill",
     "records": [
-      "github:vllm-project/vllm-ascend:issue:22437@15ca83402a0d9ca486833353b938dcabdd07d8ca1e06bf16b6c6e1d78d54202c"
+      "github:vllm-project/vllm-ascend:issue:22437@15ca83402a0d9ca486833353b938dcabdd07d8ca1e06bf16b6c6e1d78d54202c",
+      "github:vllm-project/vllm-ascend:issue:22437@49bf2cd22e4e94da9ae26b088b4cc22569f0692392b05f15f236018348a11cb3"
     ],
     "status": {
       "author_code": [],
@@ -119379,6 +119978,26 @@
         ]
       }
     }
+  },
+  "github:vllm-project/vllm-ascend:issue:22452": {
+    "id": "github:vllm-project/vllm-ascend:issue:22452",
+    "name": "[Bug]: AscendStore synchronous Mooncake prefix hits can restore zeroed KV pages and produce wrong answers on A2",
+    "records": [
+      "github:vllm-project/vllm-ascend:issue:22452@f53288548f0c82b8044f3b087612554f45b5afde79e4d0a36cfa1e3f54f89d8f"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm-ascend": [
+          {
+            "status": "开放 Issue",
+            "url": "https://github.com/vllm-project/vllm-ascend/issues/22452"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
   },
   "github:vllm-project/vllm-ascend:issue:3371": {
     "id": "github:vllm-project/vllm-ascend:issue:3371",
@@ -122324,7 +122943,8 @@
     "id": "github:vllm-project/vllm-ascend:pr:17715",
     "name": "[Feature][ExampleProxy] Support Messages and Responses in the PD proxy",
     "records": [
-      "github:vllm-project/vllm-ascend:pr:17715@025f55407bf9652f72f3c898cc7c1ea94b71e5627562eabb3d19ddc33e918b75"
+      "github:vllm-project/vllm-ascend:pr:17715@025f55407bf9652f72f3c898cc7c1ea94b71e5627562eabb3d19ddc33e918b75",
+      "github:vllm-project/vllm-ascend:pr:17715@c95fe73b8e8bdbdcadd560bfb20d7e154411417c53430a5442dd2272776b6062"
     ],
     "status": {
       "author_code": [],
@@ -124728,6 +125348,26 @@
       }
     }
   },
+  "github:vllm-project/vllm-ascend:pr:19284": {
+    "id": "github:vllm-project/vllm-ascend:pr:19284",
+    "name": "[Feature][Model] Enable DeepSeek V4.1 MRV2 PP with arbitrary layer partitions",
+    "records": [
+      "github:vllm-project/vllm-ascend:pr:19284@91f93ed5de8ef153427e21fdf6706002f3ae5b9b34183cae48e8624df7935849"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm-ascend": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/vllm-project/vllm-ascend/pull/19284"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
   "github:vllm-project/vllm-ascend:pr:19286": {
     "id": "github:vllm-project/vllm-ascend:pr:19286",
     "name": "[Feature][Model] Support DeepSeek V4.1 decoder replay PIECEWISE ACL graphs",
@@ -125371,6 +126011,26 @@
         ]
       }
     }
+  },
+  "github:vllm-project/vllm-ascend:pr:19555": {
+    "id": "github:vllm-project/vllm-ascend:pr:19555",
+    "name": "[Performance] Tile DCP rank reduction on A2/A3",
+    "records": [
+      "github:vllm-project/vllm-ascend:pr:19555@c915a6fecae4b9987c69ec9ce01063a91387e487575a90ebd45f180c367ef780"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm-ascend": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/vllm-project/vllm-ascend/pull/19555"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
   },
   "github:vllm-project/vllm-ascend:pr:19561": {
     "id": "github:vllm-project/vllm-ascend:pr:19561",
@@ -126942,9 +127602,10 @@
   },
   "github:vllm-project/vllm-ascend:pr:20065": {
     "id": "github:vllm-project/vllm-ascend:pr:20065",
-    "name": "[Doc] Add DeepSeek-V4.1-Flash Ascend recipe overlay",
+    "name": "[Doc] Add v0.32.0rc A3 W4A8 PD recipe with PCP",
     "records": [
-      "github:vllm-project/vllm-ascend:pr:20065@32f09485549fa8afd3682d73923a86c3543cfd2d6889440ba1302c9d3ffdc09a"
+      "github:vllm-project/vllm-ascend:pr:20065@32f09485549fa8afd3682d73923a86c3543cfd2d6889440ba1302c9d3ffdc09a",
+      "github:vllm-project/vllm-ascend:pr:20065@c36dfe7c9041a9694616852c196194d7832e0c1317da57225b104dbb4e6d7ce6"
     ],
     "status": {
       "author_code": [],
@@ -127388,6 +128049,26 @@
       }
     }
   },
+  "github:vllm-project/vllm-ascend:pr:20138": {
+    "id": "github:vllm-project/vllm-ascend:pr:20138",
+    "name": "[Feature][RuntimeGuard] Add rare_chars detector with async logprob feed",
+    "records": [
+      "github:vllm-project/vllm-ascend:pr:20138@a63295b9785845d6b7e0bcb4b87c3459158e56dfa8589b98fbcc20441933995e"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm-ascend": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/vllm-project/vllm-ascend/pull/20138"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
   "github:vllm-project/vllm-ascend:pr:20144": {
     "id": "github:vllm-project/vllm-ascend:pr:20144",
     "name": "[Feature][Refactor][KV Transfer] Make MooncakeConnectorV1's transfer backend and transport configurable at launch",
@@ -127499,6 +128180,46 @@
         ]
       }
     }
+  },
+  "github:vllm-project/vllm-ascend:pr:20194": {
+    "id": "github:vllm-project/vllm-ascend:pr:20194",
+    "name": "[Performance]Speed up the packed-cache slot mapping and C2 ring metadata kernels on A2/A3",
+    "records": [
+      "github:vllm-project/vllm-ascend:pr:20194@2197d163dd907bf7500494cd2ba1387b371a78578c3e2919d363dfe5733755af"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm-ascend": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/vllm-project/vllm-ascend/pull/20194"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
+  "github:vllm-project/vllm-ascend:pr:20205": {
+    "id": "github:vllm-project/vllm-ascend:pr:20205",
+    "name": "[Feature] Support draft model weight updates over HCCL",
+    "records": [
+      "github:vllm-project/vllm-ascend:pr:20205@aa306f8a4a9c3e5dc76b6ed90591d470e915a7d8a0aafae91a2954a9f45c5b94"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm-ascend": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/vllm-project/vllm-ascend/pull/20205"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
   },
   "github:vllm-project/vllm-ascend:pr:20207": {
     "id": "github:vllm-project/vllm-ascend:pr:20207",
@@ -128087,6 +128808,26 @@
         ]
       }
     }
+  },
+  "github:vllm-project/vllm-ascend:pr:20332": {
+    "id": "github:vllm-project/vllm-ascend:pr:20332",
+    "name": "[Feature][Model] Enable GLM-5.3-Flash NoPE MLA Prolog V3",
+    "records": [
+      "github:vllm-project/vllm-ascend:pr:20332@5edd794c2d5ac6a6b4f82281d0c198a95b7245662c5b0cead58963e0ce0ea84b"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm-ascend": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/vllm-project/vllm-ascend/pull/20332"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
   },
   "github:vllm-project/vllm-ascend:pr:20338": {
     "id": "github:vllm-project/vllm-ascend:pr:20338",
@@ -129375,6 +130116,26 @@
         ]
       }
     }
+  },
+  "github:vllm-project/vllm-ascend:pr:20538": {
+    "id": "github:vllm-project/vllm-ascend:pr:20538",
+    "name": "[BugFix][KVPool] Request lazy store init for sparse-indexer models",
+    "records": [
+      "github:vllm-project/vllm-ascend:pr:20538@6ad5917ec910ab673ebacf254e62ba32e92fb1025075735d7210a63326540d6a"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm-ascend": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/vllm-project/vllm-ascend/pull/20538"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
   },
   "github:vllm-project/vllm-ascend:pr:20543": {
     "id": "github:vllm-project/vllm-ascend:pr:20543",
@@ -136768,6 +137529,26 @@
       }
     }
   },
+  "github:vllm-project/vllm-ascend:pr:21256": {
+    "id": "github:vllm-project/vllm-ascend:pr:21256",
+    "name": "[Feature][KV Pool] Enable prefill KV offload for GLM-5.3-Flash",
+    "records": [
+      "github:vllm-project/vllm-ascend:pr:21256@15ec639f66933ca3e72b1a0b8ad8e8627e62b6b6ef1c13c26fd8acda4ea7ed44"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm-ascend": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/vllm-project/vllm-ascend/pull/21256"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
   "github:vllm-project/vllm-ascend:pr:21257": {
     "id": "github:vllm-project/vllm-ascend:pr:21257",
     "name": "[BugFix][KVTransfer] Normalize layerwise producer prompts before prefix lookup",
@@ -139344,6 +140125,26 @@
       }
     }
   },
+  "github:vllm-project/vllm-ascend:pr:21469": {
+    "id": "github:vllm-project/vllm-ascend:pr:21469",
+    "name": "[Misc] main2main 1113",
+    "records": [
+      "github:vllm-project/vllm-ascend:pr:21469@f617b7f60ac160d036b67b82d706bd08360ac41d95c39d4a7e5a545838ee3707"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm-ascend": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/vllm-project/vllm-ascend/pull/21469"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
   "github:vllm-project/vllm-ascend:pr:21473": {
     "id": "github:vllm-project/vllm-ascend:pr:21473",
     "name": "[Bugfix] Avoid out-of-bounds slice in _swiglu_quant_kernel tail block",
@@ -141196,7 +141997,8 @@
     "id": "github:vllm-project/vllm-ascend:pr:21603",
     "name": "[Performance][Kernel] Cache proved peer bounds in owner-prefix scans",
     "records": [
-      "github:vllm-project/vllm-ascend:pr:21603@0c641bd13b7e3255bd73920de83c031ee912d5df1cc217c9708ad77e44140bcb"
+      "github:vllm-project/vllm-ascend:pr:21603@0c641bd13b7e3255bd73920de83c031ee912d5df1cc217c9708ad77e44140bcb",
+      "github:vllm-project/vllm-ascend:pr:21603@3a871841179f616aa55a83f862ab1a14fb273d47bc2150785f172d66f807d2b7"
     ],
     "status": {
       "author_code": [],
@@ -142199,6 +143001,26 @@
         ]
       }
     }
+  },
+  "github:vllm-project/vllm-ascend:pr:21693": {
+    "id": "github:vllm-project/vllm-ascend:pr:21693",
+    "name": "[Feature][Model] Support prefill context parallelism for Qwen3.8-Flash-Next",
+    "records": [
+      "github:vllm-project/vllm-ascend:pr:21693@4acc1e820217648a55ae2f6de9e5c443078e9f4b61a128e83c6c53d8c991717a"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm-ascend": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/vllm-project/vllm-ascend/pull/21693"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
   },
   "github:vllm-project/vllm-ascend:pr:21697": {
     "id": "github:vllm-project/vllm-ascend:pr:21697",
@@ -144020,6 +144842,26 @@
       }
     }
   },
+  "github:vllm-project/vllm-ascend:pr:21831": {
+    "id": "github:vllm-project/vllm-ascend:pr:21831",
+    "name": "[Feature][SpecDecode] Support GLM-5.3-Flash DFlash2 and PP",
+    "records": [
+      "github:vllm-project/vllm-ascend:pr:21831@5f386238d48c259b561c734b2d6d990b2e9855eb1eb6d795fa6a5c61a02caefa"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm-ascend": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/vllm-project/vllm-ascend/pull/21831"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
   "github:vllm-project/vllm-ascend:pr:21832": {
     "id": "github:vllm-project/vllm-ascend:pr:21832",
     "name": "[Performance][Qwen3.5][SP] Fuse attention communication and MatMul",
@@ -144467,6 +145309,26 @@
         ]
       }
     }
+  },
+  "github:vllm-project/vllm-ascend:pr:21866": {
+    "id": "github:vllm-project/vllm-ascend:pr:21866",
+    "name": "[Doc][Recipe] Add Ascend 910B W8A8 PD support to GLM-5.3-Flash overlay",
+    "records": [
+      "github:vllm-project/vllm-ascend:pr:21866@5b4b6c2380d98a24a41954aaffbb5fbbae679147f768b1f9135b2f9508f22227"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm-ascend": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/vllm-project/vllm-ascend/pull/21866"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
   },
   "github:vllm-project/vllm-ascend:pr:21867": {
     "id": "github:vllm-project/vllm-ascend:pr:21867",
@@ -146988,6 +147850,26 @@
       }
     }
   },
+  "github:vllm-project/vllm-ascend:pr:22086": {
+    "id": "github:vllm-project/vllm-ascend:pr:22086",
+    "name": "[Performance][Qwen4Exp] Fuse QSA preparation paths",
+    "records": [
+      "github:vllm-project/vllm-ascend:pr:22086@98a9b4654c2e393cc26825515f8d59e38f91f18561bc2682ee3cebec6c302ff3"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm-ascend": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/vllm-project/vllm-ascend/pull/22086"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
   "github:vllm-project/vllm-ascend:pr:22089": {
     "id": "github:vllm-project/vllm-ascend:pr:22089",
     "name": "[Feature][SpecDecode] Support GLM-5.3-Flash DFlash2 and PCP",
@@ -147856,6 +148738,26 @@
       }
     }
   },
+  "github:vllm-project/vllm-ascend:pr:22156": {
+    "id": "github:vllm-project/vllm-ascend:pr:22156",
+    "name": "[Bugfix][SpecDecode] Fix attention metadata mismatch in FULL-graph DSpark and DFlash decoding",
+    "records": [
+      "github:vllm-project/vllm-ascend:pr:22156@9dc4337665ed6a3c2815a2d2d84eea0b5747c7d35ca4ab2ef82e94b97dc8f92f"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm-ascend": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/vllm-project/vllm-ascend/pull/22156"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
   "github:vllm-project/vllm-ascend:pr:22157": {
     "id": "github:vllm-project/vllm-ascend:pr:22157",
     "name": "[Feature][KV Transfer] Support KV-sharing layers in MooncakeConnectorV2",
@@ -147968,6 +148870,26 @@
       }
     }
   },
+  "github:vllm-project/vllm-ascend:pr:22164": {
+    "id": "github:vllm-project/vllm-ascend:pr:22164",
+    "name": "[Attention][Feature] Support Step5 flash-attention-npu (FA3) on A5 (950) NPU",
+    "records": [
+      "github:vllm-project/vllm-ascend:pr:22164@e0fb1cc7a739db45eb9c94ae78a7038a791a6215356357a16584e72f2dbff507"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm-ascend": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/vllm-project/vllm-ascend/pull/22164"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
   "github:vllm-project/vllm-ascend:pr:22166": {
     "id": "github:vllm-project/vllm-ascend:pr:22166",
     "name": "[BugFix][MRV2] Align non-divisible hybrid attention pages for DFlash2",
@@ -148023,6 +148945,26 @@
         ]
       }
     }
+  },
+  "github:vllm-project/vllm-ascend:pr:22169": {
+    "id": "github:vllm-project/vllm-ascend:pr:22169",
+    "name": "[Feature][Model Loader] Support BF16 direct weight reload on Ascend",
+    "records": [
+      "github:vllm-project/vllm-ascend:pr:22169@341ea758d047cf23793a53e1fcdeb652d5df3cad4bb8db9b25bdac4f5f855591"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm-ascend": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/vllm-project/vllm-ascend/pull/22169"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
   },
   "github:vllm-project/vllm-ascend:pr:22172": {
     "id": "github:vllm-project/vllm-ascend:pr:22172",
@@ -148275,6 +149217,26 @@
         ]
       }
     }
+  },
+  "github:vllm-project/vllm-ascend:pr:22187": {
+    "id": "github:vllm-project/vllm-ascend:pr:22187",
+    "name": "[Performance] Optimize A3 HC pre and post kernels",
+    "records": [
+      "github:vllm-project/vllm-ascend:pr:22187@55941646de5ca26930927c39d23a44318c678f4676305cd1bd77b640c72b1c96"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm-ascend": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/vllm-project/vllm-ascend/pull/22187"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
   },
   "github:vllm-project/vllm-ascend:pr:22190": {
     "id": "github:vllm-project/vllm-ascend:pr:22190",
@@ -149456,7 +150418,8 @@
     "id": "github:vllm-project/vllm-ascend:pr:22270",
     "name": "[BugFix] Fix Mooncake SWA prefill handoff at N-1",
     "records": [
-      "github:vllm-project/vllm-ascend:pr:22270@fc06f36a38d1956bf47b2728c461d6db901b08b264f75add3e0cf4068175c367"
+      "github:vllm-project/vllm-ascend:pr:22270@fc06f36a38d1956bf47b2728c461d6db901b08b264f75add3e0cf4068175c367",
+      "github:vllm-project/vllm-ascend:pr:22270@8759855b0e3176674acb52e5984b1f9e6288cdf93c4dcb7ec64bb676e38afa15"
     ],
     "status": {
       "author_code": [],
@@ -150124,6 +151087,26 @@
       }
     }
   },
+  "github:vllm-project/vllm-ascend:pr:22324": {
+    "id": "github:vllm-project/vllm-ascend:pr:22324",
+    "name": "[Feature] Support LiquidAI d1-3B (LFM2-VL) on Ascend",
+    "records": [
+      "github:vllm-project/vllm-ascend:pr:22324@55613ae146835af521003cfc0ba189d8ec3b511ad200b4ba369c4968d8b804eb"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm-ascend": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/vllm-project/vllm-ascend/pull/22324"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
   "github:vllm-project/vllm-ascend:pr:22326": {
     "id": "github:vllm-project/vllm-ascend:pr:22326",
     "name": "[Misc] Bump MemFabric and MemCache hybrid dependencies",
@@ -150235,6 +151218,26 @@
         ]
       }
     }
+  },
+  "github:vllm-project/vllm-ascend:pr:22333": {
+    "id": "github:vllm-project/vllm-ascend:pr:22333",
+    "name": "[BugFix][MoE] Pass packed FP4 weight views to MegaMoe for SiTU",
+    "records": [
+      "github:vllm-project/vllm-ascend:pr:22333@b048657994279894bb5f3695bfe9a17624d4b19688d9ec328add259c7a90193d"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm-ascend": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/vllm-project/vllm-ascend/pull/22333"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
   },
   "github:vllm-project/vllm-ascend:pr:22336": {
     "id": "github:vllm-project/vllm-ascend:pr:22336",
@@ -150352,7 +151355,8 @@
     "id": "github:vllm-project/vllm-ascend:pr:22347",
     "name": "[BugFix][Structured Output] Preserve the first Kimi speculative grammar boundary",
     "records": [
-      "github:vllm-project/vllm-ascend:pr:22347@3b298d8e3253ba2a4755aa6fa6d603e0e3b943055bfeffeae31a34f7b5900854"
+      "github:vllm-project/vllm-ascend:pr:22347@3b298d8e3253ba2a4755aa6fa6d603e0e3b943055bfeffeae31a34f7b5900854",
+      "github:vllm-project/vllm-ascend:pr:22347@aac7523e4e34cc541e9982305bcabc562c763aaac8ffbfc77781beb0ce3c4519"
     ],
     "status": {
       "author_code": [],
@@ -150408,7 +151412,8 @@
     "id": "github:vllm-project/vllm-ascend:pr:22349",
     "name": "[BugFix][v0.30.0] Preserve the first Kimi speculative grammar boundary",
     "records": [
-      "github:vllm-project/vllm-ascend:pr:22349@e06ad81b0bb5321f75f69c4355839bc1e0e0c8e8fe43485da303eee7b04c3214"
+      "github:vllm-project/vllm-ascend:pr:22349@e06ad81b0bb5321f75f69c4355839bc1e0e0c8e8fe43485da303eee7b04c3214",
+      "github:vllm-project/vllm-ascend:pr:22349@22b9a664ce508ab5cc6521cd8b46a0928d535309ee5800af26f5960a43061982"
     ],
     "status": {
       "author_code": [],
@@ -150656,6 +151661,26 @@
       }
     }
   },
+  "github:vllm-project/vllm-ascend:pr:22367": {
+    "id": "github:vllm-project/vllm-ascend:pr:22367",
+    "name": "[Test] Initialize Ascend config before A5 EPLB communication",
+    "records": [
+      "github:vllm-project/vllm-ascend:pr:22367@55900f3f092926c706139978ede6b9ac53295036fe0180fbf964caf20f1c8f80"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm-ascend": [
+          {
+            "status": "主干合并",
+            "url": "https://github.com/vllm-project/vllm-ascend/pull/22367"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
   "github:vllm-project/vllm-ascend:pr:22368": {
     "id": "github:vllm-project/vllm-ascend:pr:22368",
     "name": "[BugFix][Mamba] Avoid grouped Conv2D in NPU causal convolution",
@@ -150688,7 +151713,8 @@
     "id": "github:vllm-project/vllm-ascend:pr:22370",
     "name": "[Performance] Benchmark fused GLM5Next KDA verify and tune small-batch projection on Ascend 950",
     "records": [
-      "github:vllm-project/vllm-ascend:pr:22370@3d1e31a7678b30c223fdbcb3e5eed31f7f1de52b1a83ddc31246785e1583c5a4"
+      "github:vllm-project/vllm-ascend:pr:22370@3d1e31a7678b30c223fdbcb3e5eed31f7f1de52b1a83ddc31246785e1583c5a4",
+      "github:vllm-project/vllm-ascend:pr:22370@e6a4efd215cb8251a57b1d36f1b99608b73ba1e4323e2ea63ff113295af68d16"
     ],
     "status": {
       "author_code": [],
@@ -150795,6 +151821,26 @@
         ]
       }
     }
+  },
+  "github:vllm-project/vllm-ascend:pr:22383": {
+    "id": "github:vllm-project/vllm-ascend:pr:22383",
+    "name": "[BugFix] Fix SFA C16 with CANN 9.3 SparseFlashMla",
+    "records": [
+      "github:vllm-project/vllm-ascend:pr:22383@854e8c0a222d1db6cf82045acc1fca1a06131264538ea57eaf6025bc12ae97b5"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm-ascend": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/vllm-project/vllm-ascend/pull/22383"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
   },
   "github:vllm-project/vllm-ascend:pr:22384": {
     "id": "github:vllm-project/vllm-ascend:pr:22384",
@@ -150963,6 +152009,26 @@
         ]
       }
     }
+  },
+  "github:vllm-project/vllm-ascend:pr:22391": {
+    "id": "github:vllm-project/vllm-ascend:pr:22391",
+    "name": "[Feature][KV Pool] Add Mooncake cache_prefix support to AscendStoreConnector",
+    "records": [
+      "github:vllm-project/vllm-ascend:pr:22391@3b8c2e35c4bb6105b7db93360e0f04d084b7335a7d47fd90cdb283e4193b442c"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm-ascend": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/vllm-project/vllm-ascend/pull/22391"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
   },
   "github:vllm-project/vllm-ascend:pr:22394": {
     "id": "github:vllm-project/vllm-ascend:pr:22394",
@@ -151188,6 +152254,26 @@
       }
     }
   },
+  "github:vllm-project/vllm-ascend:pr:22420": {
+    "id": "github:vllm-project/vllm-ascend:pr:22420",
+    "name": "[BugFix] Preserve the DeepSeek-V4.1 MoE cursor during bounded replay",
+    "records": [
+      "github:vllm-project/vllm-ascend:pr:22420@6f9fd10b37192dc9ca722b9422a17dc1edf78e1ae2b65d0190c26584b4b5f5d1"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm-ascend": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/vllm-project/vllm-ascend/pull/22420"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
   "github:vllm-project/vllm-ascend:pr:22422": {
     "id": "github:vllm-project/vllm-ascend:pr:22422",
     "name": "[BugFix][KVTransfer] Sweep expired Mooncake delayed-free entries from the sending thread",
@@ -151215,6 +152301,46 @@
         ]
       }
     }
+  },
+  "github:vllm-project/vllm-ascend:pr:22426": {
+    "id": "github:vllm-project/vllm-ascend:pr:22426",
+    "name": "[BugFix][Quantization] Recognize native packed MXFP4 checkpoints",
+    "records": [
+      "github:vllm-project/vllm-ascend:pr:22426@c417e7e39b6188f5438abb5d7ba1e04bcc90fa1345da6542b5e664744c7b806d"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm-ascend": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/vllm-project/vllm-ascend/pull/22426"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
+  "github:vllm-project/vllm-ascend:pr:22429": {
+    "id": "github:vllm-project/vllm-ascend:pr:22429",
+    "name": "[BugFix][v0.30.0] Recognize native packed MXFP4 checkpoints",
+    "records": [
+      "github:vllm-project/vllm-ascend:pr:22429@2718c386295b41bf97110dc856021ff5563eaaa8ec46ff40d21face408e6b3e5"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm-ascend": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/vllm-project/vllm-ascend/pull/22429"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
   },
   "github:vllm-project/vllm-ascend:pr:22431": {
     "id": "github:vllm-project/vllm-ascend:pr:22431",
@@ -151355,6 +152481,46 @@
         ]
       }
     }
+  },
+  "github:vllm-project/vllm-ascend:pr:22450": {
+    "id": "github:vllm-project/vllm-ascend:pr:22450",
+    "name": "[Performance] Skip the Kimi RecoverSSM F gate copy",
+    "records": [
+      "github:vllm-project/vllm-ascend:pr:22450@942353c4dbdd9b5aeb2ecfff0e1ba7f69a6a533d67c98903974fcb4391fb27a3"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm-ascend": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/vllm-project/vllm-ascend/pull/22450"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
+  "github:vllm-project/vllm-ascend:pr:22453": {
+    "id": "github:vllm-project/vllm-ascend:pr:22453",
+    "name": "[BugFix][PCP] Compact decoder replay across PCP ranks on prefix hits",
+    "records": [
+      "github:vllm-project/vllm-ascend:pr:22453@41c094e561cae82704884bf1eaeac06bbd458ac7495de6d26fddf30e0b194264"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm-ascend": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/vllm-project/vllm-ascend/pull/22453"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
   },
   "github:vllm-project/vllm-ascend:pr:4316": {
     "id": "github:vllm-project/vllm-ascend:pr:4316",
@@ -158607,6 +159773,26 @@
         ]
       }
     }
+  },
+  "github:vllm-project/vllm:issue:55250": {
+    "id": "github:vllm-project/vllm:issue:55250",
+    "name": "[Bug]: DFlash2 draft gets 0% acceptance with --dtype float16 on XPU (bf16 works) — Qwen3.8-27B + incoai/Qwen3.8-27B-DFlash2",
+    "records": [
+      "github:vllm-project/vllm:issue:55250@5f27bfd6deea85f9e18bad1fedef6ca979030adffec2f31beeef9a49d959084c"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm": [
+          {
+            "status": "开放 Issue",
+            "url": "https://github.com/vllm-project/vllm/issues/55250"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
   },
   "github:vllm-project/vllm:issue:55383": {
     "id": "github:vllm-project/vllm:issue:55383",
@@ -171768,6 +172954,46 @@
       }
     }
   },
+  "github:vllm-project/vllm:issue:68616": {
+    "id": "github:vllm-project/vllm:issue:68616",
+    "name": "[RFC]: Upstream migration plan for prime-rl vLLM integrations",
+    "records": [
+      "github:vllm-project/vllm:issue:68616@6bbd147931c6c07e094d89c4eb27ff5fd7b07ffee766b9a06ab01c8a0395ff61"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm": [
+          {
+            "status": "RFC/Roadmap",
+            "url": "https://github.com/vllm-project/vllm/issues/68616"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
+  "github:vllm-project/vllm:issue:68625": {
+    "id": "github:vllm-project/vllm:issue:68625",
+    "name": "[Bug]: CPU offloading fails at startup with AttributeError: module 'os' has no attribute 'memfd_create' (uv-managed Python)",
+    "records": [
+      "github:vllm-project/vllm:issue:68625@e35f7421825d86c836b5214c1f0c7462c0b289f30a8375d58008836e5fcbca7f"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm": [
+          {
+            "status": "开放 Issue",
+            "url": "https://github.com/vllm-project/vllm/issues/68625"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
   "github:vllm-project/vllm:pr:30549": {
     "id": "github:vllm-project/vllm:pr:30549",
     "name": "[Core] WhisperEncoder support `torch.compile`",
@@ -183033,14 +184259,15 @@
     "id": "github:vllm-project/vllm:pr:56327",
     "name": "[LoRA][Model] Add LoRA support for GLM-5.3-Flash",
     "records": [
-      "github:vllm-project/vllm:pr:56327@b31528301f8e982a8f8a1df699cbfaceaeac25fd0c76237293b28797c4d88caa"
+      "github:vllm-project/vllm:pr:56327@b31528301f8e982a8f8a1df699cbfaceaeac25fd0c76237293b28797c4d88caa",
+      "github:vllm-project/vllm:pr:56327@0dff27c85b2a2858c501748b663958f81803491399bc072bded7dffaa1e8fc77"
     ],
     "status": {
       "author_code": [],
       "integration": {
         "vllm-project/vllm": [
           {
-            "status": "开放 PR",
+            "status": "主干合并",
             "url": "https://github.com/vllm-project/vllm/pull/56327"
           }
         ]
@@ -204673,6 +205900,26 @@
       }
     }
   },
+  "github:vllm-project/vllm:pr:63265": {
+    "id": "github:vllm-project/vllm:pr:63265",
+    "name": "[Quantization] Prefer Humming before Machete for 4-bit weights on SM90",
+    "records": [
+      "github:vllm-project/vllm:pr:63265@4ec119d1dea6dcd35dd8e2bcc084ba21fbbe56f715a03b0ecf9588fb22c10db9"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/vllm-project/vllm/pull/63265"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
   "github:vllm-project/vllm:pr:63272": {
     "id": "github:vllm-project/vllm:pr:63272",
     "name": "[ROCm][Quantization][Perf] Fuse the block Hadamard input rotation into AITER's MXFP4 activation quant",
@@ -207841,7 +209088,8 @@
     "id": "github:vllm-project/vllm:pr:63725",
     "name": "[ROCm][Perf][Muse Spark] Run the pooler and unpooler through the default ROCm GEMM dispatch on gfx942 and gfx950",
     "records": [
-      "github:vllm-project/vllm:pr:63725@3631628721175bf4134ca3448db9d36b5c48293e1d2d1c35425e92513dc0ed69"
+      "github:vllm-project/vllm:pr:63725@3631628721175bf4134ca3448db9d36b5c48293e1d2d1c35425e92513dc0ed69",
+      "github:vllm-project/vllm:pr:63725@a4953835f31037f43cef441bc46f6f851e8c863802f21b54f3d9cab7936307b7"
     ],
     "status": {
       "author_code": [],
@@ -243621,6 +244869,26 @@
       }
     }
   },
+  "github:vllm-project/vllm:pr:66913": {
+    "id": "github:vllm-project/vllm:pr:66913",
+    "name": "[XPU] Load AWQ int4 MoE checkpoints with zero-points",
+    "records": [
+      "github:vllm-project/vllm:pr:66913@2271a9cd1f18a931b5df0174c7c7a503d2dccb011f818be0fed49a1132178327"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/vllm-project/vllm/pull/66913"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
   "github:vllm-project/vllm:pr:66914": {
     "id": "github:vllm-project/vllm:pr:66914",
     "name": "[Kernel] Prefer Exllama over Marlin for fp16 W4A16 with K <= 2048 on sm_120",
@@ -247041,14 +248309,15 @@
     "id": "github:vllm-project/vllm:pr:67133",
     "name": "[ROCm][Attention] AITER FA: dedicated split-KV kernels for decode and speculative-decode verify (GQA 8, head 64, FP8 KV)",
     "records": [
-      "github:vllm-project/vllm:pr:67133@120a834bbb8146e6c9266862ede7d59907473950046b4dd1a831e6a43a1b66cf"
+      "github:vllm-project/vllm:pr:67133@120a834bbb8146e6c9266862ede7d59907473950046b4dd1a831e6a43a1b66cf",
+      "github:vllm-project/vllm:pr:67133@9a6d2b6d0802db37c3de81d35d35633cf04825791060f0f6f6ed10a74bed17aa"
     ],
     "status": {
       "author_code": [],
       "integration": {
         "vllm-project/vllm": [
           {
-            "status": "开放 PR",
+            "status": "主干合并",
             "url": "https://github.com/vllm-project/vllm/pull/67133"
           }
         ]
@@ -265493,14 +266762,15 @@
     "id": "github:vllm-project/vllm:pr:68348",
     "name": "[Do Not Merge][Build] Point vllm-flash-attn at vllm-project/flash-attention#222 for CI",
     "records": [
-      "github:vllm-project/vllm:pr:68348@da3cf820570e992a3d47423ff70fb6b762eb331aa9c8f634396ed56a22bca421"
+      "github:vllm-project/vllm:pr:68348@da3cf820570e992a3d47423ff70fb6b762eb331aa9c8f634396ed56a22bca421",
+      "github:vllm-project/vllm:pr:68348@56a778c5aca406feb7926acc2c2a7d120a2d377c8b5a88ba136825334c100900"
     ],
     "status": {
       "author_code": [],
       "integration": {
         "vllm-project/vllm": [
           {
-            "status": "开放 PR",
+            "status": "主干合并",
             "url": "https://github.com/vllm-project/vllm/pull/68348"
           }
         ]
@@ -269301,7 +270571,8 @@
     "id": "github:vllm-project/vllm:pr:68596",
     "name": "[ROCm][Perf] Add gfx950 gluon paged-MQA logits kernel for DSA indexer MTP verify rows",
     "records": [
-      "github:vllm-project/vllm:pr:68596@31ed0f6e65f8f585f7ea04df714ef0690fad3a59149c44aabad4311ce64d0413"
+      "github:vllm-project/vllm:pr:68596@31ed0f6e65f8f585f7ea04df714ef0690fad3a59149c44aabad4311ce64d0413",
+      "github:vllm-project/vllm:pr:68596@d552a88555baa76ccc972ea0fd940d145f88040a95400ff9290338bbe2766e61"
     ],
     "status": {
       "author_code": [],
@@ -269688,6 +270959,66 @@
         ]
       }
     }
+  },
+  "github:vllm-project/vllm:pr:68617": {
+    "id": "github:vllm-project/vllm:pr:68617",
+    "name": "[CI][XPU] Add Hybrid SSM NixlConnector PD prefix cache test to Intel CI",
+    "records": [
+      "github:vllm-project/vllm:pr:68617@4bc93db350b7816b3b90642dd2fa4436230905fe77377854c1b5f7a60a36c5dc"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/vllm-project/vllm/pull/68617"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
+  "github:vllm-project/vllm:pr:68620": {
+    "id": "github:vllm-project/vllm:pr:68620",
+    "name": "[Spec Decode] Add speculative_config dtype so DFlash drafts can run in their own dtype",
+    "records": [
+      "github:vllm-project/vllm:pr:68620@a1a4527c613e132a8abc97b2f943305e393f96849f1273ebe04ef104cb7c4b94"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/vllm-project/vllm/pull/68620"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
+  },
+  "github:vllm-project/vllm:pr:68621": {
+    "id": "github:vllm-project/vllm:pr:68621",
+    "name": "[MoRIIO] Transfer hybrid draft sliding-window KV in READ and WRITE modes",
+    "records": [
+      "github:vllm-project/vllm:pr:68621@c700e13bc970b6137f5ad4e2ea923204bbdee11c1e4764ebf49a38dce4834e0e"
+    ],
+    "status": {
+      "author_code": [],
+      "integration": {
+        "vllm-project/vllm": [
+          {
+            "status": "开放 PR",
+            "url": "https://github.com/vllm-project/vllm/pull/68621"
+          }
+        ]
+      },
+      "verification": []
+    },
+    "weeks": {}
   },
   "github:vllm-project/vllm:release:447739190": {
     "id": "github:vllm-project/vllm:release:447739190",
