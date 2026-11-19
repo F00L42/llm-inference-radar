@@ -13113,10 +13113,10 @@
     },
     "weeks": {
       "2026-W47": {
-        "hash": "f9561c09a0ad323735b2bba5a3af31f6bf960729d67867003955520830746874",
+        "hash": "cd417a271efc10485299b8875a253d135190ccc94db169fe035ae25e90c75927",
         "selected": false,
         "versions": [
-          "github:sgl-project/sglang:issue:45847@f133e9a160ff7efe43ffe617d67d1948d64acc3ba8975dd9fcd916373933bfbb"
+          "github:sgl-project/sglang:issue:45847@61002a28d4b0e77bd5a3a97ffd9c3732efaeca4e4689588845fa8e83dac49e77"
         ]
       }
     }
@@ -27447,7 +27447,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "0c92238f9d57ef4cad2d335a90df8f948f0cedacb9515e713aeb7f0703c77aca",
+        "selected": false,
+        "versions": [
+          "github:sgl-project/sglang:pr:35855@749ead6a070ba6a33097cca0dd4dfbd8f4815364209efb253a3a8a8371b4e684"
+        ]
+      }
+    }
   },
   "github:sgl-project/sglang:pr:35863": {
     "id": "github:sgl-project/sglang:pr:35863",
@@ -29623,7 +29631,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "86b1ed85baed5a382f29b96e252bc29156c34ce7af0331846e443b140daa853d",
+        "selected": false,
+        "versions": [
+          "github:sgl-project/sglang:pr:38658@fe4528d8013c4b197325b340d91e7adfd8bce3e541bdf4f5778f9f11fe628a60"
+        ]
+      }
+    }
   },
   "github:sgl-project/sglang:pr:38663": {
     "id": "github:sgl-project/sglang:pr:38663",
@@ -37010,10 +37026,10 @@
     },
     "weeks": {
       "2026-W47": {
-        "hash": "f3fb27a20af13c5aea8c28dbe27baa509b4b264416726e83fff43eb94f005444",
+        "hash": "e669a765e96e610c081cbac64bf970acd81d66e1df3c3f3551f858e86bfe8a6e",
         "selected": false,
         "versions": [
-          "github:sgl-project/sglang:pr:43312@13d7f5245cae795db35984495df2cab666fbdc2b87d7f2830308cb0e72b6cadc"
+          "github:sgl-project/sglang:pr:43312@3b32d67bd565cfe741076f63eedd5a5822b0ff4d361b64338bb4c5f1861ac9cb"
         ]
       }
     }
@@ -37988,7 +38004,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "b40be02eba1881e41560c9d40f98aa6ef37810076a6f986c2537c282a5045408",
+        "selected": false,
+        "versions": [
+          "github:sgl-project/sglang:pr:43654@d25e1ed08776e4ed5eb630f6b9c2324292330e82520275472eb9c95ce2dc5931"
+        ]
+      }
+    }
   },
   "github:sgl-project/sglang:pr:43655": {
     "id": "github:sgl-project/sglang:pr:43655",
@@ -47979,10 +48003,10 @@
     },
     "weeks": {
       "2026-W47": {
-        "hash": "67505013148a90d33ce69ba58c24cd6cb4dc4cb39440273a63975b108062835b",
+        "hash": "518985c3d8d4f7c0f91afa08e97537ee81a9f2a444af416f628a8b2abd037a4e",
         "selected": false,
         "versions": [
-          "github:sgl-project/sglang:pr:46210@f7b1de3d8a533562a96da338e87d4761bf0f7ec1a052867e8c819ec98d08e3d0"
+          "github:sgl-project/sglang:pr:46210@bae087964dd37fa7374218964954af9f00d44cdc4cc856b302bee7484ebdcef5"
         ]
       }
     }
@@ -49716,10 +49740,10 @@
     },
     "weeks": {
       "2026-W47": {
-        "hash": "37b8f70a79265c70d5974417fe268eaf015cbecbeba4c38a4d5b23acd348843a",
+        "hash": "4a07c3562473180e7513c2bebb414b7bce209c8f7f329c928cd9c8c366fc7361",
         "selected": false,
         "versions": [
-          "github:sgl-project/sglang:pr:46559@a2e850aa680df3446b8dba3a41ec53748ce6e5547f26c4f9e70031ceb13d4b54"
+          "github:sgl-project/sglang:pr:46559@287510c68e8a4668c0d5b71865f1362f55ce4690203705bdc577e978e9d7cfa4"
         ]
       }
     }
@@ -50638,7 +50662,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "2dea61a05db871849de2041b52bd11b0762ac53e5c6452de02640c4aa50618ef",
+        "selected": false,
+        "versions": [
+          "github:sgl-project/sglang:pr:46725@95cfacf9282a9ee08ad87434b6d4c87721819f1d8d2f3891baaafc368e4edad3"
+        ]
+      }
+    }
   },
   "github:sgl-project/sglang:pr:46726": {
     "id": "github:sgl-project/sglang:pr:46726",
@@ -50742,7 +50774,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "4175aa57ce67ba6c3e250504350f59147b87a6a7f08b1ea0aa867b44d6b5d385",
+        "selected": false,
+        "versions": [
+          "github:sgl-project/sglang:pr:46735@adc6a4da19beb5c3e409218a624ab51c8c921221f2a8004349812bd5be62ae04"
+        ]
+      }
+    }
   },
   "github:sgl-project/sglang:pr:46740": {
     "id": "github:sgl-project/sglang:pr:46740",
@@ -51714,7 +51754,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "86cc72b01e9ac8bb183e6a97d280301bb437d0ea6642a5dad8294bd2486450e6",
+        "selected": false,
+        "versions": [
+          "github:sgl-project/sglang:pr:46919@668fd940a7f36b34087d2bdbb900326ef9a527cc53457d438d782dfc6211a9c6"
+        ]
+      }
+    }
   },
   "github:sgl-project/sglang:pr:46926": {
     "id": "github:sgl-project/sglang:pr:46926",
@@ -58986,7 +59034,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "7616446a301399e7b110ec8e96b0a6d48478c723223665fac1c9249a8a65e9bb",
+        "selected": false,
+        "versions": [
+          "github:sgl-project/sglang:pr:48033@482242f27b3f60710b1640fd6937f8531834f31a6542697f5dd97dcb5635c9f8"
+        ]
+      }
+    }
   },
   "github:sgl-project/sglang:pr:48038": {
     "id": "github:sgl-project/sglang:pr:48038",
@@ -62257,10 +62313,10 @@
     },
     "weeks": {
       "2026-W47": {
-        "hash": "8c6d69410bbcb10242a7813c92d89259653cc803f53cbf2d22e39d53dae5fa27",
+        "hash": "449f74af20804ab67f8eb0b3b86c96c864eae32f2d4d54aed327f1217cdfe567",
         "selected": false,
         "versions": [
-          "github:sgl-project/sglang:pr:48353@cc8b3242db98f328afb6051c76dbbaf3ed91376c889e5fe11e1d748c2a5228f4"
+          "github:sgl-project/sglang:pr:48353@85129657fac4bd861a764f73ebb84c784a1109469d60d5307037fe7e84c285d9"
         ]
       }
     }
@@ -64523,7 +64579,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "ff78bc2f2095f5589beb93c0498cad3503508e29a07c0ee2920caf44aa8b16f2",
+        "selected": false,
+        "versions": [
+          "github:sgl-project/sglang:pr:48540@1fbca6176d0fcbf3523ca1628ef97187623e7d63e772a311e754cf4c25bb0b3c"
+        ]
+      }
+    }
   },
   "github:sgl-project/sglang:pr:48541": {
     "id": "github:sgl-project/sglang:pr:48541",
@@ -68239,7 +68303,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "326fc6e50e68ac5a953f5683cc503cc5bd0d8c77eb7199612fb80c246e0c0c9f",
+        "selected": false,
+        "versions": [
+          "github:sgl-project/sglang:pr:48767@c432c39164d7219601a94b992286f018d5e17337e75f6237feef98126eb98d8a"
+        ]
+      }
+    }
   },
   "github:sgl-project/sglang:pr:48768": {
     "id": "github:sgl-project/sglang:pr:48768",
@@ -68259,7 +68331,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "11f81e741767de4291aad38cc48233d1363745a023a3b1de92959a53b6d29941",
+        "selected": false,
+        "versions": [
+          "github:sgl-project/sglang:pr:48768@ac52b281f104f2651d4cfb54054fab682e53adb825deff6eb34f54f50c070ebe"
+        ]
+      }
+    }
   },
   "github:sgl-project/sglang:pr:48769": {
     "id": "github:sgl-project/sglang:pr:48769",
@@ -68279,7 +68359,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "8977a66574ee7acff4839fab8a92d165a9d4cc0f44c0d54a2fb7f87b4c5ddb94",
+        "selected": false,
+        "versions": [
+          "github:sgl-project/sglang:pr:48769@7f83670ed73878d900f10fad226f075485e430eabd08185635de46431a7da66a"
+        ]
+      }
+    }
   },
   "github:sgl-project/sglang:pr:48770": {
     "id": "github:sgl-project/sglang:pr:48770",
@@ -69758,10 +69846,10 @@
     },
     "weeks": {
       "2026-W47": {
-        "hash": "2bd757f82be37aa48d3a676181ba29d12191f72be363ee89032ee956882601df",
+        "hash": "27143c403784cace5f5b6939d1247d4bc04ad291640a5a3570674844ebde85db",
         "selected": false,
         "versions": [
-          "github:sgl-project/sglang:pr:48865@592d236420d9a5a1cc2796495d7730de89306caea8693d9bdf4cfdfaa91f63d0"
+          "github:sgl-project/sglang:pr:48865@18035c243ef6fbf384432671d35f7fe5129ee5ce88842dedf7f5d7a231c86927"
         ]
       }
     }
@@ -78632,7 +78720,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "49b435416d27be51b44fab140d871a0bd587ddd7c385bef4976652a7cfb4d753",
+        "selected": false,
+        "versions": [
+          "github:sgl-project/sglang:pr:49429@eb6b70a990b54be6207f8fb1b35f8282b8b3674616106de0044708614c57bc36"
+        ]
+      }
+    }
   },
   "github:sgl-project/sglang:pr:49430": {
     "id": "github:sgl-project/sglang:pr:49430",
@@ -81984,7 +82080,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "29b04ed157fc929062077cd0d64fa56689115bb7e21841970025a01ddf90d0df",
+        "selected": false,
+        "versions": [
+          "github:sgl-project/sglang:pr:49607@0abc6b35f750acfa3f66141f509f0b06aa6552812af61dc8fb575377d426de1c"
+        ]
+      }
+    }
   },
   "github:sgl-project/sglang:pr:49608": {
     "id": "github:sgl-project/sglang:pr:49608",
@@ -86232,7 +86336,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "facf83b34a8eba0b8e24e10ed9c3a244c103dad896928cb8a524982c7bb5db70",
+        "selected": false,
+        "versions": [
+          "github:sgl-project/sglang:pr:49883@ce2fdd4b178f100d132a71cdc639cc6ef434549c7feae70ec0fe535540d4b60a"
+        ]
+      }
+    }
   },
   "github:sgl-project/sglang:pr:49884": {
     "id": "github:sgl-project/sglang:pr:49884",
@@ -87151,10 +87263,10 @@
     },
     "weeks": {
       "2026-W47": {
-        "hash": "feae69f2f47ac0558c6bf42f48067d02f644ff651a1b5a98e8626cdb4acdb426",
+        "hash": "7f5aad64490a8e37a60b37e7c59190c940ce9548d969ce55e88501e5882a4f35",
         "selected": false,
         "versions": [
-          "github:sgl-project/sglang:pr:49963@c03428b03c693376a565a3fdbe67fff2d7382753aa8aad1471fc0037b861fe8b"
+          "github:sgl-project/sglang:pr:49963@b50fdccf1029df770aa24e6477d6e40f7d51c616ad13eb1fc3f4fb95cc7af073"
         ]
       }
     }
@@ -88185,7 +88297,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "91dd4fd78674278e9883e2aaceb9087860f9ae636f16d34895d1014bece771fd",
+        "selected": false,
+        "versions": [
+          "github:sgl-project/sglang:pr:50032@c6dd90c659c278e9f00d63cac6b57b45fccdca4a9323f3747bf4fb1b48758d9b"
+        ]
+      }
+    }
   },
   "github:sgl-project/sglang:pr:50038": {
     "id": "github:sgl-project/sglang:pr:50038",
@@ -89748,10 +89868,10 @@
     },
     "weeks": {
       "2026-W47": {
-        "hash": "fe24998ff413c698553adac0cfa81136d9950c38535dcf3ab509292ccd265d8d",
+        "hash": "8a0f769c15540974c167a78023aa1d0cbb56ec546f3d80f1cc5549e912efe919",
         "selected": false,
         "versions": [
-          "github:sgl-project/sglang:pr:50116@0fbde564cbf942513a9eb9181956a0c4ea573edd0e6d082490f236eb45700735"
+          "github:sgl-project/sglang:pr:50116@9bb4ed31f3eba527c86cb35cad21005ee31ef71a9dd0398b645559181a20073c"
         ]
       }
     }
@@ -91093,10 +91213,10 @@
     },
     "weeks": {
       "2026-W47": {
-        "hash": "95b7790b73898dc36deea52227d2a988032012cbb2b6c108b2e8705c20f5ec63",
+        "hash": "86bc6f87d05e0f9d6605d775c57ddf9d3ef228cda01855a2a67d2406ea96024a",
         "selected": false,
         "versions": [
-          "github:sgl-project/sglang:pr:50213@b0596cdc1a224fff3ca8b27e1fb6c7de1743a07f8dabfeca44ffc3ffbc79ee57"
+          "github:sgl-project/sglang:pr:50213@c72da543ca84bd75cc3b72a2994f1f781c80b32da4b25bb13ac698328278ca16"
         ]
       }
     }
@@ -99127,7 +99247,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "10f18ce97a5975b81f04718c576ab1387ed82c2de4aa54a48381438644be3997",
+        "selected": false,
+        "versions": [
+          "github:sgl-project/sglang:pr:50757@6612486d57867070c47f37fe2b39ff2bdb06c7b635f79a35b51bbb985f99fb13"
+        ]
+      }
+    }
   },
   "github:sgl-project/sglang:pr:50758": {
     "id": "github:sgl-project/sglang:pr:50758",
@@ -100463,7 +100591,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "6153fd78d7e4c6ca324a25763f58a3b70c97c669a87c014c59f26bea06e0b6ff",
+        "selected": false,
+        "versions": [
+          "github:sgl-project/sglang:pr:50829@abcf4d223ba83423aa86df9c898044def14e6b104e7f7691c2970baa42b701cb"
+        ]
+      }
+    }
   },
   "github:sgl-project/sglang:pr:50830": {
     "id": "github:sgl-project/sglang:pr:50830",
@@ -101494,10 +101630,10 @@
     },
     "weeks": {
       "2026-W47": {
-        "hash": "74167410ea361eb2e5885d675510dad10cc898a29d5e79556ecbe1872fde9552",
+        "hash": "bd3310b4e3c125d6ee9627ac250fe00eafc49526601fe883cf3f5421f6403c21",
         "selected": false,
         "versions": [
-          "github:sgl-project/sglang:pr:50901@1aa959c78e35def1cc9a382a8ac2bcc12cd27500d04bbb0d2306b6091399b016"
+          "github:sgl-project/sglang:pr:50901@3b3f6d532f0b9015b23237668b5bd0a5f612177b220762ff52555cdada30af23"
         ]
       }
     }
@@ -101691,10 +101827,10 @@
     },
     "weeks": {
       "2026-W47": {
-        "hash": "9b088a1139eeb98f5560ad4a57f67566722714db42b57d0354c10c55b11497bb",
+        "hash": "6a40ad21f0f3ea1fded2b32b4ea05825d3ef1b2c7a5ff82256543b4d714bbeec",
         "selected": false,
         "versions": [
-          "github:sgl-project/sglang:pr:50916@993b3697c13eb7d048a3d0fb63391745625690e996435075ad6d562be051c88d"
+          "github:sgl-project/sglang:pr:50916@5b256296c44e0108aae39badadc081cba9dc75edd59f8ce0d5e99d08eaee6ced"
         ]
       }
     }
@@ -101944,10 +102080,10 @@
     },
     "weeks": {
       "2026-W47": {
-        "hash": "203b84c54dd11c197ebe86f6bcc9912932c615a69ae5cdebabc49fc908ec3ebf",
+        "hash": "9b8931e43f5f376c2e5db2e6bd0b58a4a0afc8084969e53ddd1ecf086d92866a",
         "selected": false,
         "versions": [
-          "github:sgl-project/sglang:pr:50929@5526687f984885fb62cc19a9357ac10089ed2f112eb8e3c6891fdfb45fdf67cd"
+          "github:sgl-project/sglang:pr:50929@81a431c129e288225b893e62967ec2bd38071c20c9d9e33d4e669b0dd9ce65c6"
         ]
       }
     }
@@ -106758,7 +106894,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "f502fe5de3c0cc10d6d37c43b9b2cb059c5ab74205039969146f9b4eb6bef775",
+        "selected": false,
+        "versions": [
+          "github:sgl-project/sglang:pr:51237@257e3753c2e5c74588a4f3fd77546ed6595e6c0710b67350faff9afc2aa1186e"
+        ]
+      }
+    }
   },
   "github:sgl-project/sglang:pr:51242": {
     "id": "github:sgl-project/sglang:pr:51242",
@@ -107397,10 +107541,10 @@
     },
     "weeks": {
       "2026-W47": {
-        "hash": "ba073d62033a1895b4060425f25dedec589c35f465603b8a2222e9eb326f6007",
+        "hash": "82b484e09483211adbcbb9c9232f6d6f574b5d44083d95692df3103d817d6527",
         "selected": false,
         "versions": [
-          "github:sgl-project/sglang:pr:51276@65f07ad59650dc9c9ac5cfa13d5ba0b113e162df7d79b6db45916bedb2044ddd"
+          "github:sgl-project/sglang:pr:51276@d6d8a9ebbd13e9b3b2771989c188be8cf79c7999547842b9f978a36901b33d0e"
         ]
       }
     }
@@ -108011,7 +108155,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "b10dc36fb068db40553324979dd8ce660ae023dff3868eb8cf353021e0a3d307",
+        "selected": false,
+        "versions": [
+          "github:sgl-project/sglang:pr:51305@2077662575508a48ab32c78f72a6c4f69fe9488105e33fcd41dff72f63ba0ee5"
+        ]
+      }
+    }
   },
   "github:sgl-project/sglang:pr:51309": {
     "id": "github:sgl-project/sglang:pr:51309",
@@ -108090,10 +108242,10 @@
     },
     "weeks": {
       "2026-W47": {
-        "hash": "36aa3ab08ce70d755d1f7e58adce4401d14f92799cb300fc0d254f06f12d9980",
+        "hash": "15f4f81b257635a1f3223d7cdd87e39d51a9ffd0fe9b74753e0c841dcf3b0fb7",
         "selected": false,
         "versions": [
-          "github:sgl-project/sglang:pr:51312@b173368bed3002dcf3e273c6a4261881be6fec8cce4f518b5d5f3c110e041ec7"
+          "github:sgl-project/sglang:pr:51312@faa7a0f889362cec51f6327271f3af4a5ff1123b5afa79a42856871b3f6f4e48"
         ]
       }
     }
@@ -108763,10 +108915,10 @@
     },
     "weeks": {
       "2026-W47": {
-        "hash": "cb4fc41eecfbc942a3a371072389a7979e9373b3c30752b6930562b485ab5e41",
+        "hash": "34f5f86e1bcf081a2664e411d05feb87e643f300266e97771d02b2065215619f",
         "selected": false,
         "versions": [
-          "github:sgl-project/sglang:pr:51360@2524b91c21779732fdf69c53b49f12870979c782fe0bbbd72624b75224325ca9"
+          "github:sgl-project/sglang:pr:51360@2b96193b6e037151554228afc49d417391ae9d95dbf97b930a11e557136868ef"
         ]
       }
     }
@@ -108988,10 +109140,10 @@
     },
     "weeks": {
       "2026-W47": {
-        "hash": "3332411999c367c15444ad14df01618a54c95011e5238df36b3243c3460d57bd",
+        "hash": "126e3012f115dd897bf202cbdfb982adeec5b14ac85623e2ec195fa452cec350",
         "selected": false,
         "versions": [
-          "github:sgl-project/sglang:pr:51377@06129d5b45b98ff10a0525a933721820cb9bb682f5a161b0213a2abeb6f9975b"
+          "github:sgl-project/sglang:pr:51377@2cd5a41e17e45e9936b26dd575e263c8c4694ef6bad5f08599cb3e1df3b76608"
         ]
       }
     }
@@ -109773,10 +109925,10 @@
     },
     "weeks": {
       "2026-W47": {
-        "hash": "640147c9087483705c49a9c8e200329384a5fa4e05f602005c59ce81fcb90701",
+        "hash": "2da705eea320229e9eef9945ea0e83ddcb4fccacfce345bbc6aca939328da62e",
         "selected": false,
         "versions": [
-          "github:sgl-project/sglang:pr:51423@fa357480cc5ebb553d133db558be99d2c4e55f309083b14b5fce807924450f23"
+          "github:sgl-project/sglang:pr:51423@7c606a05a5302be49c24feb0214d67f951ac1982546ea3995c50acc65d4a542f"
         ]
       }
     }
@@ -110079,7 +110231,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "f2119b6979b950cd645b5d496ae8fe486407e23eadc3bdaa7b3188b509ecb4a4",
+        "selected": false,
+        "versions": [
+          "github:sgl-project/sglang:pr:51439@73aec3a8a49c4d02eb880a07f84e63dcbc03aed496e2f3cb945ae47626d6997e"
+        ]
+      }
+    }
   },
   "github:sgl-project/sglang:pr:51442": {
     "id": "github:sgl-project/sglang:pr:51442",
@@ -110267,7 +110427,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "a1c04098b5e9973d4273e29e9c24bca291f69455d74070adf6216383304c4a2d",
+        "selected": false,
+        "versions": [
+          "github:sgl-project/sglang:pr:51459@089ecb3853ef584c46d1171eba8c48249a9d903887d266329b443df991376a39"
+        ]
+      }
+    }
   },
   "github:sgl-project/sglang:pr:51460": {
     "id": "github:sgl-project/sglang:pr:51460",
@@ -110371,7 +110539,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "4acc9c038e5e0fdbb360adfcb0357a78e66e9df7082c891d103df3b28a573208",
+        "selected": false,
+        "versions": [
+          "github:sgl-project/sglang:pr:51465@b04f9bfb02f4de251db9ddc19970074e9282184ccc21e401f9d4feec640e7143"
+        ]
+      }
+    }
   },
   "github:sgl-project/sglang:pr:51467": {
     "id": "github:sgl-project/sglang:pr:51467",
@@ -110478,10 +110654,10 @@
     },
     "weeks": {
       "2026-W47": {
-        "hash": "0b0c39019b1028e759b1aa74293297a65f94937e673df7e655580f6b5a98b6a5",
-        "selected": false,
+        "hash": "608fe876a6798ac2c28b5094926c2e35cc42dcefc348cddd7dc6d53b58cd02d4",
+        "selected": true,
         "versions": [
-          "github:sgl-project/sglang:pr:51471@ffd58b9f6d9c5b4c04ef91006775da88858d4d0b044f0908acf90391522ad44a"
+          "github:sgl-project/sglang:pr:51471@8ca36b4933f3b283f0483cdbc74069621ab297e030ad32e884b0a0bc3164587b"
         ]
       }
     }
@@ -110644,7 +110820,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "879f71cc1a9be6a74db1c7f0a289abb20db498761e8ecd4f839bb320e6b84ecb",
+        "selected": false,
+        "versions": [
+          "github:sgl-project/sglang:pr:51481@7dae695eaf5abd9a2049b1c5c2a0fb55babeccb90707dcdddcb9874439f3064f"
+        ]
+      }
+    }
   },
   "github:sgl-project/sglang:pr:51482": {
     "id": "github:sgl-project/sglang:pr:51482",
@@ -110664,7 +110848,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "2ef1b56c9df4edc83d7118cb7d1797cfc8ddb401204ced9cc387ade2f6e72090",
+        "selected": false,
+        "versions": [
+          "github:sgl-project/sglang:pr:51482@ca4bae2386873d1162080de71b75a78a316c347466ae6a92f36ad05c750735f3"
+        ]
+      }
+    }
   },
   "github:sgl-project/sglang:pr:51483": {
     "id": "github:sgl-project/sglang:pr:51483",
@@ -110684,7 +110876,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "7747c969c758203ceb98d7d4e68209631ddab4c17d1bba9126677d828c00be37",
+        "selected": false,
+        "versions": [
+          "github:sgl-project/sglang:pr:51483@c7ba0737d7a8e9eefd2abaad0ae7bef186df8b9fd86022b34f65b913a3fda8f0"
+        ]
+      }
+    }
   },
   "github:sgl-project/sglang:pr:51485": {
     "id": "github:sgl-project/sglang:pr:51485",
@@ -110704,7 +110904,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "dded2848aa7d3b5272cbce14cfab8a99c85c14d22492667e3f5a1d714f69c578",
+        "selected": false,
+        "versions": [
+          "github:sgl-project/sglang:pr:51485@851946b791f4a974e3f3166b9116ec46ba664b5c98a0c423a27146866cd8cb9d"
+        ]
+      }
+    }
   },
   "github:sgl-project/sglang:pr:51486": {
     "id": "github:sgl-project/sglang:pr:51486",
@@ -110724,7 +110932,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "9df15686fa0a03e5cfdd8162ff2ec899df9472baee4d35ecc09828e3b5f3aa7c",
+        "selected": false,
+        "versions": [
+          "github:sgl-project/sglang:pr:51486@46568750513af66cbae303bb07aff958b11252ca66ae0a2ab6321ace7dc2c808"
+        ]
+      }
+    }
   },
   "github:sgl-project/sglang:pr:51487": {
     "id": "github:sgl-project/sglang:pr:51487",
@@ -110744,7 +110960,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "e2ea2c39161f77cbf414923b0bc9650f776a5a0d43143d7d2d329a67506ace7e",
+        "selected": false,
+        "versions": [
+          "github:sgl-project/sglang:pr:51487@1d59b7e402965d03fb3c4b1bf9da3281323244611b8331f3e89a621c9043930d"
+        ]
+      }
+    }
   },
   "github:sgl-project/sglang:pr:51488": {
     "id": "github:sgl-project/sglang:pr:51488",
@@ -110764,7 +110988,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "fcad751b3034e3d3dabb8168134a6a0c04bbd25d2672f166bce17d4408071083",
+        "selected": true,
+        "versions": [
+          "github:sgl-project/sglang:pr:51488@0e952fd48e2f2ce33ee1536840b66c53457d90a728d73aaab7a2470bfedae430"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm-ascend:issue:10401": {
     "id": "github:vllm-project/vllm-ascend:issue:10401",
@@ -119943,10 +120175,10 @@
     },
     "weeks": {
       "2026-W47": {
-        "hash": "3b16dd709e2c01f6997590f297ab29cc0be37bb22efde775f1825974648e1ee0",
+        "hash": "ef88ce83ffb0db5c2f0d0dfdc68658d13cae823f100d3406639d03e385222daf",
         "selected": false,
         "versions": [
-          "github:vllm-project/vllm-ascend:issue:22437@15ca83402a0d9ca486833353b938dcabdd07d8ca1e06bf16b6c6e1d78d54202c"
+          "github:vllm-project/vllm-ascend:issue:22437@49bf2cd22e4e94da9ae26b088b4cc22569f0692392b05f15f236018348a11cb3"
         ]
       }
     }
@@ -119997,7 +120229,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "0824c0c492e0580ac62aefd64c9fe6e0cbd8f9230c74f2bdb70772e0f10210cc",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm-ascend:issue:22452@f53288548f0c82b8044f3b087612554f45b5afde79e4d0a36cfa1e3f54f89d8f"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm-ascend:issue:3371": {
     "id": "github:vllm-project/vllm-ascend:issue:3371",
@@ -122960,10 +123200,10 @@
     },
     "weeks": {
       "2026-W47": {
-        "hash": "6d30ccd7d324fe166e176025cf4d2fe4e438cf6923d489d5a3e87889d28fd553",
+        "hash": "5b1f52938eb27ad29dee63ba6cb1d10fdc84f5d83374580587560d0299241f93",
         "selected": false,
         "versions": [
-          "github:vllm-project/vllm-ascend:pr:17715@025f55407bf9652f72f3c898cc7c1ea94b71e5627562eabb3d19ddc33e918b75"
+          "github:vllm-project/vllm-ascend:pr:17715@c95fe73b8e8bdbdcadd560bfb20d7e154411417c53430a5442dd2272776b6062"
         ]
       }
     }
@@ -125366,7 +125606,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "ee3cf87ca3872de558b0aa37486f1fc055c24df8ef398d6cd3112fc1fe631146",
+        "selected": true,
+        "versions": [
+          "github:vllm-project/vllm-ascend:pr:19284@91f93ed5de8ef153427e21fdf6706002f3ae5b9b34183cae48e8624df7935849"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm-ascend:pr:19286": {
     "id": "github:vllm-project/vllm-ascend:pr:19286",
@@ -126030,7 +126278,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "538ec8a748ff0923a7b5af93fac7ba9f238580ddbff2dfd25536b70426f1deb1",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm-ascend:pr:19555@c915a6fecae4b9987c69ec9ce01063a91387e487575a90ebd45f180c367ef780"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm-ascend:pr:19561": {
     "id": "github:vllm-project/vllm-ascend:pr:19561",
@@ -127621,10 +127877,10 @@
     },
     "weeks": {
       "2026-W47": {
-        "hash": "9dfa94d7fe5406fdf52d10fc747f3f79bd5068d22af2cda6f61f531c311dc2d2",
+        "hash": "321d3e6e2093490a2ce5a6e3a617c0ee63af53e5bb1cb38f019001d71f7697df",
         "selected": false,
         "versions": [
-          "github:vllm-project/vllm-ascend:pr:20065@32f09485549fa8afd3682d73923a86c3543cfd2d6889440ba1302c9d3ffdc09a"
+          "github:vllm-project/vllm-ascend:pr:20065@c36dfe7c9041a9694616852c196194d7832e0c1317da57225b104dbb4e6d7ce6"
         ]
       }
     }
@@ -128067,7 +128323,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "998ea424df20ac233568a4547f2ec89c9e2ef94b51b8238dbaa492ea648bb1ec",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm-ascend:pr:20138@a63295b9785845d6b7e0bcb4b87c3459158e56dfa8589b98fbcc20441933995e"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm-ascend:pr:20144": {
     "id": "github:vllm-project/vllm-ascend:pr:20144",
@@ -128199,7 +128463,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "56f3446edfe3d29d2284e5e4dda014d73c45b5fb4387fac17bf10ad621f73e3a",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm-ascend:pr:20194@2197d163dd907bf7500494cd2ba1387b371a78578c3e2919d363dfe5733755af"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm-ascend:pr:20205": {
     "id": "github:vllm-project/vllm-ascend:pr:20205",
@@ -128219,7 +128491,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "2234ee5278918e5406dc32787e45a64c8592eaf6376d4367abdfc5d0dc981e27",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm-ascend:pr:20205@aa306f8a4a9c3e5dc76b6ed90591d470e915a7d8a0aafae91a2954a9f45c5b94"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm-ascend:pr:20207": {
     "id": "github:vllm-project/vllm-ascend:pr:20207",
@@ -128827,7 +129107,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "333b60eababbc407dbefe8fb892916f3cce36829dfacac3488742ef483d401e4",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm-ascend:pr:20332@5edd794c2d5ac6a6b4f82281d0c198a95b7245662c5b0cead58963e0ce0ea84b"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm-ascend:pr:20338": {
     "id": "github:vllm-project/vllm-ascend:pr:20338",
@@ -130135,7 +130423,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "d8f969433667c8f41f9b5881452f92e3623960ef44211b041c92d65f527ded09",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm-ascend:pr:20538@6ad5917ec910ab673ebacf254e62ba32e92fb1025075735d7210a63326540d6a"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm-ascend:pr:20543": {
     "id": "github:vllm-project/vllm-ascend:pr:20543",
@@ -137547,7 +137843,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "e0ff7b7e922ed9ca6048c163fd0c820e8892e88c1cb7f20700cd70c06d5d6698",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm-ascend:pr:21256@15ec639f66933ca3e72b1a0b8ad8e8627e62b6b6ef1c13c26fd8acda4ea7ed44"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm-ascend:pr:21257": {
     "id": "github:vllm-project/vllm-ascend:pr:21257",
@@ -140143,7 +140447,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "44c06bd4a8146453da812576e3a287dbba1cce94a2cdef78a1ea9d0b63a8a152",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm-ascend:pr:21469@f617b7f60ac160d036b67b82d706bd08360ac41d95c39d4a7e5a545838ee3707"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm-ascend:pr:21473": {
     "id": "github:vllm-project/vllm-ascend:pr:21473",
@@ -142014,10 +142326,10 @@
     },
     "weeks": {
       "2026-W47": {
-        "hash": "d6cf60a82b67dfc2b2f35ea110cf80d2fc2092fff7da0cadad9e6590bbef135a",
+        "hash": "d83b466dfa2d0a2e9c6b3411143e255fa0a6d5c355ab9b29f690c49cb624d5e1",
         "selected": false,
         "versions": [
-          "github:vllm-project/vllm-ascend:pr:21603@0c641bd13b7e3255bd73920de83c031ee912d5df1cc217c9708ad77e44140bcb"
+          "github:vllm-project/vllm-ascend:pr:21603@3a871841179f616aa55a83f862ab1a14fb273d47bc2150785f172d66f807d2b7"
         ]
       }
     }
@@ -143020,7 +143332,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "f3678cbc260fe843753e8a75681afbf80b108c50f79589c225496e0cadb0a404",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm-ascend:pr:21693@4acc1e820217648a55ae2f6de9e5c443078e9f4b61a128e83c6c53d8c991717a"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm-ascend:pr:21697": {
     "id": "github:vllm-project/vllm-ascend:pr:21697",
@@ -144860,7 +145180,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "070874bd00997e20998bdccb28579bc249d6be350703c08517ab122f93896a8f",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm-ascend:pr:21831@5f386238d48c259b561c734b2d6d990b2e9855eb1eb6d795fa6a5c61a02caefa"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm-ascend:pr:21832": {
     "id": "github:vllm-project/vllm-ascend:pr:21832",
@@ -145328,7 +145656,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "00b79f7d738dcc2c8657f9f019733c23e44a403eb934e78a5928550794040c1e",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm-ascend:pr:21866@5b4b6c2380d98a24a41954aaffbb5fbbae679147f768b1f9135b2f9508f22227"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm-ascend:pr:21867": {
     "id": "github:vllm-project/vllm-ascend:pr:21867",
@@ -147868,7 +148204,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "c89067aba971f765ec63ed37a783c4bf795e4453f9a2deb2390deafca3e0881c",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm-ascend:pr:22086@98a9b4654c2e393cc26825515f8d59e38f91f18561bc2682ee3cebec6c302ff3"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm-ascend:pr:22089": {
     "id": "github:vllm-project/vllm-ascend:pr:22089",
@@ -148756,7 +149100,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "6de9d8b4c9d3004f4688999c0f5d32609dcd7c7dd835599e599a1d5a63594ac2",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm-ascend:pr:22156@9dc4337665ed6a3c2815a2d2d84eea0b5747c7d35ca4ab2ef82e94b97dc8f92f"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm-ascend:pr:22157": {
     "id": "github:vllm-project/vllm-ascend:pr:22157",
@@ -148888,7 +149240,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "4f7734ea3c9b0d20f5e164e20c71a21dd6519aa592649f7488e5c225bd8aabd2",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm-ascend:pr:22164@e0fb1cc7a739db45eb9c94ae78a7038a791a6215356357a16584e72f2dbff507"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm-ascend:pr:22166": {
     "id": "github:vllm-project/vllm-ascend:pr:22166",
@@ -148964,7 +149324,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "b4822bb0261ffffeee6ef0bca5e825f4e1c1e2960ec77da9d3dac69a3b326bd3",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm-ascend:pr:22169@341ea758d047cf23793a53e1fcdeb652d5df3cad4bb8db9b25bdac4f5f855591"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm-ascend:pr:22172": {
     "id": "github:vllm-project/vllm-ascend:pr:22172",
@@ -149236,7 +149604,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "9922cfcf101a50d67adf8b538d0f7a6f897d39c97465be3070086a34f85ea9b0",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm-ascend:pr:22187@55941646de5ca26930927c39d23a44318c678f4676305cd1bd77b640c72b1c96"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm-ascend:pr:22190": {
     "id": "github:vllm-project/vllm-ascend:pr:22190",
@@ -150435,10 +150811,10 @@
     },
     "weeks": {
       "2026-W47": {
-        "hash": "9f6e14e32ae4f10db31f5554c3c31552e2ba1cad69fa4f0296bf72a5ed5ba8e0",
+        "hash": "c416515849ea955883d75ec21d719e18b1ae7ccdb175401af29e5917b020b848",
         "selected": false,
         "versions": [
-          "github:vllm-project/vllm-ascend:pr:22270@fc06f36a38d1956bf47b2728c461d6db901b08b264f75add3e0cf4068175c367"
+          "github:vllm-project/vllm-ascend:pr:22270@8759855b0e3176674acb52e5984b1f9e6288cdf93c4dcb7ec64bb676e38afa15"
         ]
       }
     }
@@ -151105,7 +151481,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "6af122e846cc209f79ed65fef6fb7b33989f1102e32a86c5f296721b7bcd3212",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm-ascend:pr:22324@55613ae146835af521003cfc0ba189d8ec3b511ad200b4ba369c4968d8b804eb"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm-ascend:pr:22326": {
     "id": "github:vllm-project/vllm-ascend:pr:22326",
@@ -151237,7 +151621,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "9d4293c96c34549e92bc35f3b4ab8e2aff49d048638522bf0977479d90124599",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm-ascend:pr:22333@b048657994279894bb5f3695bfe9a17624d4b19688d9ec328add259c7a90193d"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm-ascend:pr:22336": {
     "id": "github:vllm-project/vllm-ascend:pr:22336",
@@ -151372,10 +151764,10 @@
     },
     "weeks": {
       "2026-W47": {
-        "hash": "19ac8ae152762ff2d626e629c91cb9e54359274a5e1eff05c199d1ddc6db1083",
+        "hash": "708ab99c711dbb3d14f823e6b86f837922e66019b0ecb6b3e83e4944f92c63f1",
         "selected": false,
         "versions": [
-          "github:vllm-project/vllm-ascend:pr:22347@3b298d8e3253ba2a4755aa6fa6d603e0e3b943055bfeffeae31a34f7b5900854"
+          "github:vllm-project/vllm-ascend:pr:22347@aac7523e4e34cc541e9982305bcabc562c763aaac8ffbfc77781beb0ce3c4519"
         ]
       }
     }
@@ -151429,10 +151821,10 @@
     },
     "weeks": {
       "2026-W47": {
-        "hash": "6357fc9f4a36af292c9ae1b7df5f9f92a5c82f3f6b4476d7157dcd1355cae933",
+        "hash": "ab47203ef5c699aa84080e5d12928a1f27abbd5d838c07bd28b4193a3e4fd195",
         "selected": false,
         "versions": [
-          "github:vllm-project/vllm-ascend:pr:22349@e06ad81b0bb5321f75f69c4355839bc1e0e0c8e8fe43485da303eee7b04c3214"
+          "github:vllm-project/vllm-ascend:pr:22349@22b9a664ce508ab5cc6521cd8b46a0928d535309ee5800af26f5960a43061982"
         ]
       }
     }
@@ -151679,7 +152071,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "69d24f7d613c501964e15346a0ce1016bcf658f7230b95d1bdccbc2293dbd078",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm-ascend:pr:22367@55900f3f092926c706139978ede6b9ac53295036fe0180fbf964caf20f1c8f80"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm-ascend:pr:22368": {
     "id": "github:vllm-project/vllm-ascend:pr:22368",
@@ -151730,10 +152130,10 @@
     },
     "weeks": {
       "2026-W47": {
-        "hash": "eda1682600b3946eb077eef3ff4292ce901dcb4a4812c68f1b3c82b3392a28e6",
+        "hash": "f4a69ff22d8e73f52bfd3ba54a292a277cae8666658992efdc935158173ad71e",
         "selected": false,
         "versions": [
-          "github:vllm-project/vllm-ascend:pr:22370@3d1e31a7678b30c223fdbcb3e5eed31f7f1de52b1a83ddc31246785e1583c5a4"
+          "github:vllm-project/vllm-ascend:pr:22370@e6a4efd215cb8251a57b1d36f1b99608b73ba1e4323e2ea63ff113295af68d16"
         ]
       }
     }
@@ -151840,7 +152240,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "51f51e9b47268c99f4d592262aeae21f7bfaf9e2382627e2cf1ee44c22bbcdc1",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm-ascend:pr:22383@854e8c0a222d1db6cf82045acc1fca1a06131264538ea57eaf6025bc12ae97b5"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm-ascend:pr:22384": {
     "id": "github:vllm-project/vllm-ascend:pr:22384",
@@ -152028,7 +152436,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "9cbd2c1f93b018cc1562c7076f55a833957cff58d85c71a7ccaaf2eb32ce56e3",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm-ascend:pr:22391@3b8c2e35c4bb6105b7db93360e0f04d084b7335a7d47fd90cdb283e4193b442c"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm-ascend:pr:22394": {
     "id": "github:vllm-project/vllm-ascend:pr:22394",
@@ -152272,7 +152688,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "27cbc380e725efdb20a7c327cc51975057d9b9573b19335ae1ed07f1499a5312",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm-ascend:pr:22420@6f9fd10b37192dc9ca722b9422a17dc1edf78e1ae2b65d0190c26584b4b5f5d1"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm-ascend:pr:22422": {
     "id": "github:vllm-project/vllm-ascend:pr:22422",
@@ -152320,7 +152744,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "c2b825829c9b53a15e146f774d27770b4d125e2ee9926eaa943f02ed819aa0cc",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm-ascend:pr:22426@c417e7e39b6188f5438abb5d7ba1e04bcc90fa1345da6542b5e664744c7b806d"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm-ascend:pr:22429": {
     "id": "github:vllm-project/vllm-ascend:pr:22429",
@@ -152340,7 +152772,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "dccedac563dd55b0ad6790fe0d44ca6a3d2025dd6d1019d5546606219f635d29",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm-ascend:pr:22429@2718c386295b41bf97110dc856021ff5563eaaa8ec46ff40d21face408e6b3e5"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm-ascend:pr:22431": {
     "id": "github:vllm-project/vllm-ascend:pr:22431",
@@ -152500,7 +152940,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "9d4ae71dbcf8ccc322f6ed3ac6357c6f675aacde1d92b1f23bd9612cc9807a4a",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm-ascend:pr:22450@942353c4dbdd9b5aeb2ecfff0e1ba7f69a6a533d67c98903974fcb4391fb27a3"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm-ascend:pr:22453": {
     "id": "github:vllm-project/vllm-ascend:pr:22453",
@@ -152520,7 +152968,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "9aabbfcfc4d4b7d021af98bf4ef23b92aee4706825adea3f63e7826ffc04fff9",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm-ascend:pr:22453@41c094e561cae82704884bf1eaeac06bbd458ac7495de6d26fddf30e0b194264"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm-ascend:pr:4316": {
     "id": "github:vllm-project/vllm-ascend:pr:4316",
@@ -159792,7 +160248,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "98264f86cca3f83de075c147989fb0b3fc2c4d28131efee1072d8eda78cfb24c",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm:issue:55250@5f27bfd6deea85f9e18bad1fedef6ca979030adffec2f31beeef9a49d959084c"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm:issue:55383": {
     "id": "github:vllm-project/vllm:issue:55383",
@@ -172972,7 +173436,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "2d196dde0d48d0f25122939f81081dfa26b6b33f86ea03846c3027c85db2308f",
+        "selected": true,
+        "versions": [
+          "github:vllm-project/vllm:issue:68616@6bbd147931c6c07e094d89c4eb27ff5fd7b07ffee766b9a06ab01c8a0395ff61"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm:issue:68625": {
     "id": "github:vllm-project/vllm:issue:68625",
@@ -172992,7 +173464,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "5b42197487b78ba18b337511c90df12a0b0c24a49ba3d7e386f78266690feb6e",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm:issue:68625@e35f7421825d86c836b5214c1f0c7462c0b289f30a8375d58008836e5fcbca7f"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm:pr:30549": {
     "id": "github:vllm-project/vllm:pr:30549",
@@ -184276,10 +184756,10 @@
     },
     "weeks": {
       "2026-W47": {
-        "hash": "5dbe9a2b81905f8d37f7c10bc9f6fc5550c378d13650ecff54eceac3d9ac5237",
+        "hash": "414da2da54ee0b4b8bca0adcae6bd85121c947d224f08b315f902c1f1e82fb9b",
         "selected": false,
         "versions": [
-          "github:vllm-project/vllm:pr:56327@b31528301f8e982a8f8a1df699cbfaceaeac25fd0c76237293b28797c4d88caa"
+          "github:vllm-project/vllm:pr:56327@0dff27c85b2a2858c501748b663958f81803491399bc072bded7dffaa1e8fc77"
         ]
       }
     }
@@ -205918,7 +206398,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "d71338180c9081752aae55614d3ad2dca34d2e73b35bb7f8af7378c00b260f06",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm:pr:63265@4ec119d1dea6dcd35dd8e2bcc084ba21fbbe56f715a03b0ecf9588fb22c10db9"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm:pr:63272": {
     "id": "github:vllm-project/vllm:pr:63272",
@@ -209105,10 +209593,10 @@
     },
     "weeks": {
       "2026-W47": {
-        "hash": "a0dddce27aef2265a85cf6fb68c6ff452d8e2660c60938615346e8f21a2fa122",
+        "hash": "02170313d5787a1d31af1c6de67a8479609284dd74a42359a038ee3f8a975fb0",
         "selected": false,
         "versions": [
-          "github:vllm-project/vllm:pr:63725@3631628721175bf4134ca3448db9d36b5c48293e1d2d1c35425e92513dc0ed69"
+          "github:vllm-project/vllm:pr:63725@a4953835f31037f43cef441bc46f6f851e8c863802f21b54f3d9cab7936307b7"
         ]
       }
     }
@@ -244887,7 +245375,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "b689193edc807efbf56684459384b420c6736c5e69451b0be485f4cebc60f147",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm:pr:66913@2271a9cd1f18a931b5df0174c7c7a503d2dccb011f818be0fed49a1132178327"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm:pr:66914": {
     "id": "github:vllm-project/vllm:pr:66914",
@@ -248326,10 +248822,10 @@
     },
     "weeks": {
       "2026-W47": {
-        "hash": "0dcf295a32eddb36a86ea837d2e919727cb2ccd04cd99718be90d0fa7e3c6afa",
-        "selected": false,
+        "hash": "751e595c10c05d31bb27181b2d120728049388f6d4695477df6b69f2c15efef6",
+        "selected": true,
         "versions": [
-          "github:vllm-project/vllm:pr:67133@120a834bbb8146e6c9266862ede7d59907473950046b4dd1a831e6a43a1b66cf"
+          "github:vllm-project/vllm:pr:67133@9a6d2b6d0802db37c3de81d35d35633cf04825791060f0f6f6ed10a74bed17aa"
         ]
       }
     }
@@ -266779,10 +267275,10 @@
     },
     "weeks": {
       "2026-W47": {
-        "hash": "46de0cdad83c3f9d2313cf09ebe03764a6c38512bd12b86ccb32bbde4d03c4a4",
+        "hash": "0bc3d7e5134f0576d5d3c8b72b5054158d89d53dc86bad78ba8c9962974a3c94",
         "selected": false,
         "versions": [
-          "github:vllm-project/vllm:pr:68348@da3cf820570e992a3d47423ff70fb6b762eb331aa9c8f634396ed56a22bca421"
+          "github:vllm-project/vllm:pr:68348@56a778c5aca406feb7926acc2c2a7d120a2d377c8b5a88ba136825334c100900"
         ]
       }
     }
@@ -270588,10 +271084,10 @@
     },
     "weeks": {
       "2026-W47": {
-        "hash": "4fe7d431ec881690ffd0a25728103bf8abf625de249b6282cc4a1360d800f74d",
+        "hash": "37b237982ce8422cd7bdc85a7fd3e5bc86186db788ac87536b147f8cb08da9ec",
         "selected": false,
         "versions": [
-          "github:vllm-project/vllm:pr:68596@31ed0f6e65f8f585f7ea04df714ef0690fad3a59149c44aabad4311ce64d0413"
+          "github:vllm-project/vllm:pr:68596@d552a88555baa76ccc972ea0fd940d145f88040a95400ff9290338bbe2766e61"
         ]
       }
     }
@@ -270978,7 +271474,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "2a91c727f34c629440ba155581e2623c9baa1dd1b6b8f435da31eb8dd5639e0a",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm:pr:68617@4bc93db350b7816b3b90642dd2fa4436230905fe77377854c1b5f7a60a36c5dc"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm:pr:68620": {
     "id": "github:vllm-project/vllm:pr:68620",
@@ -270998,7 +271502,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "ba12096a0a386c6e07c79f6cafd196ce4b0e0e4ef8dde8649959dfbedc38b245",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm:pr:68620@a1a4527c613e132a8abc97b2f943305e393f96849f1273ebe04ef104cb7c4b94"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm:pr:68621": {
     "id": "github:vllm-project/vllm:pr:68621",
@@ -271018,7 +271530,15 @@
       },
       "verification": []
     },
-    "weeks": {}
+    "weeks": {
+      "2026-W47": {
+        "hash": "1e514fa6dd30948a59c0522e94f52bcf638dbb7b24919c7c03923a46237d14d3",
+        "selected": false,
+        "versions": [
+          "github:vllm-project/vllm:pr:68621@c700e13bc970b6137f5ad4e2ea923204bbdee11c1e4764ebf49a38dce4834e0e"
+        ]
+      }
+    }
   },
   "github:vllm-project/vllm:release:447739190": {
     "id": "github:vllm-project/vllm:release:447739190",
