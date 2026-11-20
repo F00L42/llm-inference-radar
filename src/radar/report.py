@@ -114,7 +114,6 @@ def candidate_works(store, week, start, end, now, keywords):
             "hash": version_hash,
             "first_seen": first_seen,
             "previous": [item for record in previous if (item := qualifying_record(record, keywords))],
-            "status": axes(latest),
             "retained": retained,
             "reviewed": reviewed,
             "carryover": carryover,
@@ -193,9 +192,9 @@ def day(value):
 
 def state_line(status) -> str:
     code = "作者声明已公开" if status["author_code"] else "未知"
-    integration = "，".join(
+    integration = "，".join(dict.fromkeys(
         f"{md(repo)} {md(item['status'])}" for repo, values in status["integration"].items() for item in values
-    ) or "未知"
+    )) or "未知"
     verification = "、".join(sorted({item["status"] for item in status["verification"]})) or "未知"
     return f"作者代码 {code} · 集成 {integration} · 验证 {verification}"
 
@@ -239,21 +238,21 @@ def request_digest(candidates, prompt: Path, backend: str, attempted: set):
         model = os.getenv("RADAR_OPENAI_MODEL")
         if not model:
             raise ModelConfigError("缺少 RADAR_OPENAI_MODEL")
-    offered, work_ids, record_ids = {}, {}, {}
+    offered, model_input, work_ids = {}, {}, {}
     for work_id, item in candidates.items():
         work_ref = f"W{len(work_ids) + 1}"
         work_ids[work_ref] = work_id
-        records = []
-        for record in item["records"]:
-            record_ref = f"R{len(record_ids) + 1}"
-            record_ids[record_ref] = record.key
-            records.append({"id": record_ref, **record_for_model(record)})
-        offered[work_ref] = {"records": records,
-                             "previous": [record_for_model(record) for record in item["previous"]],
-                             "retain": item["retained"], "historical": item["historical"]}
+        texts = [record_for_model(record) for record in item["records"]]
+        model_input[work_ref] = {
+            "records": texts, "previous": [record_for_model(record) for record in item["previous"]],
+            "retain": item["retained"], "historical": item["historical"],
+        }
+        offered[work_ref] = {**model_input[work_ref], "records": [
+            {"id": record.key, **data} for record, data in zip(item["records"], texts, strict=True)
+        ]}
     payload = {"model": model, "messages": [
         {"role": "system", "content": prompt.read_text(encoding="utf-8")},
-        {"role": "user", "content": json.dumps(offered, ensure_ascii=False)},
+        {"role": "user", "content": json.dumps(model_input, ensure_ascii=False)},
     ]}
     if backend == "deepseek":
         payload.update(response_format={"type": "json_object"}, thinking={"type": "disabled"}, max_tokens=4096)
@@ -268,8 +267,7 @@ def request_digest(candidates, prompt: Path, backend: str, attempted: set):
                 raw = json.load(response)
             items = validate_digest(json.loads(raw["choices"][0]["message"]["content"]), offered)
             return [
-                {**item, "works": [work_ids[ref] for ref in item["works"]],
-                 "evidence": [record_ids[ref] for ref in item["evidence"]]}
+                {**item, "works": [work_ids[ref] for ref in item["works"]]}
                 for item in items
             ]
         except (DigestValidationError, json.JSONDecodeError, KeyError, TypeError, IndexError, UnicodeError) as exc:
@@ -278,15 +276,17 @@ def request_digest(candidates, prompt: Path, backend: str, attempted: set):
                 raise DigestValidationError(reason) from exc
             LOG.info("DeepSeek 响应未通过校验（%s），重新请求一次。", reason)
             payload["messages"][0]["content"] += (
-                f"\n前一次响应未通过校验，原因为「{reason}」。重新输出完整 JSON。"
-                "正文五个字段一律使用无阿拉伯数字的表述，并逐字复制 works 和 evidence 中的 ID。"
+                f"\n前一次响应未通过校验，原因为「{reason}」。只返回完整 JSON，优先保证证据引用可核查。"
+                "本次用机制通名，省略型号、版本、数值和倍率。title、change、value、conditions、next_step "
+                "五个字段均不得包含任何阿拉伯数字。只在 works 数组填入原样复制的 Work 编号，不写 evidence。"
+                "四段正文各写一至两句。每项可只选一个主 Work，没有足够证据时减少条目。"
             )
 
 
 def validate_digest(result, offered):
     if not isinstance(result, dict) or not isinstance(items := result.get("items"), list) or len(items) > 5:
         raise DigestValidationError("报告应包含 0–5 个技术点")
-    used = set()
+    used, validated = set(), []
     for item in items:
         if not isinstance(item, dict) or item.get("priority") not in LEVELS:
             raise DigestValidationError("优先级无效")
@@ -298,7 +298,7 @@ def validate_digest(result, offered):
         used.update(works)
         records_by_work = [{record["id"]: record for record in offered[work]["records"]} for work in works]
         records = {key: record for group in records_by_work for key, record in group.items()}
-        evidence = item.get("evidence")
+        evidence = item.get("evidence", list(records))
         if not isinstance(evidence, list) or not evidence or any(not isinstance(key, str) or key not in records for key in evidence) or any(
             not group.keys() & set(evidence) for group in records_by_work
         ):
@@ -308,16 +308,19 @@ def validate_digest(result, offered):
         )))
         for field in ("title", *FIELDS):
             value = item.get(field)
-            if not isinstance(value, str) or not value.strip() or len(value) > (80 if field == "title" else 120) or re.search(r"https?://|www\.|\]\(", value, re.I):
+            if not isinstance(value, str) or not value.strip() or re.search(r"https?://|www\.|\]\(", value, re.I):
                 raise DigestValidationError("正文缺失或包含未授权链接")
+            if len(value) > (80 if field == "title" else 160):
+                raise DigestValidationError("标题或单个正文字段超长")
             if set(NUMBER.findall(value)) - allowed_numbers:
                 raise DigestValidationError("正文包含证据未给出的数字")
         if len("".join(item[field] for field in FIELDS)) > 400:
             raise DigestValidationError("重点正文超过 400 字")
+        validated.append({**item, "evidence": evidence})
     main_works = {item["works"][0] for item in items}
     if any(value["retain"] and key not in main_works for key, value in offered.items()):
         raise DigestValidationError("同周重跑遗漏了已有主 Work")
-    return items
+    return validated
 
 
 def coverage(store, start, end, now, candidates, shown, attempted, assessed, selected):
@@ -401,9 +404,10 @@ def render_weekly(week, candidates, items, stats, reason):
             lines.extend([f"## {priority}", ""])
             for item in section:
                 primary = candidates[item["works"][0]]
+                records = [record for work in item["works"] for record in candidates[work]["records"]
+                           if record.key in item["evidence"]]
                 sources = list(dict.fromkeys(
-                    source for work in item["works"] for record in candidates[work]["records"]
-                    if record.key in item["evidence"] for source in evidence_links(record)
+                    source for record in records for source in evidence_links(record)
                 ))
                 sources = [source for source in sources if len(source.encode("utf-8")) <= 420][:link_limit]
                 if not sources:
@@ -411,13 +415,13 @@ def render_weekly(week, candidates, items, stats, reason):
                 history = " · 历史材料" if primary["historical"] else ""
                 lines.extend([f"### {md(item['title'])}{history}", ""])
                 lines.extend(f"- **{label}**　{md(compact(item[key], text_limit))}" for key, label in FIELDS.items())
-                lines.extend([f"- **状态**　{compact(state_line(primary['status']), state_limit)}",
+                lines.extend([f"- **状态**　{compact(state_line(axes(records)), state_limit)}",
                               f"- **出处**　{'、'.join(sources)}", ""])
         return "\n".join(lines)
 
-    body = render(3, 120, 160)
+    body = render(3, 160, 160)
     if len(body.encode("utf-8")) > WEEKLY_LIMIT:
-        body = render(1, 120, 120)
+        body = render(1, 160, 120)
     if len(body.encode("utf-8")) > WEEKLY_LIMIT:
         body = render(1, 68, 96)
     return body

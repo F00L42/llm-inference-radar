@@ -288,10 +288,9 @@ def test_deepseek_retries_unsupported_number_without_weakening_evidence(config, 
         messages = json.loads(request.data)["messages"]
         offered = json.loads(messages[1]["content"])
         work, candidate = next(iter(offered.items()))
-        evidence = candidate["records"][0]["id"]
-        assert (work, evidence) == ("W1", "R1")
+        assert work == "W1" and "id" not in candidate["records"][0]
         calls.append(messages[0]["content"])
-        item = {"priority": "值得验证", "works": [work], "evidence": [evidence], "title": "并行草稿",
+        item = {"priority": "值得验证", "works": [work], "title": "并行草稿",
                 "change": "本周首次收录", "value": "提升 999 倍" if len(calls) == 1 else "推断可减少解码耗时",
                 "conditions": "详细负载未知", "next_step": "固定输入长度并比较解码耗时"}
         return BytesIO(json.dumps({"choices": [{"message": {"content": json.dumps({"items": [item]})}}]}).encode())
@@ -559,7 +558,8 @@ def test_only_main_work_is_selected_and_cli_emits_one_path(config, tmp_path, mon
     ids = ("arxiv:2601.12345", "arxiv:2601.12346", "arxiv:2601.12347")
     for key in ids:
         add_records(store, Record(key, "paper", "Sparse attention",
-                                  url + key[6:], "example | with\nline breaks", "arxiv", observed_at=iso(NOW)))
+                                  url + key[6:], "example | with\nline breaks", "arxiv", observed_at=iso(NOW),
+                                  upstream={"verification": {"status": "作者报告"}} if key == ids[1] else {}))
     rebuild(store)
     store.save()
 
@@ -567,8 +567,7 @@ def test_only_main_work_is_selected_and_cli_emits_one_path(config, tmp_path, mon
         offered = json.loads(json.loads(request.data)["messages"][1]["content"])
         selected = list(offered)[:2]
         item = {"priority": "值得关注", "works": selected, "title": "稀疏注意力", "change": "新方法",
-                "value": "缓存读取", "conditions": "评测条件未知", "next_step": "检查实现",
-                "evidence": [offered[key]["records"][0]["id"] for key in selected]}
+                "value": "缓存读取", "conditions": "评测条件未知", "next_step": "检查实现"}
         return BytesIO(json.dumps({"choices": [{"message": {"content": json.dumps({"items": [item]})}}]}).encode())
 
     monkeypatch.setenv("RADAR_DEEPSEEK_API_KEY", "test-deepseek-key")
@@ -580,6 +579,7 @@ def test_only_main_work_is_selected_and_cli_emits_one_path(config, tmp_path, mon
     path = out / f"{WEEK}.md"
     assert capsys.readouterr().out.strip() == str(path)
     listing = (out / "candidates" / path.name).read_text(encoding="utf-8")
+    assert "验证 作者报告" in path.read_text(encoding="utf-8")
     assert listing.count("| 已精选 |") == 1 and listing.count("| 送模未选 |") == 2
     assert r"example \| with line breaks" in listing and f"](../{path.name})" in listing
     works = Store(store.path).works
