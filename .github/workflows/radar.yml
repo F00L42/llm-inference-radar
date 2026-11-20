@@ -16,6 +16,9 @@ on:
       lookback_days:
         description: '补采天数，留空按增量采集'
         type: string
+      channels:
+        description: '已启用的渠道 ID，以空格分隔，留空采集全部'
+        type: string
       reopen_closed:
         description: '手动重开当周已关闭且未合并的 PR'
         type: boolean
@@ -39,7 +42,7 @@ jobs:
           printf 'RADAR_DATA=%s\nREPORT_OUT=%s\n' "$RUNNER_TEMP/radar-machine-data" "$RUNNER_TEMP/radar-weekly" >> "$GITHUB_ENV"
       - uses: actions/checkout@v4
         with:
-          ref: main
+          ref: ${{ github.sha }}
           fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
@@ -64,6 +67,7 @@ jobs:
           fi
       - name: Publish initial data branch
         id: initialize
+        if: github.ref == 'refs/heads/main'
         continue-on-error: true
         run: |
           if [[ "$(git -C "$RADAR_DATA" branch --show-current)" == data ]]; then
@@ -73,12 +77,16 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.RADAR_GITHUB_READ_TOKEN || github.token }}
           LOOKBACK_DAYS: ${{ inputs.lookback_days }}
+          CHANNELS: ${{ inputs.channels }}
         run: |
           args=()
           if [[ -n "$LOOKBACK_DAYS" ]]; then args+=(--lookback-days "$LOOKBACK_DAYS"); fi
+          read -r -a channels <<< "$CHANNELS"
+          for channel in "${channels[@]}"; do args+=(--channel "$channel"); done
           radar --data-dir "$RADAR_DATA" collect "${args[@]}"
       - name: Commit machine data
         id: persist
+        if: github.ref == 'refs/heads/main'
         continue-on-error: true
         run: |
           git -C "$RADAR_DATA" add -- state.json records.jsonl works.json
@@ -100,26 +108,35 @@ jobs:
           args=(--previous-week)
           if [[ -n "$WEEK" ]]; then args=(--week "$WEEK"); fi
           report=$(radar --data-dir "$RADAR_DATA" report "${args[@]}" --backend "$RADAR_BACKEND" --output-dir "$REPORT_OUT")
-          echo "file=$(basename "$report")" >> "$GITHUB_OUTPUT"
+          file=$(basename "$report")
+          [[ "$file" =~ ^[0-9]{4}-W[0-9]{2}\.md$ ]]
+          [[ "$report" == "$REPORT_OUT/$file" && -f "$report" && -f "$REPORT_OUT/candidates/$file" ]]
+          grep -Fxq "# LLM 推理技术雷达 · ${file%.md}" "$report"
+          grep -Fxq "# 初筛候选清单 · ${file%.md}" "$REPORT_OUT/candidates/$file"
+          grep -Fxq "[查看本期初筛候选清单](candidates/$file)" "$report"
+          grep -Fxq "[返回本期精简周报](../$file)" "$REPORT_OUT/candidates/$file"
+          echo "file=$file" >> "$GITHUB_OUTPUT"
       - name: Keep report available from the run
         if: steps.report.outcome == 'success'
         uses: actions/upload-artifact@v4
         with:
           name: radar-weekly
-          path: ${{ runner.temp }}/radar-weekly/*.md
+          path: |
+            ${{ runner.temp }}/radar-weekly/${{ steps.report.outputs.file }}
+            ${{ runner.temp }}/radar-weekly/candidates/${{ steps.report.outputs.file }}
           if-no-files-found: error
       - name: Commit weekly selection history
         id: history
-        if: steps.report.outcome == 'success'
+        if: steps.report.outcome == 'success' && github.ref == 'refs/heads/main'
         continue-on-error: true
         run: |
           git -C "$RADAR_DATA" add -- works.json
           if ! git -C "$RADAR_DATA" diff --cached --quiet; then
-            git -C "$RADAR_DATA" commit -m 'Record weekly selections'
+            git -C "$RADAR_DATA" commit -m 'Record radar assessments'
             git -C "$RADAR_DATA" push origin HEAD:refs/heads/data
           fi
       - name: Publish or update weekly draft PR
-        if: steps.report.outcome == 'success'
+        if: steps.report.outcome == 'success' && github.ref == 'refs/heads/main'
         env:
           GH_TOKEN: ${{ github.token }}
           FILE: ${{ steps.report.outputs.file }}
@@ -141,9 +158,10 @@ jobs:
             git fetch origin "refs/heads/$branch"
             git switch --detach FETCH_HEAD
           fi
-          mkdir -p reports/weekly
+          mkdir -p reports/weekly/candidates
           cp -- "$REPORT_OUT/$FILE" "reports/weekly/$FILE"
-          git add -- "reports/weekly/$FILE"
+          cp -- "$REPORT_OUT/candidates/$FILE" "reports/weekly/candidates/$FILE"
+          git add -- "reports/weekly/$FILE" "reports/weekly/candidates/$FILE"
           if ! git diff --cached --quiet; then
             git commit -m "Radar weekly $week"
           fi
