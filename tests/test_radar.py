@@ -398,17 +398,19 @@ def test_clean_filter_and_legacy_replay(config, tmp_path, keywords):
                 issue(7, "Discuss plans", labels=[{"name": "Roadmap"}]),
                 issue(8, "Fix sparse attention", labels=[{"name": "chore"}], body="substantive " * 100),
                 issue(9, "Fix ordering", labels=[{"name": "KV cache"}]),
+                issue(10, "Preserve branch and tail checkpoints",
+                      "Restore recurrent state on the hybrid linear prefill path."),
             ], {}
 
     store = Store(tmp_path / "data")
     store.records[old_noise.key] = old_noise
     collect(config, store, NOW, client=GitHub())
     assert set(pool(store, keywords)) == {
-        f"github:{library}:issue:{number}" for number in (3, 6, 7, 8, 9)
+        f"github:{library}:issue:{number}" for number in (3, 6, 7, 8, 9, 10)
     } | {f"github:{library}:release:8"}
     assert store.records[old_noise.key].summary == old_noise.summary
     assert store.state["github"]["counts"] == {
-        "read": 10, "in_window": 10, "passed": 6, "duplicates": 0, "new": 6, "failed": 0,
+        "read": 11, "in_window": 11, "passed": 7, "duplicates": 0, "new": 7, "failed": 0,
     }
     by_id = {record.id: record for record in store.records.values()}
     assert by_id[f"github:{library}:issue:3"].summary == "We fix KV cache and prefix caching."
@@ -585,3 +587,37 @@ def test_only_main_work_is_selected_and_cli_emits_one_path(config, tmp_path, mon
     works = Store(store.path).works
     assert all(work.get("last_reviewed_hash") for work in works.values())
     assert [key for key in works if works[key].get("last_selected_week") == WEEK] == [ids[0]]
+
+
+def test_deepseek_retry_keeps_all_five_prior_main_works(config, tmp_path, keywords, monkeypatch):
+    store = Store(tmp_path / "data")
+    for number in range(6):
+        base = f"2601.1234{number}"
+        add_records(store, Record(f"arxiv:{base}", "paper", "Sparse attention",
+                                  f"https://arxiv.org/abs/{base}", "A new indexer.",
+                                  "arxiv", revision="v1", observed_at=iso(NOW)))
+    retained = list(pool(store, keywords))[:5]
+    for key in retained:
+        store.works[key]["last_selected_week"] = WEEK
+    monkeypatch.setenv("RADAR_DEEPSEEK_API_KEY", "test-deepseek-key")
+    calls = []
+
+    def complete(request, timeout):
+        messages = json.loads(request.data)["messages"]
+        system = messages[0]["content"]
+        calls.append(system)
+        offered = json.loads(messages[1]["content"])
+        assert [key for key, item in offered.items() if item["retain"]] == [f"W{n}" for n in range(1, 6)]
+        assert 'works 字段依次为 ["W1"]、["W2"]、["W3"]、["W4"]、["W5"]' in system
+        groups = [["W1", "W2"], ["W3"], ["W4"], ["W5"]] if len(calls) == 1 else [
+            [f"W{n}"] for n in range(1, 6)
+        ]
+        items = [{"priority": "值得关注", "works": group, "title": "稀疏注意力", "change": "新方法",
+                  "value": "缓存读取", "conditions": "评测条件未知", "next_step": "检查实现"} for group in groups]
+        return BytesIO(json.dumps({"choices": [{"message": {"content": json.dumps({"items": items})}}]}).encode())
+
+    monkeypatch.setattr("radar.report.urlopen", complete)
+    path = report(store, tmp_path, WEEK, NOW, "deepseek", PROMPT, config)
+    assert len(calls) == 2 and "同周重跑遗漏了已有主 Work（W2）" in calls[1]
+    assert "成功评估 6 · 重点方向 5" in path.read_text(encoding="utf-8")
+    assert [key for key in store.works if store.works[key].get("last_selected_week") == WEEK] == retained

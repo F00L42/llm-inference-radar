@@ -250,8 +250,17 @@ def request_digest(candidates, prompt: Path, backend: str, attempted: set):
         offered[work_ref] = {**model_input[work_ref], "records": [
             {"id": record.key, **data} for record, data in zip(item["records"], texts, strict=True)
         ]}
+    required = [key for key, work in offered.items() if work["retain"]]
+    retention = ""
+    if required:
+        work_fields = "、".join(json.dumps([key]) for key in required)
+        retention = (
+            f"\n本周已有 {len(required)} 个主 Work，必须逐项保留。"
+            f"先分别为这些 Work 写 {len(required)} 条独立方向，works 字段依次为 {work_fields}。"
+            "同周保留优先于选题和合并规则。保留项之间不合并，其余名额再选新方向，总数最多 5 条。"
+        )
     payload = {"model": model, "messages": [
-        {"role": "system", "content": prompt.read_text(encoding="utf-8")},
+        {"role": "system", "content": prompt.read_text(encoding="utf-8") + retention},
         {"role": "user", "content": json.dumps(model_input, ensure_ascii=False)},
     ]}
     if backend == "deepseek":
@@ -280,6 +289,7 @@ def request_digest(candidates, prompt: Path, backend: str, attempted: set):
                 "本次用机制通名，省略型号、版本、数值和倍率。title、change、value、conditions、next_step "
                 "五个字段均不得包含任何阿拉伯数字。只在 works 数组填入原样复制的 Work 编号，不写 evidence。"
                 "四段正文各写一至两句。每项可只选一个主 Work，没有足够证据时减少条目。"
+                + retention
             )
 
 
@@ -318,8 +328,9 @@ def validate_digest(result, offered):
             raise DigestValidationError("重点正文超过 400 字")
         validated.append({**item, "evidence": evidence})
     main_works = {item["works"][0] for item in items}
-    if any(value["retain"] and key not in main_works for key, value in offered.items()):
-        raise DigestValidationError("同周重跑遗漏了已有主 Work")
+    missing = [key for key, value in offered.items() if value["retain"] and key not in main_works]
+    if missing:
+        raise DigestValidationError(f"同周重跑遗漏了已有主 Work（{', '.join(missing)}）")
     return validated
 
 
