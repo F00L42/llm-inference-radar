@@ -1,6 +1,7 @@
 [
   {
     "url": "https://arxiv.org/abs/2605.08632v1",
+    "submitted_at": "2026-05-09T02:50:58Z",
     "accessed": "2026-11-19",
     "title": "PARD-2: Target-Aligned Parallel Draft Model for Dual-Mode Speculative Decoding",
     "excerpt": "Speculative decoding accelerates Large Language Models (LLMs) inference by using a lightweight draft model",
@@ -8,6 +9,7 @@
   },
   {
     "url": "https://arxiv.org/abs/2609.04010v1",
+    "submitted_at": "2026-09-03T15:48:43Z",
     "accessed": "2026-11-19",
     "title": "Unlocking Lossless Speedups in LLMs via Discrete Diffusion",
     "excerpt": "using diffusion to draw multiple tokens in parallel from that distribution.",
@@ -15,6 +17,7 @@
   },
   {
     "url": "https://arxiv.org/abs/2610.13990v1",
+    "submitted_at": "2026-09-26T17:26:54Z",
     "accessed": "2026-11-19",
     "title": "DoSA: Dots Sparse Attention",
     "excerpt": "Sparse attention visits few keys, yet finding them can still require scoring every key with every indexer head.",
