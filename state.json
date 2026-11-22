@@ -1,42 +1,42 @@
 {
   "arxiv": {
-    "cursor": "2026-11-21T07:48:59.976932Z",
+    "cursor": "2026-11-22T07:37:38.058881Z",
     "error": null,
     "failures": 0,
-    "last_attempt": "2026-11-21T07:48:59.976932Z",
-    "last_success": "2026-11-21T07:48:59.976932Z",
-    "window_start": "2026-11-17T07:52:29.250777Z"
+    "last_attempt": "2026-11-22T07:37:38.058881Z",
+    "last_success": "2026-11-22T07:37:38.058881Z",
+    "window_start": "2026-11-18T07:48:59.976932Z"
   },
   "github/sgl-project/sglang": {
-    "cursor": "2026-11-21T07:48:59.976932Z",
+    "cursor": "2026-11-22T07:37:38.058881Z",
     "error": null,
     "failures": 0,
-    "last_attempt": "2026-11-21T07:48:59.976932Z",
-    "last_success": "2026-11-21T07:48:59.976932Z",
-    "window_start": "2026-11-17T07:52:29.250777Z"
+    "last_attempt": "2026-11-22T07:37:38.058881Z",
+    "last_success": "2026-11-22T07:37:38.058881Z",
+    "window_start": "2026-11-18T07:48:59.976932Z"
   },
   "github/vllm-project/vllm": {
-    "cursor": "2026-11-21T07:48:59.976932Z",
+    "cursor": "2026-11-22T07:37:38.058881Z",
     "error": null,
     "failures": 0,
-    "last_attempt": "2026-11-21T07:48:59.976932Z",
-    "last_success": "2026-11-21T07:48:59.976932Z",
-    "window_start": "2026-11-17T07:52:29.250777Z"
+    "last_attempt": "2026-11-22T07:37:38.058881Z",
+    "last_success": "2026-11-22T07:37:38.058881Z",
+    "window_start": "2026-11-18T07:48:59.976932Z"
   },
   "github/vllm-project/vllm-ascend": {
-    "cursor": "2026-11-21T07:48:59.976932Z",
+    "cursor": "2026-11-22T07:37:38.058881Z",
     "error": null,
     "failures": 0,
-    "last_attempt": "2026-11-21T07:48:59.976932Z",
-    "last_success": "2026-11-21T07:48:59.976932Z",
-    "window_start": "2026-11-17T07:52:29.250777Z"
+    "last_attempt": "2026-11-22T07:37:38.058881Z",
+    "last_success": "2026-11-22T07:37:38.058881Z",
+    "window_start": "2026-11-18T07:48:59.976932Z"
   },
   "hf_daily": {
-    "cursor": "2026-11-21T07:48:59.976932Z",
+    "cursor": "2026-11-22T07:37:38.058881Z",
     "error": null,
     "failures": 0,
-    "last_attempt": "2026-11-21T07:48:59.976932Z",
-    "last_success": "2026-11-21T07:48:59.976932Z",
-    "window_start": "2026-11-17T07:52:29.250777Z"
+    "last_attempt": "2026-11-22T07:37:38.058881Z",
+    "last_success": "2026-11-22T07:37:38.058881Z",
+    "window_start": "2026-11-18T07:48:59.976932Z"
   }
 }
