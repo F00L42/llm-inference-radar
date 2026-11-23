@@ -1,42 +1,95 @@
 {
   "arxiv": {
-    "cursor": "2026-11-22T07:37:38.058881Z",
+    "counts": {
+      "duplicates": 24,
+      "failed": 0,
+      "in_window": 56,
+      "new": 27,
+      "passed": 51,
+      "read": 61
+    },
+    "cursor": "2026-11-23T08:31:04.947664Z",
     "error": null,
     "failures": 0,
-    "last_attempt": "2026-11-22T07:37:38.058881Z",
-    "last_success": "2026-11-22T07:37:38.058881Z",
-    "window_start": "2026-11-18T07:48:59.976932Z"
+    "last_attempt": "2026-11-23T08:31:04.947664Z",
+    "last_success": "2026-11-23T08:31:04.947664Z",
+    "window_start": "2026-11-19T07:37:38.058881Z"
   },
   "github/sgl-project/sglang": {
-    "cursor": "2026-11-22T07:37:38.058881Z",
+    "counts": {
+      "duplicates": 1,
+      "failed": 0,
+      "in_window": 2285,
+      "new": 1083,
+      "passed": 1084,
+      "read": 2352
+    },
+    "cursor": "2026-11-23T08:31:04.947664Z",
     "error": null,
     "failures": 0,
-    "last_attempt": "2026-11-22T07:37:38.058881Z",
-    "last_success": "2026-11-22T07:37:38.058881Z",
-    "window_start": "2026-11-18T07:48:59.976932Z"
+    "last_attempt": "2026-11-23T08:31:04.947664Z",
+    "last_success": "2026-11-23T08:31:04.947664Z",
+    "window_start": "2026-11-19T07:37:38.058881Z"
   },
   "github/vllm-project/vllm": {
-    "cursor": "2026-11-22T07:37:38.058881Z",
+    "counts": {
+      "duplicates": 0,
+      "failed": 0,
+      "in_window": 2400,
+      "new": 1386,
+      "passed": 1386,
+      "read": 2510
+    },
+    "cursor": "2026-11-23T08:31:04.947664Z",
     "error": null,
     "failures": 0,
-    "last_attempt": "2026-11-22T07:37:38.058881Z",
-    "last_success": "2026-11-22T07:37:38.058881Z",
-    "window_start": "2026-11-18T07:48:59.976932Z"
+    "last_attempt": "2026-11-23T08:31:04.947664Z",
+    "last_success": "2026-11-23T08:31:04.947664Z",
+    "window_start": "2026-11-19T07:37:38.058881Z"
   },
   "github/vllm-project/vllm-ascend": {
-    "cursor": "2026-11-22T07:37:38.058881Z",
+    "counts": {
+      "duplicates": 0,
+      "failed": 0,
+      "in_window": 1105,
+      "new": 499,
+      "passed": 499,
+      "read": 1165
+    },
+    "cursor": "2026-11-23T08:31:04.947664Z",
     "error": null,
     "failures": 0,
-    "last_attempt": "2026-11-22T07:37:38.058881Z",
-    "last_success": "2026-11-22T07:37:38.058881Z",
-    "window_start": "2026-11-18T07:48:59.976932Z"
+    "last_attempt": "2026-11-23T08:31:04.947664Z",
+    "last_success": "2026-11-23T08:31:04.947664Z",
+    "window_start": "2026-11-19T07:37:38.058881Z"
   },
   "hf_daily": {
-    "cursor": "2026-11-22T07:37:38.058881Z",
+    "counts": {
+      "duplicates": 10,
+      "failed": 0,
+      "in_window": 116,
+      "new": 3,
+      "passed": 13,
+      "read": 116
+    },
+    "cursor": "2026-11-23T08:31:04.947664Z",
     "error": null,
     "failures": 0,
-    "last_attempt": "2026-11-22T07:37:38.058881Z",
-    "last_success": "2026-11-22T07:37:38.058881Z",
-    "window_start": "2026-11-18T07:48:59.976932Z"
+    "last_attempt": "2026-11-23T08:31:04.947664Z",
+    "last_success": "2026-11-23T08:31:04.947664Z",
+    "window_start": "2026-11-19T07:37:38.058881Z"
+  },
+  "manual": {
+    "counts": {
+      "duplicates": 0,
+      "failed": 0,
+      "in_window": 0,
+      "new": 0,
+      "passed": 0,
+      "read": 0
+    },
+    "error": null,
+    "last_attempt": "2026-11-23T08:31:04.947664Z",
+    "window_start": "2026-11-23T08:31:04.947664Z"
   }
 }
