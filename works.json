@@ -1568,6 +1568,7 @@
   },
   "arxiv:2609.39600": {
     "id": "arxiv:2609.39600",
+    "last_reviewed_hash": "0a1008ed3104489a3ad41e9a5b1825786dfbab5640da91fda12788c3091795c4",
     "name": "GroundAnything: Reconciling Parallel Decoding with Precise Visual Grounding at Flash Speed",
     "records": [
       "arxiv:2609.39600@a693aaf1b3ce3796acb03e5636852bffa7d28ffdb8555a75089584ea113431e8"
@@ -1871,6 +1872,7 @@
   },
   "arxiv:2611.02011": {
     "id": "arxiv:2611.02011",
+    "last_reviewed_hash": "f5e25fe7b282e14d198a5fb47ce17f6973f20645d1ddbe8c89b46da40566aac8",
     "name": "MedPsy: State-of-the-Art Small Medical Language Models for Efficient Edge Deployment",
     "records": [
       "arxiv:2611.02011@9636255fba477b2284dd17910814971481ce53d9386b1e042e1c643673bd3882"
@@ -2467,6 +2469,7 @@
   },
   "arxiv:2611.09825": {
     "id": "arxiv:2611.09825",
+    "last_reviewed_hash": "46a244e95e6b5955d64b5e528fa51f25af8cf812505fe37080e3e774106a687a",
     "name": "BitDecoding-FP4: Native FP4 KV Cache Decoding via Algorithm-System Co-Design",
     "records": [
       "arxiv:2611.09825@92fe39f494768da18bd4f57d043310906cbde875fb735b1e7f2eb1247dd53d07",
@@ -3062,6 +3065,7 @@
   },
   "arxiv:2611.12956": {
     "id": "arxiv:2611.12956",
+    "last_reviewed_hash": "8e537673112222d812ad8662c52c5356bcce2b06fc8a7080b5a5af0b53aa4e63",
     "name": "ADIndex: Layer-Adaptive Sparse Attention Indexing via Group-Level Distillation",
     "records": [
       "arxiv:2611.12956@86b58c55e49fa461dd445db245ce29272c0d1846523322739fbc5569c77f0948"
@@ -3175,6 +3179,7 @@
   },
   "arxiv:2611.13442": {
     "id": "arxiv:2611.13442",
+    "last_reviewed_hash": "84fa1da05aea6c178245db52359e3a4847d403ff3bf97b021b9a657bd9aef7bc",
     "name": "ForeSpark: Joint Draft and Verification Budget Scheduling for Parallel Speculative Decoding",
     "records": [
       "arxiv:2611.13442@c2ce8526e1a87e0448011c3688a4e642b19fd0607c2f7282130a96e16804f72d"
@@ -3216,6 +3221,7 @@
   },
   "arxiv:2611.14051": {
     "id": "arxiv:2611.14051",
+    "last_reviewed_hash": "657eebbace9d7ce92a3b894b4b96820d253c271c923e0f7063845072081c26f7",
     "name": "Can KV Cache Be Reused Across Model Updates? A DeepSeek-V4-Flash Case Study",
     "records": [
       "arxiv:2611.14051@efdbce771463a73da1e4f8557ee3a487d2cb0e44c1b055ffc00f7dc9cab97c9e"
@@ -3527,6 +3533,7 @@
   },
   "arxiv:2611.16714": {
     "id": "arxiv:2611.16714",
+    "last_reviewed_hash": "9b8f2e47dc4397b13386d35e584aee4b0f1bdf2048bf60ba357ebbd11927a8e9",
     "name": "Towards Green Text Generation: Memory-Based Speculative Decoding",
     "records": [
       "arxiv:2611.16714@d6f35bd995ab95729645339f6c782943bff94eb1d8da56bab1d2d5aa6b01c764"
@@ -3715,6 +3722,7 @@
   },
   "arxiv:2611.18972": {
     "id": "arxiv:2611.18972",
+    "last_reviewed_hash": "8b966dfa0e600c23ef602280feb3e67fd72a922da399c63e87b858da73700a18",
     "name": "NVFP4-MLA: Unified FP4 KV-Cache Storage and Attention Computation for Multi-Head Latent Attention",
     "records": [
       "arxiv:2611.18972@17d670db7178971fd1052f799989378d21afcc04f172db4248cd959c021168a8"
@@ -3810,6 +3818,7 @@
   },
   "arxiv:2611.19455": {
     "id": "arxiv:2611.19455",
+    "last_reviewed_hash": "116e6402aed70fe367c05887fd88437e45b209dff829aeb9c8137a7c8b0e5415",
     "name": "Text Speeding Itself Up: Recency and Restraint in Session-Local Drafting",
     "records": [
       "arxiv:2611.19455@f39543383d292ec8edceddc84c96c9be3a525e8828573c913a0b88c625d3d14a"
@@ -3911,6 +3920,7 @@
   },
   "arxiv:2611.20095": {
     "id": "arxiv:2611.20095",
+    "last_reviewed_hash": "07442ae8d471f36d2b041dbf3caa477c78fff316a7515db2adab4d351614ec5e",
     "name": "High-Throughput Serving of Nemotron 3.5 Transcribe with Regime-Aware Megakernels and Kernel Fusion",
     "records": [
       "arxiv:2611.20095@d426b51a4e7b18bda28817d902ba8bbb1d2168b590f8472f5e1b5f0a3be6b2a9"
@@ -4027,6 +4037,7 @@
   },
   "arxiv:2611.20565": {
     "id": "arxiv:2611.20565",
+    "last_reviewed_hash": "85f10bedb085df0e7507787e28c9e6caa29115cb96154740430df8aef6122413",
     "name": "Memory-Efficient Speculative Decoding with Quantized Draft KV Cache",
     "records": [
       "arxiv:2611.20565@bd6709e9915048078bca87730ebd60f6fafbbe3d1f5ffe844cfba9531d867635"
@@ -4155,6 +4166,7 @@
   },
   "arxiv:2611.21165": {
     "id": "arxiv:2611.21165",
+    "last_reviewed_hash": "fdda2a74bdabce581afbe8da2ae710b6061dfdae06de5214d4f7cae58e2c5f88",
     "name": "A Matter of Stages: Energy-Latency Trade-offs in Multimodal LLM Serving",
     "records": [
       "arxiv:2611.21165@e7112a86fe7eca394b1affa42c228ac50675387b0b22ee0ac8b1aa730d8e0626"
@@ -4296,6 +4308,7 @@
   },
   "arxiv:2611.21839": {
     "id": "arxiv:2611.21839",
+    "last_reviewed_hash": "a7719ba451d640ea3e821137a9be45d3748a3734ead0df0cdd002d7d9220985b",
     "name": "VisHead-Spec: Head-Routed Visual Attention for Multimodal Speculative Decoding",
     "records": [
       "arxiv:2611.21839@be6dea6f435af8f493d30f22d7093b0406305b8e91c42500d6fc8d2a5d5aea62"
@@ -4479,6 +4492,7 @@
   },
   "arxiv:2611.22296": {
     "id": "arxiv:2611.22296",
+    "last_reviewed_hash": "accb48bc35be2916d6386ca4b354667c93179db78b72b70e678cf7f399fc49cd",
     "name": "SpecSearch: Towards Hardware-Aware Efficient Speculative Decoding",
     "records": [
       "arxiv:2611.22296@3066faacf4c1a2338d1421862fe9700563f37fc939624c674d1c594e97f27149"
@@ -4636,6 +4650,7 @@
   },
   "arxiv:2611.23463": {
     "id": "arxiv:2611.23463",
+    "last_reviewed_hash": "8d2a08932692eedde0ba9fe92673d5dd4bf0be6b168ba3ee6cc69930572377ce",
     "name": "FACT: Fixed-Budget Allocation and Cross-Step Training for Speculative Decoding",
     "records": [
       "arxiv:2611.23463@2224fdd0bca04b5c27626f02b66dd9326c77233ee95b71b65c9c109ac81a2f22"
@@ -4701,6 +4716,7 @@
   },
   "arxiv:2611.23807": {
     "id": "arxiv:2611.23807",
+    "last_reviewed_hash": "a5823da43d9c423491450413b3cd24f2c284fffc9287fb6b2b9a41e3dff22d9a",
     "name": "Sightline: Long-Window Speculative Decoding for Fast SVG Generation",
     "records": [
       "arxiv:2611.23807@be015fcc867b62ad62180d29890fe55c44f8cb367f27b3a978e9bc719b5b7cd1"
@@ -4815,6 +4831,7 @@
   },
   "arxiv:2611.24496": {
     "id": "arxiv:2611.24496",
+    "last_reviewed_hash": "c4126d26cb7f5ac7ba6598a99f7c87db64246be91952a6a40c6fed3dc45a7b50",
     "name": "Harvesting Expert-Parallel Bubbles for Fine-Tuning",
     "records": [
       "arxiv:2611.24496@ff791a3963ba5a8710ffbfd42e91b6c7f5a190b377a1f53c9d8edc1719348ab6"
@@ -5086,6 +5103,7 @@
   },
   "arxiv:2611.26334": {
     "id": "arxiv:2611.26334",
+    "last_reviewed_hash": "4bd7a4e6fe4660d054b870a8db60686da3a330fbe453f10e3d38e38dee248d5c",
     "name": "Online Temporal Rotations for 2 Bit KV-Cache Quantization in Video Diffusion Transformers",
     "records": [
       "arxiv:2611.26334@57e9818afa166148764af8173dd32e9431632d8b206d5df1833f6d0eecb05c0a"
@@ -35737,6 +35755,7 @@
   },
   "github:sgl-project/sglang:pr:45711": {
     "id": "github:sgl-project/sglang:pr:45711",
+    "last_reviewed_hash": "08402855a221f8de8fa2470bb9e87204e683d1387eada0ce3cab9d2ea642fc22",
     "name": "[Feat] GLM-5.2: Support NVFP4 KV cache with DSA layer split",
     "records": [
       "github:sgl-project/sglang:pr:45711@14625c354502f930d64ee08c2b6e33c46d6317bef2de68d5803c078c3816a274"
@@ -39826,6 +39845,7 @@
   },
   "github:sgl-project/sglang:pr:46784": {
     "id": "github:sgl-project/sglang:pr:46784",
+    "last_reviewed_hash": "cc203ac7a3b85567146116f68bf223f76962b94fc0879e875ad7e239ec496762",
     "name": "[Perf] speculative: Fill the DSA MTP draft's prefill KV cache without attention for all but the last token",
     "records": [
       "github:sgl-project/sglang:pr:46784@dc346c9b0f66abb37b8efb731a9a7d489f9e6c642c2892530e7eaa7a291896e1",
@@ -82590,7 +82610,7 @@
   },
   "github:sgl-project/sglang:pr:51488": {
     "id": "github:sgl-project/sglang:pr:51488",
-    "last_reviewed_hash": "d937dfce6d6da6f9967530709c50e098621bff181b4f7abe9175b0e4444ebc53",
+    "last_reviewed_hash": "9671c95dbcf44223ced75b4f77a416b820e8fa7318fa78acfae9c9568c61b77d",
     "last_selected_week": "2026-W47",
     "name": "[Feat] mem_cache: preserve branch and tail checkpoints for hybrid Linear reuse",
     "records": [
@@ -103447,7 +103467,7 @@
   },
   "github:vllm-project/vllm-ascend:pr:19284": {
     "id": "github:vllm-project/vllm-ascend:pr:19284",
-    "last_reviewed_hash": "aad53c39c360b96ddd09ab989796ba9be8e3a44b6b4b973c9cefede4adfdc446",
+    "last_reviewed_hash": "e678fb5e5c9d53fe0762ba19fa1f6611aa85d40c872a37eb25d3907506e39552",
     "last_selected_week": "2026-W47",
     "name": "[Feature][Model] Enable DeepSeek V4.1 MRV2 PP with arbitrary layer partitions",
     "records": [
@@ -117348,6 +117368,7 @@
   },
   "github:vllm-project/vllm-ascend:pr:21833": {
     "id": "github:vllm-project/vllm-ascend:pr:21833",
+    "last_reviewed_hash": "b53d6d462ea6d3a81e3f7d23bad35cb693e3a3c82145421f4a18cd591eb30431",
     "name": "[Feature] Add dynamic token deferral, state restoration and rebatching for MoE decoding",
     "records": [
       "github:vllm-project/vllm-ascend:pr:21833@3b4fbde72d70cccee120635a6f11df8f5646502e63286a29d1de95162508a92f"
@@ -117877,6 +117898,7 @@
   },
   "github:vllm-project/vllm-ascend:pr:21892": {
     "id": "github:vllm-project/vllm-ascend:pr:21892",
+    "last_reviewed_hash": "e3807d7c7f9ffb7010a237914b13e21425c4be4e753c04ab33f2b2d9e84b4f4b",
     "name": "[Feature] Support HiSparse with PCP decode request sharding",
     "records": [
       "github:vllm-project/vllm-ascend:pr:21892@19c954fd2465c1e3094735a61f169080e47f11d0394d3270d1c13f85eafc6d27",
@@ -125848,6 +125870,7 @@
   },
   "github:vllm-project/vllm-ascend:pr:22742": {
     "id": "github:vllm-project/vllm-ascend:pr:22742",
+    "last_reviewed_hash": "404c8ad547f707b0005d1db48719f6d962f769195a5e1abbf6fbcf4a36b65e05",
     "name": "[Feature][KV Pool] Enable prefill KV offload for GLM-5.3",
     "records": [
       "github:vllm-project/vllm-ascend:pr:22742@8aa2367e020ad09fe75959ae54093bca125181c2e091b8dd3b099460a5b05df6",
@@ -150033,6 +150056,7 @@
   },
   "github:vllm-project/vllm:pr:52472": {
     "id": "github:vllm-project/vllm:pr:52472",
+    "last_reviewed_hash": "81531883fbbb058f6cdd7f2e1e8b65aa8af20189f81bd3ba74a37a364d89adc6",
     "name": "[Attention][MLA] Add GLM-5.2 TurboQuant sparse backend with DCP/MTP",
     "records": [
       "github:vllm-project/vllm:pr:52472@05e2834201b8f827d85a2ff9306afbfa37655594efb4421633d95b904a674aa9",
@@ -201931,6 +201955,7 @@
   },
   "github:vllm-project/vllm:pr:67284": {
     "id": "github:vllm-project/vllm:pr:67284",
+    "last_reviewed_hash": "a20ad8eaa3eace0ec1bebaf079cef2205cd513395c186595b0c795c97971a6e7",
     "name": "[Perf][KV Connector] Serve Mooncake store lookups in parallel",
     "records": [
       "github:vllm-project/vllm:pr:67284@d73ca87475775ce223abc9192e59b073357cef822a2188ee144d048084d57c6f"
