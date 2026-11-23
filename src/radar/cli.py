@@ -43,6 +43,7 @@ def main(argv=None):
     commands = parser.add_subparsers(dest="command", required=True)
     run = commands.add_parser("collect")
     run.add_argument("--lookback-days", type=positive_int)
+    run.add_argument("--channel", action="append", default=[], help="仅采集指定已启用渠道，可重复")
     weekly = commands.add_parser("report")
     dates = weekly.add_mutually_exclusive_group()
     dates.add_argument("--week")
@@ -61,12 +62,12 @@ def main(argv=None):
         if args.command == "add":
             add_lead(args.config_dir / "leads.yaml", args.url, args.note, args.excerpt)
         elif args.command == "collect":
-            stats = collect(args.config_dir, Store(args.data_dir), now, args.lookback_days)
+            stats = collect(args.config_dir, Store(args.data_dir), now, args.lookback_days, channels=args.channel)
             print(f"本轮新增 {sum(stats.values())} 条记录。")
         else:
             current_start, _ = week_bounds(week_id(now))
             week = week_id(current_start - timedelta(days=1)) if args.previous_week else args.week or week_id(now)
-            print(report(Store(args.data_dir), args.output_dir, week, now, args.backend, args.prompt))
+            print(report(Store(args.data_dir), args.output_dir, week, now, args.backend, args.prompt, args.config_dir))
     except (OSError, ValueError, KeyError, yaml.YAMLError) as exc:
         print(f"radar: {exc}", file=sys.stderr)
         return 1

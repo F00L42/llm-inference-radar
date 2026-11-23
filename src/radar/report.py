@@ -6,25 +6,43 @@ import json
 import logging
 import os
 import re
+from collections import Counter
 from datetime import datetime, timedelta
-from difflib import get_close_matches
 from http.client import HTTPException
 from pathlib import Path
+from urllib.error import HTTPError
 from urllib.request import Request, urlopen
 
-from .collectors import SHANGHAI
-from .models import Store, atomic_write, compact, digest, timestamp, web_url
-from .pipeline import axes, latest_records, rebuild, substantive
+from .collectors import ROADMAP, SHANGHAI
+from .models import Keywords, Store, atomic_write, compact, digest, timestamp, web_url, yaml_read
+from .pipeline import PAPER_KINDS, STAT_KEYS, axes, content_version, latest_records, qualifying_record, rebuild, substantive
 
 LOG = logging.getLogger(__name__)
 LEVELS = ("值得验证", "值得关注", "暂缓")
 FIELDS = {"change": "新变化", "value": "价值", "conditions": "适用条件与证据", "next_step": "下一步"}
 NUMBER = re.compile(r"\d+(?:[.,]\d+)*")
-CANDIDATE_PREVIEW = 12
+MODEL_LIMIT = 30
+REPO_LIMIT = 5
+DISPLAY_LIMIT = 500
+WEEKLY_LIMIT = 12 * 1024
+REVIEW_WINDOW = timedelta(days=14)
+GROUPS = {"manual": "人工线索", "paper": "论文", "engineering": "工程"}
+KIND_ORDER = {"paper": 0, "paper_listing": 1, "release": 2, "pr": 3, "issue": 4, "lead": 5}
+CORE = {"投机、并行与扩散生成", "稀疏注意力与索引器", "KV、调度与 P/D 分离", "量化、Kernel 与编译"}
+MEASURED = re.compile(r"\b(?:p\d{2}|ttft|tpot|latency|throughput|tokens/s|speedup|ablation|benchmarks?)\b", re.I)
+MECHANISM = re.compile(r"\b(?:algorithm|mechanism|fused?|pipeline|parallel|overlap|prefetch|reuse|evict|graph capture|draft)\b", re.I)
+SYSTEM_CONDITIONS = re.compile(r"\b(?:batch(?:ing|es)?|concurrency|workloads?|context length)\b", re.I)
+HARDWARE = re.compile(r"\b(?:GPUs?|NPUs?|accelerators?|A\d{2,3}|H\d{2,3})\b", re.I)
+MAINTENANCE = re.compile(r"\b(?:bump|typo|docs?|lint|refactor|deprecat\w*|migration|upgrade|rename|install)\b", re.I)
+TEST_ONLY = re.compile(r"\[(?:ci|nightly|test|doc)\]|\b(?:nightly|test case|test coverage|failure tracker)\b", re.I)
 
 
 class DigestValidationError(ValueError):
     """The model response did not meet the report's evidence rules."""
+
+
+class ModelConfigError(ValueError):
+    """Required model settings are missing or invalid."""
 
 
 def week_id(moment: datetime) -> str:
@@ -44,41 +62,109 @@ def is_visible(record, end, now):
     return seen is not None and seen < end and seen <= now
 
 
-def candidate_works(store, week, start, end, now):
+def relevance(record, tags, keywords):
+    # Specific mechanism and measurement signals outweigh routine repository activity.
+    repo = record.upstream.get("repo")
+    text = record.title + " " + record.summary
+    title_tags = keywords.tags(record.title) if record.kind in PAPER_KINDS else []
+    score = 2 * len(tags & CORE) + len(tags - CORE) + 2 * len(set(title_tags) & CORE)
+    score += 3 * bool(MECHANISM.search(text))
+    score += 2 * bool(MEASURED.search(text)) + 2 * bool(MEASURED.search(text) and re.search(r"\d", text))
+    score += 2 * bool(record.upstream.get("verification") and SYSTEM_CONDITIONS.search(text) and HARDWARE.search(text))
+    score += 2 * bool(repo == "vllm-project/vllm-ascend" and tags and MECHANISM.search(text))
+    if record.kind not in PAPER_KINDS:
+        score += int(record.kind in {"pr", "release"} or bool(ROADMAP.search(record.title)))
+        score -= 4 * bool(MAINTENANCE.search(record.title))
+        score -= 9 * bool(TEST_ONLY.search(record.title) and not MEASURED.search(record.title))
+    return score
+
+
+def candidate_works(store, week, start, end, now, keywords):
     candidates = {}
     for work_id, work in store.works.items():
         records = [store.records[key] for key in work["records"] if is_visible(store.records[key], end, now)]
-        if not records:
+        latest = [qualified for record in latest_records(records) if (qualified := qualifying_record(record, keywords))]
+        if not latest:
             continue
-        latest = latest_records(records)
-        meaningful = substantive(latest)
-        versions = sorted(record.key for record in meaningful)
-        weeks = work["weeks"]
-        earlier = [(date, entry) for date, entry in weeks.items() if date < week]
-        previous = max(earlier, default=(None, {}))[1]
-        if week not in weeks:
-            if versions == previous.get("versions") or not any(timestamp(record.observed_at) >= start for record in meaningful):
-                continue
-        priority = {"paper": 0, "paper_listing": 1, "pr": 2, "release": 3, "issue": 4, "lead": 5}
-        latest.sort(key=lambda record: (priority[record.kind], record.id))
+        latest.sort(key=lambda record: (KIND_ORDER[record.kind], record.id))
         primary = latest[0]
-        old_paper = primary.kind == "paper" and primary.published_at and timestamp(primary.published_at) < start
+        meaningful = substantive(latest)
+        versions = {content_version(record): timestamp(record.observed_at) for record in meaningful}
+        for record in records:
+            version = content_version(record)
+            if version in versions:
+                versions[version] = min(versions[version], timestamp(record.observed_at))
+        version_hash = digest(sorted(versions))
+        first_seen = max(versions.values())
+        retained = work.get("last_selected_week") == week
+        reviewed = version_hash == work.get("last_reviewed_hash")
+        carryover = first_seen < start and now - first_seen <= REVIEW_WINDOW
+        if not retained and first_seen < start and (reviewed or not carryover):
+            continue
+        previous = [record for record in latest_records(
+            record for record in records if timestamp(record.observed_at) < first_seen
+        ) if content_version(record) not in versions]
+        tags = {tag for record in latest for tag in record.tags}
+        group = "manual" if any(record.kind == "lead" for record in latest) else (
+            "paper" if primary.kind in PAPER_KINDS else "engineering"
+        )
         candidates[work_id] = {
             "primary": primary,
             "records": latest,
-            "versions": versions,
-            "previous": [store.records[key] for key in previous.get("versions", []) if key in store.records],
-            "status": axes(latest),
-            "retained": weeks.get(week, {}).get("selected", False),
-            "historical": bool(old_paper and not previous),
+            "hash": version_hash,
+            "first_seen": first_seen,
+            "previous": [item for record in previous if (item := qualifying_record(record, keywords))],
+            "retained": retained,
+            "reviewed": reviewed,
+            "carryover": carryover,
+            "group": group,
+            "tags": tags,
+            "repo": primary.upstream.get("repo"),
+            "score": relevance(primary, tags, keywords),
+            "historical": primary.kind in PAPER_KINDS and bool(primary.published_at and timestamp(primary.published_at) < start),
         }
     return dict(sorted(candidates.items(), key=lambda pair: (
-        not pair[1]["retained"],
-        not bool(pair[1]["previous"]),
-        pair[1]["primary"].kind == "lead",
-        -max(record.updated.timestamp() for record in pair[1]["records"]),
+        -pair[1]["score"],
+        -pair[1]["primary"].updated.timestamp(),
         pair[0],
     )))
+
+
+def select_candidates(candidates):
+    selected, reasons = {}, {}
+    repos, buckets = Counter(), Counter()
+    eligible = {key: item for key, item in candidates.items() if item["retained"] or not item["reviewed"]}
+
+    def add(key, bucket, reason):
+        item = selected[key] = eligible.pop(key)
+        if item["repo"]:
+            repos[item["repo"]] += 1
+        buckets[bucket] += 1
+        reasons[key] = reason
+
+    def fill(bucket, limit, reason, predicate, *, relax=False, carryover=False):
+        while len(selected) < MODEL_LIMIT and buckets[bucket] < limit:
+            options = [key for key, item in eligible.items() if predicate(item) and
+                       (relax or repos[item["repo"]] < REPO_LIMIT)]
+            if not options:
+                break
+            # Relevance order breaks ties across repositories with equal representation.
+            key = min(options, key=lambda key: (carryover and not eligible[key]["carryover"],
+                                               repos[eligible[key]["repo"]]))
+            add(key, bucket, reason)
+
+    for key, item in list(eligible.items()):
+        if item["retained"] and len(selected) < MODEL_LIMIT:
+            add(key, item["group"], "同周保留")
+    fill("manual", 4, "人工线索", lambda item: item["group"] == "manual")
+    fill("paper", 14, "论文名额", lambda item: item["group"] == "paper")
+    fill("engineering", 12, "工程名额", lambda item: item["group"] == "engineering")
+    fill("manual", 4, "待评估名额", lambda item: True, carryover=True)
+    fill("borrow", MODEL_LIMIT, "空缺互借", lambda item: True)
+    if eligible and len(selected) < MODEL_LIMIT:
+        LOG.info("送模仍有 %d 个空位，所有剩余门槛内候选均受仓库软上限限制，放宽单仓上限。", MODEL_LIMIT - len(selected))
+        fill("borrow", MODEL_LIMIT, "无其他候选可填，放宽仓库上限", lambda item: True, relax=True)
+    return selected, reasons
 
 
 def md(value: str) -> str:
@@ -106,34 +192,26 @@ def day(value):
 
 def state_line(status) -> str:
     code = "作者声明已公开" if status["author_code"] else "未知"
-    integration = "，".join(
+    integration = "，".join(dict.fromkeys(
         f"{md(repo)} {md(item['status'])}" for repo, values in status["integration"].items() for item in values
-    ) or "未知"
+    )) or "未知"
     verification = "、".join(sorted({item["status"] for item in status["verification"]})) or "未知"
     return f"作者代码 {code} · 集成 {integration} · 验证 {verification}"
 
 
-def candidate_line(candidate) -> str:
+def candidate_row(candidate, status):
     primary = candidate["primary"]
-    observed = primary.observed_at
-    tags = " / ".join(sorted({tag for record in candidate["records"] for tag in record.tags})) or "未标注"
-    history = " · 本周发现的历史工作" if candidate["historical"] else ""
-    if primary.kind == "paper":
-        revised = day(primary.updated_at) if primary.revision != "v1" else "—"
-        dates = f"首次提交 {day(primary.published_at)} · 修订 {revised}"
-    elif primary.kind == "paper_listing":
-        dates = f"HF 标注的论文日期 {day(primary.published_at)} · 首次提交、修订待 arXiv 核对"
-    else:
-        dates = f"发布或创建 {day(primary.published_at)} · 上游更新 {day(primary.updated_at)}"
-    sources = dict.fromkeys(entry for record in candidate["records"] for entry in evidence_links(record)[
-        1 if record.key == primary.key else 0:
-    ])
-    source_text = f" · {'、'.join(sources)}" if sources else ""
-    return (
-        f"- {link(primary.title, primary.url)}{(' · ' + md(primary.revision)) if primary.revision else ''}{history}\n"
-        f"  - {dates} · 首次发现当前所列版本 {day(observed)} · {tags}\n"
-        f"  - {state_line(candidate['status'])}{source_text}"
-    )
+    sources = " / ".join(dict.fromkeys(
+        record.upstream.get("repo") or {"arxiv": "arXiv", "hf_daily": "HF Daily Papers", "manual": "人工线索"}.get(
+            record.channel, record.channel
+        ) for record in candidate["records"]
+    ))
+    tags = " / ".join(sorted(candidate["tags"])) or "—"
+    dates = f"发布/创建 {day(primary.published_at)} · 发现 {day(candidate['first_seen'].isoformat())}"
+    if listed := primary.upstream.get("listed_on"):
+        dates += f" · HF 收录 {listed}"
+    summary = compact(primary.summary, 120) or "—"
+    return f"| {status} | {md(sources)} | {link(primary.title, primary.url)} | {md(tags)} | {dates} | {md(summary)} |"
 
 
 def record_for_model(record):
@@ -145,33 +223,45 @@ def record_for_model(record):
             "verification": record.upstream.get("verification", {}).get("status")}
 
 
-def request_digest(candidates, prompt: Path, backend: str):
+def request_digest(candidates, prompt: Path, backend: str, attempted: set):
     key_name = "RADAR_DEEPSEEK_API_KEY" if backend == "deepseek" else "RADAR_OPENAI_API_KEY"
     key = os.getenv(key_name, "").strip()
     if not key:
-        raise ValueError(f"缺少 {key_name}")
+        raise ModelConfigError(f"缺少 {key_name}")
     if backend == "deepseek":
         base, model = "https://api.deepseek.com", "deepseek-flash"
     else:
-        base = web_url(os.getenv("RADAR_OPENAI_BASE_URL", "https://api.openai.com/v1")).rstrip("/")
+        try:
+            base = web_url(os.getenv("RADAR_OPENAI_BASE_URL", "https://api.openai.com/v1")).rstrip("/")
+        except ValueError as exc:
+            raise ModelConfigError("RADAR_OPENAI_BASE_URL 无效") from exc
         model = os.getenv("RADAR_OPENAI_MODEL")
         if not model:
-            raise ValueError("缺少 RADAR_OPENAI_MODEL")
-    offered, work_ids, record_ids = {}, {}, {}
-    for work_id, item in list(candidates.items())[:30]:
+            raise ModelConfigError("缺少 RADAR_OPENAI_MODEL")
+    offered, model_input, work_ids = {}, {}, {}
+    for work_id, item in candidates.items():
         work_ref = f"W{len(work_ids) + 1}"
         work_ids[work_ref] = work_id
-        records = []
-        for record in item["records"]:
-            record_ref = f"R{len(record_ids) + 1}"
-            record_ids[record_ref] = record.key
-            records.append({"id": record_ref, **record_for_model(record)})
-        offered[work_ref] = {"records": records,
-                             "previous": [record_for_model(record) for record in item["previous"]],
-                             "retain": item["retained"], "historical": item["historical"]}
+        texts = [record_for_model(record) for record in item["records"]]
+        model_input[work_ref] = {
+            "records": texts, "previous": [record_for_model(record) for record in item["previous"]],
+            "retain": item["retained"], "historical": item["historical"],
+        }
+        offered[work_ref] = {**model_input[work_ref], "records": [
+            {"id": record.key, **data} for record, data in zip(item["records"], texts, strict=True)
+        ]}
+    required = [key for key, work in offered.items() if work["retain"]]
+    retention = ""
+    if required:
+        work_fields = "、".join(json.dumps([key]) for key in required)
+        retention = (
+            f"\n本周已有 {len(required)} 个主 Work，必须逐项保留。"
+            f"先分别为这些 Work 写 {len(required)} 条独立方向，works 字段依次为 {work_fields}。"
+            "同周保留优先于选题和合并规则。保留项之间不合并，其余名额再选新方向，总数最多 5 条。"
+        )
     payload = {"model": model, "messages": [
-        {"role": "system", "content": prompt.read_text(encoding="utf-8")},
-        {"role": "user", "content": json.dumps(offered, ensure_ascii=False)},
+        {"role": "system", "content": prompt.read_text(encoding="utf-8") + retention},
+        {"role": "user", "content": json.dumps(model_input, ensure_ascii=False)},
     ]}
     if backend == "deepseek":
         payload.update(response_format={"type": "json_object"}, thinking={"type": "disabled"}, max_tokens=4096)
@@ -181,42 +271,45 @@ def request_digest(candidates, prompt: Path, backend: str):
                           headers={"Content-Type": "application/json"})
         request.add_unredirected_header("Authorization", f"Bearer {key}")
         try:
+            attempted.update(candidates)
             with urlopen(request, timeout=timeout) as response:
                 raw = json.load(response)
             items = validate_digest(json.loads(raw["choices"][0]["message"]["content"]), offered)
             return [
-                {**item, "works": [work_ids[ref] for ref in item["works"]],
-                 "evidence": [record_ids[ref] for ref in item["evidence"]]}
+                {**item, "works": [work_ids[ref] for ref in item["works"]]}
                 for item in items
             ]
-        except (DigestValidationError, json.JSONDecodeError) as exc:
+        except (DigestValidationError, json.JSONDecodeError, KeyError, TypeError, IndexError, UnicodeError) as exc:
+            reason = str(exc) if isinstance(exc, DigestValidationError) else "响应不是有效的综合 JSON"
             if attempt + 1 == attempts:
-                raise
-            reason = str(exc) if isinstance(exc, DigestValidationError) else "响应不是有效 JSON"
+                raise DigestValidationError(reason) from exc
             LOG.info("DeepSeek 响应未通过校验（%s），重新请求一次。", reason)
             payload["messages"][0]["content"] += (
-                f"\n前一次响应未通过校验，原因为「{reason}」。重新输出完整 JSON。"
-                "正文五个字段一律使用无阿拉伯数字的表述，并逐字复制 works 和 evidence 中的 ID。"
+                f"\n前一次响应未通过校验，原因为「{reason}」。只返回完整 JSON，优先保证证据引用可核查。"
+                "本次用机制通名，省略型号、版本、数值和倍率。title、change、value、conditions、next_step "
+                "五个字段均不得包含任何阿拉伯数字。只在 works 数组填入原样复制的 Work 编号，不写 evidence。"
+                "四段正文各写一至两句。每项可只选一个主 Work，没有足够证据时减少条目。"
+                + retention
             )
 
 
 def validate_digest(result, offered):
     if not isinstance(result, dict) or not isinstance(items := result.get("items"), list) or len(items) > 5:
         raise DigestValidationError("报告应包含 0–5 个技术点")
-    used = set()
+    used, validated = set(), []
     for item in items:
         if not isinstance(item, dict) or item.get("priority") not in LEVELS:
             raise DigestValidationError("优先级无效")
         works = item.get("works")
-        if not isinstance(works, list) or not works or len(works) != len(set(works)) or any(
+        if not isinstance(works, list) or not works or not all(isinstance(key, str) for key in works) or len(works) != len(set(works)) or any(
             work in used or work not in offered for work in works
         ):
             raise DigestValidationError("Work 引用无效或重复")
         used.update(works)
         records_by_work = [{record["id"]: record for record in offered[work]["records"]} for work in works]
         records = {key: record for group in records_by_work for key, record in group.items()}
-        evidence = item.get("evidence")
-        if not isinstance(evidence, list) or not evidence or any(key not in records for key in evidence) or any(
+        evidence = item.get("evidence", list(records))
+        if not isinstance(evidence, list) or not evidence or any(not isinstance(key, str) or key not in records for key in evidence) or any(
             not group.keys() & set(evidence) for group in records_by_work
         ):
             raise DigestValidationError("证据引用无效")
@@ -225,108 +318,164 @@ def validate_digest(result, offered):
         )))
         for field in ("title", *FIELDS):
             value = item.get(field)
-            if not isinstance(value, str) or not value.strip() or len(value) > 450 or re.search(r"https?://|www\.|\]\(", value, re.I):
+            if not isinstance(value, str) or not value.strip() or re.search(r"https?://|www\.|\]\(", value, re.I):
                 raise DigestValidationError("正文缺失或包含未授权链接")
+            if len(value) > (80 if field == "title" else 160):
+                raise DigestValidationError("标题或单个正文字段超长")
             if set(NUMBER.findall(value)) - allowed_numbers:
                 raise DigestValidationError("正文包含证据未给出的数字")
-    if any(value["retain"] and key not in used for key, value in offered.items()):
-        raise DigestValidationError("同周重跑遗漏了已有入选项")
-    return items
+        if len("".join(item[field] for field in FIELDS)) > 400:
+            raise DigestValidationError("重点正文超过 400 字")
+        validated.append({**item, "evidence": evidence})
+    main_works = {item["works"][0] for item in items}
+    missing = [key for key, value in offered.items() if value["retain"] and key not in main_works]
+    if missing:
+        raise DigestValidationError(f"同周重跑遗漏了已有主 Work（{', '.join(missing)}）")
+    return validated
 
 
-def report(store: Store, target: Path, week: str, now: datetime, backend: str, prompt: Path):
+def coverage(store, start, end, now, candidates, shown, attempted, assessed, selected):
+    eligible = {
+        channel: state for channel, state in store.state.items()
+        if (window := timestamp(state.get("window_start"))) is not None and window < end
+        and start <= timestamp(state["last_attempt"]) <= now
+    }
+    latest = max((state["last_attempt"] for state in eligible.values()), default=None)
+    batch = {channel: state for channel, state in eligible.items() if state["last_attempt"] == latest}
+    failures = [f"{md(channel)}（{md(state['error'])}）" for channel, state in batch.items() if state.get("error")]
+    counts = Counter()
+    for state in batch.values():
+        counts.update(state.get("counts", {}))
+    details = (
+        "最近一次相关采集"
+        f"（{day(latest)}，{'、'.join(md(channel) for channel in batch)}）"
+        f"　读取 {counts['read']} · 窗口内 {counts['in_window']} · 通过 {counts['passed']}"
+        f" · 重复 {counts['duplicates']} · 新增 {counts['new']} · 失败 {counts['failed']}"
+        if counts else "最近一次相关采集的分项统计不可用。"
+    )
+    related = f"失败渠道　{'、'.join(failures)}" if failures else "最近一次相关采集未记录失败渠道。" if batch else ""
+    lines = [
+        f"本期（上海时间）　{start:%Y-%m-%d} 至 {min(end - timedelta(microseconds=1), now).astimezone(SHANGHAI):%Y-%m-%d}",
+        f"本期覆盖　合格 Work {len(candidates)} · 清单 {len(shown)} · 省略 {len(candidates) - len(shown)}"
+        f" · 请求输入 {len(attempted)} · 成功评估 {assessed} · 重点方向 {len(selected)} · 主 Work {len(selected)}",
+        details,
+    ]
+    if related:
+        lines.append(related)
+    return "\n\n".join(lines)
+
+
+def display_candidates(candidates, attempted):
+    if len(candidates) <= DISPLAY_LIMIT:
+        return candidates
+    pinned = set(attempted)
+    remaining = [key for key in candidates if key not in pinned]
+    show = pinned | set(remaining[:DISPLAY_LIMIT - len(pinned)])
+    return {key: item for key, item in candidates.items() if key in show}
+
+
+def render_candidates(week, shown, attempted, selected, items, stats, total):
+    lines = [f"# 初筛候选清单 · {week}", "", f"[返回本期精简周报](../{week}.md)", "", stats, ""]
+    if total > DISPLAY_LIMIT:
+        lines.extend([f"**本期触发防爆截断，请检查过滤规则。** 合格 {total}，展示 {len(shown)}，省略 {total - len(shown)}。", ""])
+    if attempted and items is None:
+        lines.extend(["**本次综合未完成，已送模条目尚未形成有效取舍。**", ""])
+    for group, label in GROUPS.items():
+        lines.extend([f"## {label}", "",
+                      "| 漏斗状态 | 来源 | 标题与链接 | 机制标签 | 发布/发现日 | 清洗摘要 |",
+                      "| --- | --- | --- | --- | --- | --- |"])
+        for key, candidate in shown.items():
+            if candidate["group"] != group:
+                continue
+            if key in selected or (candidate["retained"] and candidate["reviewed"]):
+                status = "已精选"
+            elif key in attempted or candidate["reviewed"]:
+                status = "送模未选"
+            else:
+                status = "未送模"
+            lines.append(candidate_row(candidate, status))
+        lines.append("")
+    return "\n".join(lines)
+
+
+def render_weekly(week, candidates, items, stats, reason):
+    header = [f"# LLM 推理技术雷达 · {week}", "", stats, "",
+              f"[查看本期初筛候选清单](candidates/{week}.md)", ""]
+    if items is None:
+        return "\n".join(header + [reason, "", "**本期未完成模型综合，请直接审阅初筛清单。**", ""])
+    if not items:
+        return "\n".join(header + ["本期已完成综合，未选出重点。", ""])
+
+    def render(link_limit, text_limit, state_limit):
+        lines = header.copy()
+        for priority in LEVELS:
+            section = [item for item in items if item["priority"] == priority]
+            if not section:
+                continue
+            lines.extend([f"## {priority}", ""])
+            for item in section:
+                primary = candidates[item["works"][0]]
+                records = [record for work in item["works"] for record in candidates[work]["records"]
+                           if record.key in item["evidence"]]
+                sources = list(dict.fromkeys(
+                    source for record in records for source in evidence_links(record)
+                ))
+                sources = [source for source in sources if len(source.encode("utf-8")) <= 420][:link_limit]
+                if not sources:
+                    sources = [f"[原始链接见本期初筛清单](candidates/{week}.md)"]
+                history = " · 历史材料" if primary["historical"] else ""
+                lines.extend([f"### {md(item['title'])}{history}", ""])
+                lines.extend(f"- **{label}**　{md(compact(item[key], text_limit))}" for key, label in FIELDS.items())
+                lines.extend([f"- **状态**　{compact(state_line(axes(records)), state_limit)}",
+                              f"- **出处**　{'、'.join(sources)}", ""])
+        return "\n".join(lines)
+
+    body = render(3, 160, 160)
+    if len(body.encode("utf-8")) > WEEKLY_LIMIT:
+        body = render(1, 160, 120)
+    if len(body.encode("utf-8")) > WEEKLY_LIMIT:
+        body = render(1, 68, 96)
+    return body
+
+
+def report(store: Store, target: Path, week: str, now: datetime, backend: str, prompt: Path, config=Path("config")):
     start, end = week_bounds(week)
     if now < start:
         raise ValueError("不能生成未来周次的报告")
+    keywords = Keywords(yaml_read(config / "keywords.yaml"))
     rebuild(store)
-    candidates = candidate_works(store, week, start, end, now)
-    lines = [f"# LLM 推理技术雷达 · {week}", ""]
-    items, fallback = None, False
-    if backend != "none" and candidates:
+    candidates = candidate_works(store, week, start, end, now, keywords)
+    shortlisted, _ = select_candidates(candidates)
+    attempted, items = set(), None
+    reason = "模型未启用。" if backend == "none" else "本次无待综合材料。"
+    if backend != "none" and shortlisted:
         try:
-            items = request_digest(candidates, prompt, backend)
-        except (OSError, ValueError, KeyError, IndexError, TypeError, HTTPException) as exc:
-            reason = str(exc) if isinstance(exc, DigestValidationError) else type(exc).__name__
-            LOG.warning("模型综合失败，已回退候选清单（%s）。", reason)
-            fallback = True
-        else:
-            LOG.info("模型综合完成（%s），入选 %s 项。", backend, len(items))
-    selected = set()
-    if items:
-        for level in LEVELS:
-            group = [item for item in items if item["priority"] == level]
-            if not group:
-                continue
-            lines.extend([f"## {level}", ""])
-            for item in group:
-                selected.update(item["works"])
-                title = md(item["title"])
-                histories = [candidates[work]["historical"] for work in item["works"]]
-                if any(histories):
-                    title += " · 本周发现的历史工作" if all(histories) else " · 含本周发现的历史工作"
-                lines.extend([f"### {title}", ""])
-                for key, label in FIELDS.items():
-                    lines.append(f"- **{label}**　{md(item[key])}")
-                sources = [source for work in item["works"] for record in candidates[work]["records"]
-                           if record.key in item["evidence"]
-                           for source in [link(record.title, record.url), *evidence_links(record)[1:]]]
-                lines.extend([f"- **依据**　{'、'.join(dict.fromkeys(sources))}", ""])
-    remaining = {key: value for key, value in candidates.items() if key not in selected}
-    if remaining:
-        lines.extend(["## 其他候选" if items is not None else "## 待综合 · 候选清单", ""])
-        if fallback:
-            lines.extend(["模型综合不可用，以下为已采集候选。", ""])
-        if items is not None and not items:
-            lines.extend(["本期精选 0 项。", ""])
-        title_groups = {}
-        for key, value in remaining.items():
-            normalized = re.sub(r"[^\w]+", "", value["primary"].title.casefold())
-            title_groups.setdefault(normalized, []).append(key)
+            items = request_digest(shortlisted, prompt, backend, attempted)
+        except ModelConfigError as exc:
+            reason = f"模型未启用（{exc}）。"
+        except DigestValidationError as exc:
+            reason = f"模型响应无效（{exc}）。"
+        except (OSError, ValueError, HTTPException) as exc:
+            failure = f"HTTP {exc.code}" if isinstance(exc, HTTPError) else type(exc).__name__
+            reason = f"模型调用失败（{failure}）。"
         if items is None:
-            lines.extend([f"本期共 {len(remaining)} 项候选，同一工作关联的材料列在同一项下。", ""])
-        for index, (key, value) in enumerate(remaining.items()):
-            if items is None:
-                if index == CANDIDATE_PREVIEW:
-                    lines.extend(["", "## 其他候选", "", "<details>",
-                                  f"<summary>展开其余 {len(remaining) - index} 项候选</summary>", ""])
-                lines.append(candidate_line(value))
-            else:
-                primary = value["primary"]
-                lines.append(f"- {link(primary.title, primary.url)}" +
-                             (" · 本周发现的历史工作" if value["historical"] else ""))
-            normalized = re.sub(r"[^\w]+", "", value["primary"].title.casefold())
-            if items is None and value["primary"].kind != "lead":
-                closest = get_close_matches(normalized, title_groups, n=3, cutoff=0.91)
-                related = [link(remaining[other]["primary"].title, remaining[other]["primary"].url)
-                           for title in closest for other in title_groups[title] if other != key][:2]
-                if not related:
-                    continue
-                lines.append(f"  - 标题相近，疑似关联　{'、'.join(related)}")
-        if items is None and len(remaining) > CANDIDATE_PREVIEW:
-            lines.extend(["", "</details>"])
-        lines.append("")
-    if not candidates:
-        lines.extend(["本期暂未从已有采集结果发现新的候选进展。", ""])
-    target.mkdir(parents=True, exist_ok=True)
-    active = {key: state for key, state in store.state.items() if timestamp(state["window_start"]) < end
-              and timestamp(state["last_attempt"]) >= start}
-    local_until = min(end - timedelta(microseconds=1), now).astimezone(SHANGHAI)
-    lines.extend(["## 采集时间范围", "",
-                  f"报告范围为 {start:%Y-%m-%d %H:%M} 至 {local_until:%Y-%m-%d %H:%M}（Asia/Shanghai）。", ""])
-    if active:
-        first = min(timestamp(state["window_start"]) for state in active.values()).astimezone(SHANGHAI)
-        last = max(timestamp(state["last_attempt"]) for state in active.values()).astimezone(SHANGHAI)
-        lines.extend([f"相关渠道最近尝试的查询窗口覆盖 {first:%Y-%m-%d %H:%M} 至 {last:%Y-%m-%d %H:%M}。", ""])
-    else:
-        lines.extend(["该周无可对应的最近采集状态。", ""])
-    lines.extend(["## 失败渠道", ""])
-    failures = [(key, state) for key, state in active.items() if state.get("error")]
-    lines.extend([f"- {md(key)} · {md(state['error'])}" for key, state in failures] or ["相关最近采集未记录失败渠道。" if active else "采集状态未知。"])
+            LOG.warning("%s 本次实际尝试输入 %d 个 Work。", reason, len(attempted))
+        else:
+            LOG.info("%s 综合成功，评估 %d 个 Work，精选 %d 项。", backend, len(attempted), len(items))
+    selected = {item["works"][0] for item in items or []}
+    assessed = len(attempted) if items is not None else 0
+    shown = display_candidates(candidates, attempted)
+    stats = coverage(store, start, end, now, candidates, shown, attempted, assessed, selected)
     path = target / f"{week}.md"
-    atomic_write(path, "\n".join(lines) + "\n")
-    for key, item in candidates.items():
-        versions = item["versions"]
-        store.works[key]["weeks"][week] = {"versions": versions, "hash": digest(versions),
-                                          "selected": key in selected or item["retained"]}
-    store.save_works()
+    atomic_write(path, render_weekly(week, candidates, items, stats, reason))
+    atomic_write(target / "candidates" / path.name, render_candidates(
+        week, shown, attempted, selected, items, stats, len(candidates)
+    ))
+    if items is not None:
+        for key in attempted:
+            store.works[key]["last_reviewed_hash"] = candidates[key]["hash"]
+        for key in selected:
+            prior = store.works[key].get("last_selected_week", "")
+            store.works[key]["last_selected_week"] = max(week, prior)
+        store.save_works()
     return path

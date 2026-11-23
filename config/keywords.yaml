@@ -12,7 +12,7 @@ branches:
   KV、调度与 P/D 分离:
     arxiv: [KV cache, KV caching, prefix caching, continuous batching, paged attention, chunked prefill, disaggregated serving, prefill decode disaggregation]
     terms: [KV cache, KV-cache, KV caching, KV offload, prefix caching, prefix cache, continuous batching, paged attention, PagedAttention, chunked prefill, disaggregated prefill, disaggregated serving, prefill decode disaggregation, PD disaggregation, KV 缓存, P/D 分离]
-    contextual: [scheduler, scheduling, cache eviction, cache compression]
+    contextual: [scheduler, scheduling, cache eviction, cache compression, hybrid linear, recurrent state]
   量化、Kernel 与编译:
     arxiv: [weight-only quantization, KV quantization, fused attention, fused MoE, CUDA graph, kernel fusion]
     terms: [weight-only quantization, KV quantization, fused attention, fused MoE, CUDA graph, graph capture, W4A16, W8A8, FP8, NVFP4, 算子融合]

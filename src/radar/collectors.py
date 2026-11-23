@@ -14,7 +14,7 @@ from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 from zoneinfo import ZoneInfo
 
-from .models import ARXIV_ID, ARXIV_REF, GITHUB_ITEM, URL, Keywords, Record, compact, digest, iso, timestamp, web_url
+from .models import ARXIV_ID, ARXIV_REF, GITHUB_ITEM, SUMMARY_LIMIT, URL, Keywords, Record, compact, digest, iso, timestamp, web_url
 
 ARXIV = "https://export.arxiv.org/api/query"
 HF = "https://huggingface.co/api/daily_papers"
@@ -30,6 +30,51 @@ CODE_CLAIM = re.compile(
 )
 RELATED_PAPER = re.compile(r"\b(?:paper|implements?|implementation of|based on|port of)\s*(?:[:=]?\s*[\[<(]?|\]\()$", re.I)
 RESEARCH_FORK = re.compile(r"\bresearch fork\s*[:=]?\s*[\[<(]?(?=https://github\.com/)", re.I)
+TEMPLATE_SECTIONS = re.compile(
+    r"\s*(?:checklists?|(?:pr |pull request )checklist|(?:your current )?environment(?: (?:details|info(?:rmation)?|setup))?"
+    r"|system info(?:rmation)?|collect_env output|logs?|error logs?|logs? and traces?)\s*:?\s*$", re.I,
+)
+HEADING = re.compile(r"(?<!\S)(?:#{1,6})[ \t]+([^#\n]+)")
+LOG_BLOCK_LIMIT = 600
+LOG_FENCE = re.compile(r"^\s*(?:txt|text|log|console|shell-session|output)(?:\s|$)", re.I)
+LOG_LINE = re.compile(r"\b(?:traceback|collect_env|stack trace|INFO|WARN|ERROR|DEBUG)(?:\b|:)")
+
+
+def clean_github(body):
+    text = re.sub(r"<!--.*?(?:-->|\Z)", "", body or "", flags=re.S)
+    text = re.sub(
+        r"(\x60{3}|~~~)(.*?)\1",
+        lambda block: "" if len(block[2]) > LOG_BLOCK_LIMIT and (
+            LOG_FENCE.search(block[2]) or LOG_LINE.search(block[2])
+        ) else block[0],
+        text, flags=re.S,
+    )
+    # Heading boundaries also work on the single-line summaries in older records.
+    headings = list(HEADING.finditer(text))
+    ranges = []
+    for index, heading in enumerate(headings):
+        name = heading[1].split(":", 1)[0].strip()
+        flat_template = "\n" not in text and any(
+            heading[1].lower().startswith(f"{label} ")
+            for label in ("checklist", "environment", "your current environment", "system information")
+        )
+        if TEMPLATE_SECTIONS.fullmatch(name) or flat_template:
+            stop = headings[index + 1].start() if index + 1 < len(headings) else len(text)
+            ranges.append((heading.start(), stop))
+    for begin, stop in reversed(ranges):
+        text = text[:begin] + " " + text[stop:]
+    return text
+
+
+def github_tags(keywords, title, body, labels=()):
+    headings = " ".join((title, *labels))
+    accepted = ROADMAP.search(headings) or keywords.tags(headings) or len(keywords.distinct_mechanisms(body)) >= 2
+    return bool(accepted), keywords.tags(headings, body) if accepted else []
+
+
+def tally(stats, key):
+    if stats is not None:
+        stats[key] += 1
 
 
 class Client:
@@ -91,14 +136,14 @@ def paper_evidence(text: str, source: str) -> dict:
     return evidence
 
 
-def arxiv(client: Client, channel: dict, since: datetime, until: datetime, keywords: Keywords):
+def arxiv(client: Client, channel: dict, since: datetime, until: datetime, keywords: Keywords, stats=None):
     for query in keywords.arxiv_queries():
         if channel.get("query"):
             query = f"({channel['query']}) AND {query}"
-        yield from arxiv_pages(client, channel["id"], query, since, until, keywords)
+        yield from arxiv_pages(client, channel["id"], query, since, until, keywords, stats)
 
 
-def arxiv_pages(client, channel_id, query, since, until, keywords):
+def arxiv_pages(client, channel_id, query, since, until, keywords, stats=None):
     start = 0
     while True:
         body, _ = client.get(ARXIV, {"search_query": query, "sortBy": "lastUpdatedDate",
@@ -107,6 +152,7 @@ def arxiv_pages(client, channel_id, query, since, until, keywords):
         total = int(feed.findtext("o:totalResults", namespaces=ATOM))
         entries = feed.findall("a:entry", ATOM)
         for entry in entries:
+            tally(stats, "read")
             def value(name):
                 return entry.findtext(name, default="", namespaces=ATOM)
 
@@ -118,13 +164,14 @@ def arxiv_pages(client, channel_id, query, since, until, keywords):
                 return
             if updated > until:
                 continue
+            tally(stats, "in_window")
             title, summary = compact(value("a:title")), compact(value("a:summary"), 4000)
             tags = keywords.tags(title, summary)
             if tags:
                 base, version = paper.groups()
                 url = f"https://arxiv.org/abs/{base}" + (f"v{version}" if version else "")
                 evidence = paper_evidence(summary + " " + value("arxiv:comment"), url)
-                yield Record(f"arxiv:{base}", "paper", title, url, compact(summary), channel_id,
+                yield Record(f"arxiv:{base}", "paper", title, url, compact(summary, SUMMARY_LIMIT), channel_id,
                              f"v{version}" if version else "", value("a:published") or None,
                              value("a:updated"), tags=tags, upstream=evidence)
         start += len(entries)
@@ -134,7 +181,7 @@ def arxiv_pages(client, channel_id, query, since, until, keywords):
             raise ValueError("arXiv 提前返回空页")
 
 
-def hf_daily(client: Client, channel: dict, since: datetime, until: datetime, keywords: Keywords):
+def hf_daily(client: Client, channel: dict, since: datetime, until: datetime, keywords: Keywords, stats=None):
     day = until.astimezone(SHANGHAI).date()
     first = since.astimezone(SHANGHAI).date()
     while day >= first:
@@ -142,6 +189,8 @@ def hf_daily(client: Client, channel: dict, since: datetime, until: datetime, ke
         if not isinstance(rows, list):
             raise ValueError("HF Daily Papers 未返回每日列表")
         for row in rows:
+            tally(stats, "read")
+            tally(stats, "in_window")
             paper = row["paper"]
             match = re.fullmatch(rf"({ARXIV_ID})(?:v(\d+))?", paper["id"], re.I)
             if not match:
@@ -151,9 +200,9 @@ def hf_daily(client: Client, channel: dict, since: datetime, until: datetime, ke
             tags = keywords.tags(title, summary)
             if tags:
                 yield Record(f"hf:{base}", "paper_listing", title, f"https://huggingface.co/papers/{base}",
-                             compact(summary), channel["id"], f"v{version}" if version else "",
+                             compact(summary, SUMMARY_LIMIT), channel["id"], f"v{version}" if version else "",
                              published_at=paper.get("publishedAt"), tags=tags,
-                             upstream={"paper_url": f"https://arxiv.org/abs/{base}"})
+                             upstream={"paper_url": f"https://arxiv.org/abs/{base}", "listed_on": day.isoformat()})
         day -= timedelta(days=1)
 
 
@@ -172,7 +221,7 @@ def github_pages(client, url, params, headers):
         page += 1
 
 
-def github(client: Client, channel: dict, since: datetime, until: datetime, keywords: Keywords):
+def github(client: Client, channel: dict, since: datetime, until: datetime, keywords: Keywords, stats=None):
     repo = channel["repo"].lower()
     if not re.fullmatch(r"[\w.-]+/[\w.-]+", repo):
         raise ValueError("GitHub repo 需要 owner/name")
@@ -182,6 +231,7 @@ def github(client: Client, channel: dict, since: datetime, until: datetime, keyw
         headers["Authorization"] = f"Bearer {token}"
     # Releases 按创建时间而非编辑时间排序，扫描所有页才能发现旧 Release 的修订。
     for row in github_pages(client, f"{api}/releases", {}, headers):
+        tally(stats, "read")
         if row.get("draft"):
             continue
         published = row.get("published_at")
@@ -189,28 +239,32 @@ def github(client: Client, channel: dict, since: datetime, until: datetime, keyw
                        if row.get(key)), default=None)
         if updated is None or not since <= updated <= until:
             continue
-        title, body = row.get("name") or row["tag_name"], row.get("body") or ""
+        tally(stats, "in_window")
+        title, body = row.get("name") or row["tag_name"], clean_github(row.get("body"))
         status = "预发布" if row.get("prerelease") else "正式发布"
         yield Record(f"github:{repo}:release:{row['id']}", "release", compact(title),
-                     web_url(row["html_url"]), compact(body), channel["id"], row["tag_name"],
+                     web_url(row["html_url"]), compact(body, SUMMARY_LIMIT), channel["id"], row["tag_name"],
                      published, iso(updated), tags=keywords.tags(title, body),
                      upstream={"repo": repo, "integration": status, "details_hash": body_hash(title, body)})
 
     params = {"since": iso(since), "state": "all", "sort": "updated", "direction": "desc"}
     for row in github_pages(client, f"{api}/issues", params, headers):
+        tally(stats, "read")
         updated = timestamp(row.get("updated_at"))
         if updated is None or not since <= updated <= until:
             continue
-        title, body = row["title"], row.get("body") or ""
-        labels = " ".join(label["name"] for label in row.get("labels", []))
-        tags = keywords.tags(title, body, labels)
-        is_rfc = ROADMAP.search(f"{title} {labels}")
-        if not tags and not is_rfc:
+        tally(stats, "in_window")
+        title, body = row["title"], clean_github(row.get("body"))
+        labels = sorted({label["name"] for label in row.get("labels", [])})
+        accepted, tags = github_tags(keywords, title, body, labels)
+        if not accepted:
             continue
+        is_rfc = ROADMAP.search(" ".join((title, *labels)))
         kind = "pr" if "pull_request" in row else "issue"
         status = "RFC/Roadmap" if is_rfc and row["state"] == "open" else "Issue 已关闭" if row["state"] == "closed" else "开放 Issue"
         url = web_url(row["html_url"])
-        evidence = {"repo": repo, "state": row["state"], "details_hash": body_hash(title, body)}
+        evidence = {"repo": repo, "state": row["state"], "details_hash": body_hash(title, body),
+                    "labels": labels, "passed_filter": True}
         if kind == "pr":
             if row["state"] == "open":
                 status = "开放 PR"
@@ -241,12 +295,12 @@ def github(client: Client, channel: dict, since: datetime, until: datetime, keyw
         if re.search(r"(?im)^\s*(?:[-*#]+\s*)?independent reproduction\s*:", body):
             evidence["verification"] = {"status": "独立复现（来源声明）", "url": url}
         yield Record(f"github:{repo}:{kind}:{row['number']}", kind, compact(title), url,
-                     compact(body), channel["id"], published_at=row.get("created_at"),
+                     compact(body, SUMMARY_LIMIT), channel["id"], published_at=row.get("created_at"),
                      updated_at=row["updated_at"], tags=tags, upstream=evidence)
 
 
 def body_hash(title, body):
-    return digest([title, body.replace("\r\n", "\n").strip()])
+    return digest([compact(title), " ".join(body.split())])
 
 
 ADAPTERS = {"arxiv": arxiv, "hf_daily": hf_daily, "github": github}

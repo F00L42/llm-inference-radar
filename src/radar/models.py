@@ -19,6 +19,7 @@ ARXIV_REF = re.compile(
 )
 GITHUB_ITEM = re.compile(r"https://github\.com/([\w.-]+/[\w.-]+)/(issues|pull)/(\d+)(?!\d)", re.I)
 URL = re.compile(r"https?://[^\s<>\]{}\x60\"']+", re.I)
+SUMMARY_LIMIT = 800
 
 
 def timestamp(value: str | None) -> datetime | None:
@@ -83,7 +84,8 @@ class Record:
 
     @property
     def content_hash(self) -> str:
-        return digest([self.title, self.summary, self.revision, self.upstream])
+        upstream = {key: value for key, value in self.upstream.items() if key != "listed_on"}
+        return digest([self.title, self.summary, self.revision, upstream])
 
     @property
     def key(self) -> str:
@@ -127,6 +129,14 @@ class Keywords:
             for name, group in self.branches.items()
         }
         self.context_rule = self.pattern(self.context)
+        direct = [term for group in self.branches.values() for term in group["terms"]]
+        contextual = [term for group in self.branches.values() for term in group.get("contextual", [])]
+        self.mechanisms = self.pattern(sorted(set(direct), key=len, reverse=True))
+        self.contextual_mechanisms = self.pattern(sorted(set(direct + contextual), key=len, reverse=True))
+
+    @staticmethod
+    def term_key(term):
+        return re.sub(r"[-\s]+", "", term.casefold())
 
     @staticmethod
     def pattern(terms: list[str]) -> re.Pattern:
@@ -140,6 +150,11 @@ class Keywords:
             name for name, (direct, contextual) in self.rules.items()
             if direct.search(value) or (in_context and contextual.search(value))
         ]
+
+    def distinct_mechanisms(self, text: str) -> set[str]:
+        text = compact(text, 500_000)
+        rule = self.contextual_mechanisms if self.context_rule.search(text) else self.mechanisms
+        return {self.term_key(match.group()) for match in rule.finditer(text)}
 
     def arxiv_queries(self):
         # 各分支结果取并集。用短查询控制 arXiv 后端执行时间，本地再应用完整规则。
