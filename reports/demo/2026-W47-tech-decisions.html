@@ -1,0 +1,656 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>LLM 推理工程 · 技术投入评审</title>
+<meta name="description" content="从 DSpark 的现有瓶颈，到并行草稿的新工作和可立项的新方向。">
+<style>
+:root {
+  color-scheme: light;
+  --paper: #f2f5f5;
+  --surface: #ffffff;
+  --ink: #142224;
+  --muted: #4a6266;
+  --hairline: #d3e0e0;
+  --accent: #006e60;
+  --soft: #e4f3ee;
+  --dark: #102b2e;
+  --dark-line: #365356;
+  --mint: #a5f1ce;
+  --gold: #efc780;
+  --radius: 20px;
+  --header: 70px;
+  font-family: "Microsoft YaHei UI", "PingFang SC", "Noto Sans CJK SC", system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; color: var(--ink); background: var(--paper); line-height: 1.7; }
+a { color: var(--accent); text-underline-offset: .22em; }
+a:hover { color: #004d42; }
+button, select { font: inherit; }
+button, select, a { -webkit-tap-highlight-color: transparent; }
+:focus-visible { outline: 3px solid #008c79; outline-offset: 4px; }
+button { cursor: pointer; }
+button:disabled { cursor: default; opacity: .45; }
+[hidden] { display: none !important; }
+code, .mono { font-family: "Cascadia Mono", Consolas, monospace; font-size: .94em; }
+code { color: #234641; background: #ebf1f0; padding: .10em .26em; border-radius: .32em; overflow-wrap: anywhere; }
+h1, h2, h3, h4, p { margin-top: 0; }
+h1, h2, h3, h4 { line-height: 1.25; }
+small { font-size: .83rem; }
+.skip { position: absolute; top: -100px; left: 1rem; background: white; padding: .6rem; z-index: 99; }
+.skip:focus { top: .6rem; }
+.top {
+  position: sticky; top: 0; z-index: 5; border-bottom: 1px solid var(--hairline);
+  background: #f8fbfa; min-height: var(--header);
+}
+.top-inner {
+  max-width: 1320px; margin: auto; padding: .75rem clamp(1rem, 3vw, 2.5rem);
+  min-height: var(--header); display: flex; align-items: center; gap: 1rem;
+}
+.brand { display: inline-flex; align-items: center; gap: .6rem; color: var(--ink); text-decoration: none; font-weight: 800; white-space: nowrap; }
+.brand-icon { display: grid; place-items: center; width: 33px; height: 33px; background: var(--dark); color: var(--mint); border-radius: 10px; font: 800 .75rem "Cascadia Mono", monospace; }
+.site-nav { display: flex; gap: clamp(.75rem, 2vw, 1.8rem); margin: 0 auto; }
+.site-nav a { color: var(--muted); font-weight: 700; font-size: .9rem; text-decoration: none; white-space: nowrap; }
+.site-nav a:hover, .site-nav a[aria-current="location"] { color: var(--accent); text-decoration: underline; }
+.button {
+  border: 1px solid transparent; background: var(--dark); color: white; padding: .5rem .87rem;
+  border-radius: 10px; font-weight: 750; font-size: .875rem; white-space: nowrap;
+}
+.button:hover:not(:disabled) { background: #21494a; }
+.button.alt { background: transparent; color: var(--ink); border-color: var(--hairline); }
+.button.alt:hover:not(:disabled) { background: var(--soft); }
+.deck-controls { display: flex; align-items: center; gap: .45rem; margin-left: auto; }
+.deck-count { min-width: 4.1rem; text-align: center; color: var(--muted); }
+.progress { position: absolute; bottom: -1px; left: 0; right: 0; height: 3px; }
+.progress > span { display: block; height: 100%; background: #2a9e80; width: 0; }
+.layout { max-width: 1320px; margin: auto; padding: clamp(1rem, 3vw, 2.5rem); }
+section, article { scroll-margin-top: calc(var(--header) + 1rem); }
+.hero {
+  display: grid; grid-template-columns: minmax(0, 1.27fr) minmax(0, .84fr); gap: clamp(1.8rem, 6vw, 5.5rem);
+  align-items: center; border-radius: 28px; background: var(--dark); color: #f4faf9;
+  padding: clamp(1.6rem, 4.75vw, 4.2rem); min-height: 430px;
+}
+.hero h1 { font-size: clamp(2.25rem, 5.15vw, 4.5rem); letter-spacing: -.04em; margin-bottom: 1.3rem; word-break: keep-all; }
+.hero h1 span { display: block; color: var(--mint); }
+.hero p { color: #dbebe8; max-width: 44ch; margin-bottom: 1.4rem; }
+.eyebrow { font: 750 .82rem/1.6 "Cascadia Mono", "Microsoft YaHei UI", monospace; letter-spacing: .055em; color: var(--accent); margin-bottom: .65rem; }
+.hero .eyebrow { color: var(--mint); }
+.hero-note { color: #b9cecc; font-size: .88rem; }
+.hero-map { border-top: 1px solid var(--dark-line); }
+.map-link {
+  display: grid; grid-template-columns: 2.55rem 1fr; align-items: start; gap: .7rem; padding: 1.03rem 0;
+  border-bottom: 1px solid var(--dark-line); color: #f5faf9; text-decoration: none;
+}
+.map-link:hover { color: var(--mint); }
+.map-index { color: var(--mint); font: 700 .9rem/2 "Cascadia Mono", monospace; }
+.map-link strong { display: block; font-size: 1.12rem; }
+.map-link small { color: #bfd3d0; display: block; }
+.quick {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border: 1px solid var(--hairline);
+  background: var(--surface); border-radius: var(--radius); margin: 1.15rem 0 0; overflow: hidden;
+}
+.quick > div { padding: 1.25rem clamp(.9rem, 2.5vw, 1.7rem); border-right: 1px solid var(--hairline); }
+.quick > div:last-child { border: 0; }
+.quick strong { display: block; margin: .35rem 0 .18rem; font-size: 1.1rem; }
+.quick p { margin: 0; color: var(--muted); font-size: .91rem; }
+.tag {
+  display: inline-block; padding: .1em .53em; border-radius: .35rem; background: var(--soft);
+  font-size: .78rem; font-weight: 800; color: #005b49; line-height: 1.8;
+}
+.tag.waiting { background: #fff2d9; color: #734900; }
+.chapter { margin-top: clamp(2.65rem, 5vw, 4.7rem); }
+.chapter-heading {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .83fr); gap: .65rem 1.6rem;
+  align-items: end; margin-bottom: 1.1rem; padding-bottom: .85rem; border-bottom: 1px solid var(--hairline);
+}
+.chapter-heading h2 { font-size: clamp(1.8rem, 3vw, 2.65rem); margin: 0; }
+.chapter-heading p:last-child { margin: 0; max-width: 50ch; color: var(--muted); }
+.chapter-card {
+  min-width: 0; margin: 1rem 0; border: 1px solid var(--hairline); border-radius: var(--radius);
+  background: var(--surface); padding: clamp(1rem, 3vw, 2.1rem);
+}
+.chapter-card h3 { font-size: clamp(1.28rem, 2.45vw, 1.95rem); margin-bottom: .8rem; letter-spacing: -.018em; }
+.chapter-card h4 { margin-bottom: .47rem; font-size: 1.04rem; }
+.chapter-card p:last-child, .chapter-card ul:last-child, .chapter-card ol:last-child { margin-bottom: 0; }
+.chapter-card li { margin-bottom: .42em; }
+.chapter-card p > a, .chapter-card td > a, .chapter-card li > a, .sources a { font-size: .86em; white-space: normal; }
+.insight-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 235px), 1fr)); gap: .8rem; margin: 1rem 0; }
+.insight-grid > * { min-width: 0; background: #f5f9f8; border: 1px solid var(--hairline); border-radius: 13px; padding: 1rem; }
+.insight-grid p { margin-bottom: .45rem; }
+.process { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 0; gap: .8rem; list-style-position: inside; }
+.process > li { margin: 0; padding: .7rem .9rem; border: 1px solid var(--hairline); border-top: 3px solid #26886e; border-radius: 10px; background: #f6faf8; }
+.process strong { color: #0d6555; }
+.callout {
+  margin: 1rem 0; padding: .8rem 1rem; border: 1px solid #c1dfd3; border-left: 4px solid #23876e;
+  border-radius: 10px; background: #edf8f3; color: #184a3e;
+}
+.callout > :last-child { margin-bottom: 0; }
+.table-wrap { overflow-x: auto; max-width: 100%; margin: .9rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: .93rem; text-align: left; }
+th, td { border-bottom: 1px solid var(--hairline); vertical-align: top; padding: .68rem .8rem; }
+th { color: #1e4944; background: #e9f3f0; font-weight: 800; }
+td:first-child { font-weight: 680; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:nth-child(even) { background: #f7faf9; }
+details { margin-top: 1rem; padding: .68rem .9rem; border: 1px solid var(--hairline); border-radius: 10px; }
+summary { font-weight: 760; cursor: pointer; }
+details[open] summary { margin-bottom: .45rem; }
+.control-panel { display: flex; flex-wrap: wrap; align-items: end; gap: .8rem 1.15rem; margin: .75rem 0; }
+.field { display: grid; gap: .26rem; color: var(--muted); font-size: .88rem; font-weight: 720; }
+select {
+  appearance: none; min-height: 39px; border: 1px solid #b6cecb; border-radius: 9px; color: var(--ink);
+  background: #f9fcfb; padding: .35rem 2rem .35rem .7rem;
+  background-image: linear-gradient(45deg, transparent 50%, #3e6763 50%), linear-gradient(135deg, #3e6763 50%, transparent 50%);
+  background-position: calc(100% - 15px) center, calc(100% - 10px) center; background-size: 5px 5px; background-repeat: no-repeat;
+}
+.rail { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: .5rem; margin: .8rem 0; }
+.token {
+  display: grid; justify-items: center; gap: .2rem; padding: .55rem .2rem; border: 1px solid var(--hairline);
+  border-radius: 9px; background: #f3f6f6; color: var(--muted); text-align: center; font-size: .84rem;
+}
+.token b { color: var(--ink); }
+.token[data-outcome="accepted"] { background: #ddf5e9; border-color: #a9d8c5; color: #156149; }
+.token[data-outcome="rejected"] { background: #fff0de; border-color: #e7c493; color: #80510e; }
+.token[data-outcome="discarded"] { background: #f0f2f3; border-style: dashed; }
+.status-text { margin-bottom: 0; color: var(--muted); }
+.sources { display: flex; flex-wrap: wrap; gap: .55rem 1.1rem; }
+.footer { border-top: 1px solid var(--hairline); padding: 1rem 0; margin-top: 2rem; color: var(--muted); font-size: .89rem; }
+.deck-item:focus { outline: none; }
+body.presenting { background: #eff4f3; }
+body.presenting .site-nav, body.presenting .chapter-heading, body.presenting .footer { display: none; }
+body.presenting .chapter { margin-top: 0; }
+body.presenting .layout { width: min(100%, 1380px); }
+body.presenting .chapter-card { margin-top: 0; box-shadow: 0 12px 36px #113b2e0b; }
+body.presenting .hero { min-height: min(62vh, 580px); }
+@media (max-width: 800px) {
+  :root { --header: 108px; }
+  .top-inner { flex-wrap: wrap; gap: .55rem; }
+  .site-nav { order: 4; margin: 0; width: 100%; justify-content: space-between; }
+  .top-inner > .button { margin-left: auto; }
+  .hero { grid-template-columns: 1fr; min-height: 0; gap: 1.45rem; }
+  .hero h1 { word-break: normal; }
+  .chapter-heading { grid-template-columns: 1fr; }
+  .insight-grid { grid-template-columns: 1fr; }
+  .process { grid-template-columns: 1fr; }
+  .table-wrap > table { min-width: 650px; }
+  body.presenting { --header: 60px; }
+  body.presenting .brand-text { display: none; }
+  body.presenting .top-inner { gap: .35rem; padding-inline: .55rem; }
+  body.presenting .deck-controls { gap: .26rem; }
+  body.presenting .button { padding-inline: .45rem; }
+}
+@media (max-width: 510px) {
+  .quick { grid-template-columns: 1fr; }
+  .quick > div { border-right: 0; border-bottom: 1px solid var(--hairline); }
+  .rail { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .hero h1 { font-size: 2.3rem; }
+}
+@media print {
+  @page { margin: 14mm; }
+  body, body.presenting { background: white; color: black; }
+  .top, .control-panel, .skip, .footer, .screen-only { display: none !important; }
+  .layout { padding: 0; }
+  .hero { min-height: 0 !important; background: white; color: black; border: 1px solid #bbb; grid-template-columns: 1fr; padding: 1rem; }
+  .hero h1, .hero h1 span, .hero p, .hero-note, .hero .eyebrow, .map-link, .map-link small, .map-index { color: black; }
+  .hero-map { display: none; }
+  body.presenting .chapter-heading { display: grid; }
+  body.presenting section[hidden], body.presenting article[hidden], tr[hidden] { display: revert !important; }
+  .chapter { margin-top: 1.2rem !important; }
+  .chapter-card { border-radius: 0; box-shadow: none !important; padding: .8rem; }
+  .table-wrap { overflow: visible; }
+  .table-wrap > table { min-width: 0; }
+  table { font-size: 9pt; }
+  th, td { padding: .35rem; }
+  tr, .quick, .rail { break-inside: avoid; }
+  h2, h3, h4 { break-after: avoid; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">跳至正文</a>
+<header class="top">
+  <div class="top-inner">
+    <a class="brand" href="#overview"><span class="brand-icon" aria-hidden="true">LLM</span><span class="brand-text">推理工程评审</span></a>
+    <nav class="site-nav" aria-label="章节">
+      <a href="#extension">延长线</a><a href="#work">新工作</a><a href="#directions">新方向</a><a href="#decision">投入决策</a>
+    </nav>
+    <div class="deck-controls" hidden>
+      <button class="button alt" type="button" id="previous">上一页</button>
+      <span class="deck-count mono" id="deck-count" aria-live="polite"></span>
+      <button class="button alt" type="button" id="next">下一页</button>
+    </div>
+    <button class="button" type="button" id="present" title="演示中可用方向键翻页，Esc 返回" hidden>开始演示</button>
+  </div>
+  <div class="progress" hidden aria-hidden="true"><span></span></div>
+</header>
+
+<main class="layout" id="main">
+  <section id="overview" aria-label="总览">
+    <article class="deck-item" id="brief">
+      <div class="hero">
+        <div>
+          <p class="eyebrow">W47 周报 × 近半年方向盘点</p>
+          <h1>LLM 推理工程<span>技术投入评审</span></h1>
+          <p>先判断现有 DSpark 在哪里耗时，再从新工作中挑选值得复现的机制，最后为相关和独立方向设立项条件。</p>
+          <div class="hero-note">资料截至 2026-11-24 · 性能数字来自注明的上游条件</div>
+        </div>
+        <nav class="hero-map" aria-label="演示路线">
+          <a class="map-link" href="#extension"><span class="map-index">01</span><span><strong>延长线</strong><small>把当前 DSpark 路径拆成可测的三段</small></span></a>
+          <a class="map-link" href="#work"><span class="map-index">02</span><span><strong>新工作</strong><small>比较独立草稿、模型内草稿和扩散目标</small></span></a>
+          <a class="map-link" href="#directions"><span class="map-index">03</span><span><strong>新方向</strong><small>先看相关方案，再按瓶颈选独立项目</small></span></a>
+        </nav>
+      </div>
+      <div class="quick" aria-label="建议优先级">
+        <div><span class="tag">先建立基线</span><strong>同一负载下拆出耗时</strong><p>固定 token 回放测路径成本，动态任务测输出和质量。</p></div>
+        <div><span class="tag">现有设备先做</span><strong>910B4 上只改一个点</strong><p>从 Markov、元数据或验证行数中选 trace 最重的一项。</p></div>
+        <div><span class="tag waiting">后续探索</span><strong>按可复现条件选新方案</strong><p>有开放权重先复现，有明确资源瓶颈再做系统或内核原型。</p></div>
+      </div>
+    </article>
+  </section>
+
+  <section class="chapter" id="extension" aria-labelledby="extension-title">
+    <div class="chapter-heading"><div><p class="eyebrow">01 · 延长线</p><h2 id="extension-title">把现有 DSpark 做快</h2></div><p>沿当前推理链路量化草稿、验证和搬运，再选最小的改动验证。</p></div>
+<article class="chapter-card" id="dspark-mechanics">
+  <h3>DSpark 每轮的收益来自哪里</h3>
+  <p>投机解码用一轮较便宜的草稿加一轮目标验证，换取一次提交多个 token。DSpark 的草稿骨干并行生成各位置的基础 logits，再用轻量 Markov 模块串行加入前驱 token 的条件偏置。置信头估计候选前缀的接受概率，调度器据此选验证长度。<a href="https://arxiv.org/abs/2607.05147v1">DSpark 论文</a></p>
+  <ol class="process">
+    <li><strong>草稿</strong>　已提交前缀接出三个候选 <code>A B C</code>。基础 logits 并行计算，条件偏置沿候选链逐位更新。</li>
+    <li><strong>验证</strong>　目标模型根据各位置的候选前缀并行计算。以 greedy 为例，目标接受 <code>A</code>，随后在 <code>B</code> 的位置选择 <code>X</code>。</li>
+    <li><strong>提交</strong>　本轮输出 <code>A X</code>。丢弃被拒草稿及其后缀，按接受边界更新目标状态，对齐下一轮的输入。</li>
+  </ol>
+  <div class="callout">
+    <strong>用每个最终提交 token 的耗时判断收益</strong>
+    <p>将解码计时窗口内的墙钟时间除以实际提交 token 数，包含草稿、元数据构造、主机同步、验证和状态提交。增加验证位置时，同时看它增加的预期提交量和实际多出的设备工作。</p>
+  </div>
+  <p><strong>上游反例</strong>　vLLM-Ascend #21137 作者在 A3、TP4／DP4、混合 P/D、并发 10 的对照中，自适应 eager 取得吞吐收益，自适应 graph 三轮均低于固定预算 graph。复测时把两种模式分开，观察逻辑验证行、设备实际行和 padding。<a href="https://github.com/vllm-project/vllm-ascend/pull/21137">Ascend 自适应验证 PR</a></p>
+</article>
+
+    <article class="chapter-card" id="verify-simulation">
+      <h3>验证预算如何变成实际工作</h3>
+      <p>用一条六位置草稿链演示 greedy 语义。调小预算可以少验证一些位置，提前拒绝则让预算内的尾部工作失效。图执行要另测实际行数和 padding。</p>
+      <div class="control-panel" id="verify-controls" hidden>
+        <label class="field">纳入验证的草稿位置
+          <select id="verify-budget"><option>1</option><option>2</option><option>3</option><option selected>4</option><option>5</option><option>6</option></select>
+        </label>
+        <label class="field">首个拒绝位置
+          <select id="reject-position"><option value="0">无拒绝</option><option value="1">第 1 位</option><option value="2">第 2 位</option><option value="3" selected>第 3 位</option><option value="4">第 4 位</option><option value="5">第 5 位</option><option value="6">第 6 位</option></select>
+        </label>
+      </div>
+      <div id="verify-rail" class="rail" aria-label="草稿链">
+        <span class="token" data-outcome="accepted"><b>A</b><span>已接受</span></span>
+        <span class="token" data-outcome="accepted"><b>B</b><span>已接受</span></span>
+        <span class="token" data-outcome="rejected"><b>C</b><span>被拒绝</span></span>
+        <span class="token" data-outcome="discarded"><b>D</b><span>已验未提交</span></span>
+        <span class="token"><b>E</b><span>未纳入</span></span>
+        <span class="token"><b>F</b><span>未纳入</span></span>
+      </div>
+      <p class="status-text" id="verify-result" role="status">验证 4 个草稿位置，接受前缀 A、B。在拒绝点由目标模型决定修正 token，后续草稿丢弃。示意不含额外目标输出与图填充。</p>
+      <p><a href="https://arxiv.org/abs/2607.05147v1">DSpark 机制</a> · <a href="https://arxiv.org/html/2611.02501v1#S4.SS4">SpecPilot 批预算</a></p>
+    </article>
+
+<article class="chapter-card" id="dspark-investment">
+  <h3>910B4 上先验证三个可归因的切口</h3>
+  <p>把 Qwen3.8-27B、DSpark checkpoint 和 vLLM-Ascend v0.32.0rc1 固定为复现场景。若使用该 tag 的 MRV1 DSpark，提案器本身显式关闭图执行。目标验证的图模式、草稿执行和主机开销应独立取样。<a href="https://github.com/vllm-project/vllm-ascend/blob/v0.32.0rc1/vllm_ascend/worker/v1/spec_decode/dspark_proposer.py">MRV1 提案器</a></p>
+  <table>
+    <thead><tr><th scope="col">Trace 的主要耗时</th><th scope="col">先试的改动</th><th scope="col">要验证的收益</th></tr></thead>
+    <tbody>
+      <tr>
+        <th scope="row">串行 Markov 打分</th>
+        <td>保留单条候选链和目标验证，对照完整转移打分、base top-k、base top-k 合并前驱条件候选。<a href="https://github.com/vllm-project/vllm/blob/v0.32.0rc1/vllm/model_executor/models/qwen3_dspark.py">vLLM DSpark 实现</a></td>
+        <td>先用 greedy，比较完整草稿 top-1 召回、接受长度和每提交 token 的耗时。完整投影之后收集候选，只能归因后续算子；base LM head GEMM 仍应单列。</td>
+      </tr>
+      <tr>
+        <th scope="row">元数据或搬运</th>
+        <td>逐项检查 slot／page 映射、位置、长度张量、logits／state 拷贝和 D2H 同步。优先复用缓冲区与已有长度镜像。<a href="https://github.com/vllm-project/vllm-ascend/blob/v0.32.0rc1/vllm_ascend/worker/v1/spec_decode/llm_base_proposer.py">标签版源码</a></td>
+        <td>记录减少的 kernel launch、同步次数、字节和峰值工作区。覆盖抢占、异长请求、部分拒绝与全部拒绝，检查输出 token 和状态等价。</td>
+      </tr>
+      <tr>
+        <th scope="row">验证行与图 padding</th>
+        <td>扫固定预算并构建本机曲线，再试按置信度共享验证行。MRV1 复用 <code>DynamicSpecScheduler</code>，MRV2 单独核对自适应验证的配置及图约束。<a href="https://github.com/vllm-project/vllm-ascend/blob/v0.32.0rc1/docs/source/user_guide/feature_guide/speculative_decoding.md">Ascend 标签版文档</a></td>
+        <td>按并发、目标 GDN／attention、TP 与执行模式观察实际行数。逻辑行已经减少但设备仍跑原尺寸时，下一步查 shape 分桶和图分派。</td>
+      </tr>
+    </tbody>
+  </table>
+  <p><strong>后续投入</strong>　草稿仍占显著耗时时，再按请求缩短实际计算。树验证、W12 和两级验证需要各自的实机假设，分别验证分支状态提交、位级权重恢复或额外验证代价。<a href="https://arxiv.org/html/2611.02501v1#S4">SpecPilot 机制与反例</a></p>
+</article>
+
+<article class="chapter-card" id="dspark-evidence">
+  <h3>实机 A/B 决定推进、限定场景或停止</h3>
+  <p>SpecPilot 的公开对照使用 SGLang、单卡 H100 和 Qwen3.8-27B DSpark。「开发集」比较两个系统相对普通自回归解码的速度。「未见样本」直接比较优化版与 stock。<a href="https://stargazerx0.github.io/specpilot-project-page/#results">SpecPilot 作者结果</a></p>
+  <table>
+    <thead><tr><th scope="col">作者场景</th><th scope="col">开发集相对 AR</th><th scope="col">未见样本相对 stock</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">H100 · 单请求</th><td>3.74× → 9.41×</td><td>2.38×</td></tr>
+      <tr><th scope="row">H100 · FP8 批处理</th><td>1.94× → 3.93×</td><td>1.94×</td></tr>
+    </tbody>
+  </table>
+  <ol>
+    <li><strong>锁基线</strong>　同权重、同 token IDs、同停止规则。比较普通 AR、stock DSpark 与一项改动，分别测并发 1、低并发和接近饱和，区分 eager／graph 与冷／热前缀。</li>
+    <li><strong>验语义</strong>　固定 greedy 任务保存首个分歧 token 和 top-1 margin。采样另查 proposal 概率、目标分布与结构化输出，并测试拒绝、回退和状态提交。</li>
+    <li><strong>设决策门槛</strong>　可用低并发 P95 TPOT 改善至少 10% 作为试点门槛，同时守住饱和时的 P95 和达标吞吐。只在稳定受益的区间启用；收益落进复测噪声则结束该变体。</li>
+  </ol>
+  <div class="callout">
+    <strong>910B4 实机状态 · <code>pending_remote</code></strong>
+    <p>先批准一次性能剖析和一项单变量 A/B。交付设备 trace、配对结果、失败样本和适用形状，下一轮再决定扩大部署。</p>
+  </div>
+</article>
+  </section>
+
+  <section class="chapter" id="work" aria-labelledby="work-title">
+    <div class="chapter-heading"><div><p class="eyebrow">02 · 新工作</p><h2 id="work-title">并行草稿改了什么</h2></div><p>同一张对照表看草稿来源、目标依赖和验证对象。把论文结果、开放实现和上游合并分开核对。</p></div>
+<article class="chapter-card">
+  <h3>并行草稿开始分化</h3>
+  <p>先看草稿从哪里取特征，再看候选怎样生成、由哪条路径验证。这三个差异决定能否复用既有 checkpoint、引擎和设备内存。</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th scope="col">工作</th><th scope="col">机制</th><th scope="col">可用材料与首个实验</th></tr></thead>
+      <tbody>
+        <tr>
+          <th scope="row">PARD-2</th>
+          <td>独立并行 drafter。CAT 按对连续接受长度的贡献重加权训练 token，随机注入目标特征，让同一草稿兼容依赖和独立模式。AR 目标验证候选。论文报告最高 6.94× 的配置点。<br><a href="https://arxiv.org/abs/2605.08632v1">PARD-2 论文</a></td>
+          <td>5 月首投，6 月发布代码和权重。W47 的 SGLang HIP 接入是开放 PR，复用 DFlash 验证与接受路径。用同一 Qwen3-8B 草稿切换两种模式，比较特征传输、草稿耗时和连续接受分布。<br><a href="https://github.com/AMD-AGI/PARD">AMD 作者代码</a> · <a href="https://huggingface.co/amd/PARD2-Qwen3-8B">8B 草稿权重</a> · <a href="https://github.com/sgl-project/sglang/pull/51465">SGLang #51465</a></td>
+        </tr>
+        <tr>
+          <th scope="row">Uno</th>
+          <td>在 AR 模型内部加入轻量扩散参数，经扩散蒸馏学习一次起草一块，原 AR 权重通过 Ψ-Spec 验证。作者在所测配置报告较原 AR 模型最高约 3×。<br><a href="https://arxiv.org/abs/2609.04010v1">Uno 论文</a></td>
+          <td>9 月论文，代码和权重有公开入口。先用作者的 <code>nano_vllm_uno</code> 跑通 Uno-Qwen3-8B，再测共享权重、KV 布局、草稿工作区和饱和前后的吞吐。端到端对比固定相同 AR 底座。<br><a href="https://github.com/ifm-ai/uno">作者代码与权重入口</a></td>
+        </tr>
+        <tr>
+          <th scope="row">DFlash2 / DSpark</th>
+          <td>都复用目标 hidden states。DFlash2 以块内动态因果卷积加入相邻位置依赖，另有可选候选选择器。DSpark 以串行 Markov 校正和置信度处理并行 draft 之后的候选。<br><a href="https://docs.vllm.ai/projects/speculators/en/latest/user_guide/algorithms/dflash2/">DFlash2 工程文档</a> · <a href="https://arxiv.org/abs/2607.05147v1">DSpark 论文</a></td>
+          <td>同版本 target 和匹配草稿下，比较接受长度与实际验证行。分别记录卷积/Markov 的执行成本，尤其是小并发与图填充档位。</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</article>
+
+<article class="chapter-card">
+  <h3>下一处瓶颈取决于验证对象</h3>
+  <ol>
+    <li><strong>等待目标特征。 </strong>D3D 在验证当前草稿时为可能的后继准备草稿，减少对刚产生的目标隐状态的串行依赖。论文的 Qwen3-8B 作者实验相对 AR 的平均解码加速为 5.00×，其 DFlash 对照为 4.03×。复测要将等待时间、未走分支的工作量和共享设备带宽分别计入。 <a href="https://arxiv.org/abs/2611.06425">D3D 论文</a> · <a href="https://github.com/fudan-generative-vision/D3D">作者代码</a></li>
+    <li><strong>目标特征编码不足。 </strong>W47 提交的 DNeo 用 MoFA、拒绝历史与非均匀特征 tap 改善并行草稿。论文相对 DFlash2 报告约 1.3×，收益对应作者配置。用相同 drafter 参数规模对照连续接受长度和每轮草稿时间。 <a href="https://arxiv.org/abs/2611.21925v1">DNeo v1</a></li>
+    <li><strong>目标本身是扩散语言模型。 </strong>SPOT 预测掩码位置的提交顺序，目标验证的是包含位置、token 与顺序的状态转换。W47 扩展版引用的 v1 报告最高 3.2× 吞吐，v2 在新硬件上重跑的 SDAR-8B 对照报告最高 3.4×。原型固定提交规则，用逐步重放对照状态，比较目标前向次数和任务质量。 <a href="https://arxiv.org/abs/2610.22543v1">SPOT v1</a> · <a href="https://arxiv.org/abs/2610.22543v2">SPOT v2</a> · <a href="https://arxiv.org/abs/2608.27514">Trajectory-Level SD</a></li>
+  </ol>
+  <p class="callout"><strong>共同实验门槛</strong> 用一套 Qwen3-8B 轨迹先固定 tokenizer、输入、输出上限、精度和停止规则。分开呈现同一引擎内的 A/B 和跨引擎的工程对照。覆盖单请求及接近饱和的并发，记录每提交 token 耗时、接受分布、实际验证行、P95 TPOT 和任务达标吞吐。扩散目标在自己的逐步去噪基线内比较。复现结果为 <code>pending_remote</code>。</p>
+</article>
+
+<article class="chapter-card">
+  <h3>W47 工程变化给出了哪些试验入口</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th scope="col">变化与阶段</th><th scope="col">为什么现在值得看</th><th scope="col">投入前确认</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">ROCm 分块 KV 内核<br>11-19 主干合入</th><td>FlyDSL 增加按 KV 长度分工的 decode 和小规模 verify 专用路径。原 W47 周报列为重点，作者实测为 MI355X、GQA 8、head dim 64 和 FP8 KV。 <a href="https://github.com/vllm-project/vllm/pull/67133">vLLM #67133</a></td><td>仅在目标后端和形状吻合时优先复测。长短混跑要量最长请求拖尾、归约时间和输出吞吐。</td></tr>
+        <tr><th scope="row">SGLang 验证采样<br>11-21–22 主干合入</th><td>多种投机方法逐行计入草稿前史，并收拢惩罚、语法掩码和 logits processor 顺序。对工具输出和随机采样，正确性对照可以复用相同输入轨迹。 <a href="https://github.com/sgl-project/sglang/pull/52054">采样语义 #52054</a> · <a href="https://github.com/sgl-project/sglang/pull/52184">min-p #52184</a></td><td>先跑 greedy 序列和 JSON／停止用例，再把随机采样分布、状态回滚与性能分开验收。</td></tr>
+        <tr><th scope="row">Ascend 组合 TP 词表切分<br>11-20 主干合入</th><td>更少权重副本换额外集合通信。作者在 16×A3、MiniMax-M3.1-Flash W8A8、DP4×TP4/EP16 报告每卡词表权重少约 0.86 GiB，扣除新增 HCCL 组后 KV 净预算多约 0.39 GiB。 <a href="https://github.com/vllm-project/vllm-ascend/pull/19841">vLLM-Ascend #19841</a></td><td>该 PR 给出了容量与 E2E 覆盖。实际 TPOT、吞吐和通信尾部仍需按模型和拓扑实测。</td></tr>
+        <tr><th scope="row">AIPerf v0.14.0<br>11-21 正式发布</th><td>SGLang、TensorRT-LLM 增加逐请求投机接受统计，支持 AgentX 和 Mooncake 轨迹。可统一新工作与现有 DSpark 方案的观测方式。 <a href="https://github.com/ai-dynamo/aiperf/releases/tag/v0.14.0">AIPerf v0.14.0</a></td><td>锁定版本、数据集和停止条件。新版多轮轨迹遇到 <code>max_tokens</code> 截断时终止，跨版本成绩需控制此差异。</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <details>
+    <summary>回看原 W47 周报的另外四项观察</summary>
+    <ul>
+      <li><strong>分页专家与搬运融合。</strong> 开放的 SGLang PR 把缺失专家的读取与已驻留专家计算重叠。按专家常驻比例和互联分档，复测层停顿及整任务时延。 <a href="https://github.com/sgl-project/sglang/pull/51471">SGLang #51471</a></li>
+      <li><strong>混合 GDN 的前缀复用。</strong> 开放实现保留分叉和 prompt 尾的检查点。实验比较相同前缀的连续两次命中和驱逐恢复，将 GDN 状态与滑窗尾部对齐。 <a href="https://github.com/sgl-project/sglang/pull/51488">SGLang #51488</a></li>
+      <li><strong>Prime-RL 推理接口迁移。</strong> RFC 提供准入、采样、辅助输出和加载的契约清单。选择一条业务必需的接口做迁移，并用同一批 rollout 比较 token、logprob 和权重版本。 <a href="https://github.com/vllm-project/vllm/issues/68616">vLLM RFC</a></li>
+      <li><strong>Ascend 非均匀流水并行。</strong> 从原周报的开放 PR 更新为 11-20 主干合并。可按阶段容量切分，但应量化流水 bubble 和跨阶段传输，并检查索引与附属状态完整性。 <a href="https://github.com/vllm-project/vllm-ascend/pull/19284">Ascend #19284</a></li>
+    </ul>
+  </details>
+</article>
+  </section>
+
+  <section class="chapter" id="directions" aria-labelledby="directions-title">
+    <div class="chapter-heading"><div><p class="eyebrow">03 · 新方向</p><h2 id="directions-title">从相关方案到独立选项</h2></div><p>先看循环模型、投机和缓存如何组合，再按不同业务瓶颈判断各独立方向的投入时机。</p></div>
+<article class="chapter-card">
+  <h3>相关方向 · 复用权重，再按成本分配计算深度</h3>
+  <p>循环 Transformer 把一部分深度做成可重复执行的共享层。它和投机解码可以组成一个可检验的假设：用较浅的计算生成候选，完整深度按原语义验证，比较每个成功任务的耗时、读取量和设备成本。</p>
+  <div class="insight-grid">
+    <div>
+      <h4>架构信号 · GLM-5.4</h4>
+      <p>从约 750B GLM-5 基座继续训练，中间 28 层的同一组参数执行两遍。每遍用独立的 token 门控更新残差。第二遍复用第一遍的稀疏索引和历史 KV，另保留自身的局部滑窗 KV。权重存储可复用，第二遍仍有注意力、KV 读取和层计算。</p>
+      <p>11 月 23 日 W48 披露。按报告 11 月 24 日核查，权重仍列为计划发布；按 token 动态增减循环次数也属于后续工作。<br><a href="https://z.ai/blog/glm-5.4">Z.ai 技术公告</a></p>
+    </div>
+    <div>
+      <h4>开放入口 · Inkling 与 LoopCache</h4>
+      <p>Inkling 2 Mini 的三遍固定深度在每遍保留独立 KV 与卷积状态，公开 DSpark 以多遍隐藏状态为输入。可变循环研究版支持后遍覆盖的 KV 共享，卷积状态仍各自保留。单 GB200、TP1、4K、batch 1 的作者仅前向对照，三遍共享后 KV 容量 175K → 194K token，decode step 3.85 → 3.86 ms。</p>
+      <p>LoopCache 进一步把浅遍候选与完整深度验证组合起来，用循环 KV 排程减轻长上下文反复读取。<br><a href="https://vllm.ai/blog/2026-11-20-inkling2-mini">Inkling vLLM 对照</a> · <a href="https://arxiv.org/abs/2611.24301v1">LoopCache</a></p>
+    </div>
+  </div>
+  <table>
+    <thead><tr><th scope="col">可投什么</th><th scope="col">最小对照</th><th scope="col">继续投入的依据</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">先拆循环和 KV</th><td>以可变循环权重跑 1／2／3 遍和三遍共享，关闭投机。扫短、中、长上下文与低并发／饱和点。</td><td>把每步耗时、读取量、可驻留 token 和质量各自归因。若容量有收益、步耗时近似持平，则按容量扩展立项。<br><a href="https://huggingface.co/thinkingmachines/TML-d24-varloop-research">开放研究权重</a> · <a href="https://arxiv.org/abs/2611.04137v1">LoopKV</a></td></tr>
+      <tr><th scope="row">浅遍提案与完整验证</th><td>先复现固定版 Inkling＋DSpark，再评估浅遍直接出候选。保留完整目标验证，记录错提案、完整验证和状态提交的成本。</td><td>同等质量下，每提交 token 耗时、任务尾部或达标吞吐有可重复改善。差异落入噪声时，先检查多遍 KV 和状态提交。<br><a href="https://vllm.ai/blog/2026-11-20-inkling2-mini">Inkling＋DSpark</a> · <a href="https://arxiv.org/abs/2611.24301v1">LoopCache</a></td></tr>
+      <tr><th scope="row">分阶段或分任务给预算</th><td>把 prefill／decode 深度和业务 low／high 推理预算分成两条实验。业务预算只在可恢复轮次升级，用固定低、固定高做对照。</td><td>同成功率降低成本，或同成本提升困难任务成功率。分别计算路由、重复工具调用和重试开销。<br><a href="https://arxiv.org/abs/2611.07211v1">LoopDuet</a> · <a href="https://openrouter.ai/blog/announcements/auto-and-auto-code-routers/">预算路由实例</a></td></tr>
+    </tbody>
+  </table>
+</article>
+
+<article class="chapter-card">
+  <h3>独立方向 · 用流量画像选服务侧项目</h3>
+  <p>先看实际请求由重算、排队、通信、容量还是 head 主导。相同的加速倍率对不同负载有不同价值，业务 SLO 和设备数固定后再比较。</p>
+  <table>
+    <thead><tr><th scope="col">方向</th><th scope="col">什么时候投</th><th scope="col">先做哪条实验</th><th scope="col">加码或停止</th></tr></thead>
+    <tbody>
+      <tr><th scope="row">会话回放与差分基线</th><td>同时在评估引擎、缓存、量化或投机，性能收益容易与输出变化混在一起。</td><td>固定回放保留 token IDs、到达间隔、工具暂停和分支；动态任务按真实生成结果执行，检查任务成功。</td><td>先用 20–50 条会话建立可诊断样例，再扩大样本估计尾部。输出首个分歧、阶段时序和任务级达标产出。<br><a href="https://github.com/ai-dynamo/aiperf/releases/tag/v0.14.0">AIPerf</a> · <a href="https://mlcommons.org/2026/11/mlperf-endpoints-how-to-submit/">MLPerf Endpoints 方法</a></td></tr>
+      <tr><th scope="row">前缀路由与 host KV</th><td>多轮 Agent／RAG 前缀重叠明显，重复 prefill 或热点副本排队占比高。</td><td>同卡数四臂对照：负载均衡、前缀感知、加排队权重、加 host KV。按租户看命中 token、读回和回退重算。</td><td>报告建议用任务 goodput +10% 或 P95 TTFT −15% 作试点门槛，并检查低命中组与最慢租户。host 读回持续慢于重算时结束第二层。<br><a href="https://llm-d.ai/blog/sticky-until-saturated-token-aware-routing">llm-d 负载差异</a></td></tr>
+      <tr><th scope="row">Ascend P/D 与上下文并行</th><td>有固定 A3/A5、目标模型和长上下文工作负载，长 prefill 明显干扰 decode。</td><td>同芯片和卡数比较聚合、PCP、P/D；按所用版本核对 DCP/connector 组合，并测状态传递、网络交接和抢占恢复。</td><td>同 NPU 小时下联合 TTFT／TPOT SLO goodput 提升才扩大。遇到跨节点传输挤占 TTFT 时，先检查按长度路由和同置方案。<br><a href="https://docs.vllm.ai/projects/ascend/en/latest/user_guide/feature_guide/context_parallel.html">上下文并行</a> · <a href="https://sc26.conference-program.com/presentation/?id=pap819&amp;sess=sess235">TaiChi</a></td></tr>
+      <tr><th scope="row">稀疏索引与低精度 KV</th><td>已拆出主 KV、索引缓存与临时缓冲，确认某项容量或读取带宽触顶。</td><td>相同 top-k 语义记录 scorer、gather、反量化和 attention。先用已支持的 FP8/C8 配置验证容量，定位后再试索引压缩或 offload。</td><td>依赖长文本检索和任务质量门槛。公开 GB300 稀疏 MQA 的 512K 单层 14–23× 对应整模型 decode 3–6%，因此分别验 kernel 和端到端。<br><a href="https://vllm.ai/blog/2026-10-07-deepseek-v41-flash">vLLM 内核拆解</a> · <a href="https://arxiv.org/abs/2611.25078v1">Twindex</a></td></tr>
+      <tr><th scope="row">小标签评分与 LM head</th><td>固定单 token 标签评分占相当流量，热缓存下投影、跨 TP 规约或 D2H 仍显著。</td><td>比较全词表计算＋小结果、原生 score、候选条件评分。先核对模板、tokenizer、标签及 <code>x_label_mass</code> 等合同。</td><td>全词表概率需要原归一化，候选内 softmax 是另一语义。端到端占比小则回到 prefill 或队列，让问题/s 和完成时延决定投入。<br><a href="https://github.com/sgl-project/sglang/pull/41208">SGLang score 路径</a> · <a href="https://github.com/vllm-project/vllm-ascend/pull/21232">Ascend 原型 PR</a> · <a href="https://github.com/ai-dynamo/dynamo/issues/15274">概率合同</a></td></tr>
+    </tbody>
+  </table>
+</article>
+
+<article class="chapter-card">
+  <h3>独立方向 · 有业务信号再试的几条路线</h3>
+  <p>这些机会需要独立的负载和验收口径。先把成功任务、输出语义或音视频质量写进对照，随后看设备利用率和局部吞吐。</p>
+  <ul>
+    <li><strong>异步 RL rollout 与权重更新。</strong> 同步基线中，若 sandbox 尾部、reward、生成或权重同步长期堵塞，分别计时定位。再用小规模有界异步对照并记 checkpoint、logprob、旧 KV 归属和策略滞后。看 time-to-quality 与 GPU 小时；有质量漂移时先回到同步重叠。<br><a href="https://mlcommons.org/2026/11/mlperf-training-v6-1-insights/">MLPerf Training 6.1</a> · <a href="https://huggingface.co/blog/RadixArk/daisyrose-27b-pushing-the-frontier-of-post-trainin">DaisyRose-27B</a></li>
+    <li><strong>MoE 融合与算子正确性。</strong> 只有 launch、EP 尾部或通信实测突出时，选一个算子、三类形状、同精度和拓扑做融合对照。先验数值和图兼容，再验端到端收益。Weave 作者的同一方向给出 SM90 层级 1.24×、整模型 4K decode 1.08×，适合作归因例。<br><a href="https://arxiv.org/abs/2611.27765v1">Weave</a> · <a href="https://www.certik.com/blog/tensorlean-certik-and-columbia-university-researchers-formally-verified-production-ai-kernels-from-deepseek-and-flashattention">TensorLean</a></li>
+    <li><strong>实时多模态与端侧。</strong> 有首音频／视频块目标、流式打断需求，或明确的设备内存与功耗约束时，从单会话开始。比同进程与多阶段，记录首块、断续恢复、跨会话状态隔离和质量；端侧加报热稳定性和峰值常驻。<br><a href="https://github.com/vllm-project/vllm-omni/releases/tag/v0.34.0">vLLM-Omni</a> · <a href="https://mlcommons.org/2026/09/mlperf-inference-v6-1-results/">MLPerf Edge Agentic</a></li>
+  </ul>
+  <p class="callout"><strong>投入排序。</strong> 先复用回放和差分基线，再按占比选择一条：重算和排队选路由，长上下文互扰选 P/D，显存读写选稀疏或低精度，固定评分选 head。循环深度、异步后训练和多模态使用各自的质量门槛。这里列的是试验设计，独立 GPU/NPU 验证为 <code>pending_remote</code>。<br><a href="https://github.com/F00L42/llm-inference-radar/blob/b3b9aaae7fcbb4f11c1f9f1cdb04968e4e3faea7/reports/strategy/2026-11-23-llm-engineering-directions.md">近半年报告与两周验证计划</a></p>
+</article>
+  </section>
+
+  <section class="chapter" id="decision" aria-labelledby="decision-title">
+    <div class="chapter-heading"><div><p class="eyebrow">投入决策</p><h2 id="decision-title">用两周推进到可决策</h2></div><p>每条路径只先解决一个可测问题。相同资源和业务质量下，达标产出或用户等待改善才支持投入。</p></div>
+    <article class="chapter-card" id="investment-options">
+      <h3>从已观察到的瓶颈选第一轮</h3>
+      <div class="control-panel" id="investment-controls" hidden>
+        <label class="field">当前的瓶颈或目标
+          <select id="investment-filter">
+            <option value="all">查看全部方向</option>
+            <option value="decode">低并发解码或验证开销</option>
+            <option value="cache">首字排队或前缀重算</option>
+            <option value="memory">长上下文内存或链路</option>
+            <option value="score">固定标签评分</option>
+            <option value="task">任务成本或训练效率</option>
+          </select>
+        </label>
+        <p class="status-text" id="filter-result" role="status"></p>
+      </div>
+      <table id="investment-table">
+        <thead><tr><th scope="col">观测</th><th scope="col">最小试验</th><th scope="col">继续投入条件</th></tr></thead>
+        <tbody>
+          <tr data-fit="decode"><td>910B4 上 draft/verify 主导</td><td>对照 AR、stock DSpark 与一个单变量优化，扫并发与实际验证行。</td><td>每提交 token 耗时下降，目标语义与尾延迟通过门槛。</td></tr>
+          <tr data-fit="cache"><td>多轮重复 prefill 或热副本排队</td><td>轮询、前缀、前缀＋负载、再加 host KV，固定到达序列和卡数。</td><td>尾部与任务达标率改善，低命中组和其他租户达标。</td></tr>
+          <tr data-fit="memory"><td>长上下文受 HBM 或链路限制</td><td>分账主 KV／索引／工作区。先测单项原生低精度或卸载；P/D 同资源独立比较。</td><td>可驻留并发或联合 SLO 提升，同时通过长文与恢复质量验证。</td></tr>
+          <tr data-fit="score"><td>热前缀下短评分占流量</td><td>测全词表 head、原生 score API 和明确采用候选归一化的快路径。</td><td>head 是显著耗时，候选概率与全词表质量字段各自符合业务合同。</td></tr>
+          <tr data-fit="task"><td>推理预算或 rollout 尾部占主导</td><td>动态任务测低／高预算回退，训练侧对照同步与有界异步。</td><td>等质量下每成功任务成本或 time-to-quality 改善，失败与 lag 受控。</td></tr>
+        </tbody>
+      </table>
+      <p>打点口径和投入门槛见 <a href="https://github.com/F00L42/llm-inference-radar/blob/b3b9aaae7fcbb4f11c1f9f1cdb04968e4e3faea7/reports/strategy/2026-11-23-llm-engineering-directions.md#先用两周做一次立项筛选">半年报告的两周筛选</a>。</p>
+    </article>
+    <article class="chapter-card" id="two-weeks">
+      <h3>评审需要看到的三份证据</h3>
+      <div class="insight-grid">
+        <div><h4>第 1–3 天 · 基线</h4><p>冻结引擎、权重、精度、并行、停止和负载。抓首处分歧及阶段时序，确认冷／热、低／高并发真实路径。</p></div>
+        <div><h4>第 4–8 天 · 单变量对照</h4><p>重复同一 trace。展示真实执行形状、首字与 token 间延迟，额外记录失败、重试及画面外的系统开销。</p></div>
+        <div><h4>第 9–10 天 · 外部样本</h4><p>用独立样本复测，提交收益区间、失败流量及回退条件。达到同质量和 SLO 门槛后进入集成验证。</p></div>
+      </div>
+      <div class="callout"><strong>看两类指标。</strong> 每提交 token 耗时和实际验算行数用于归因。任务成功率、任务时间和每卡达标产出用于投入决策。上游数字与自身复测分列。</div>
+      <h4>三份原始报告</h4>
+      <div class="sources">
+        <a href="https://github.com/F00L42/llm-inference-radar/blob/b3b9aaae7fcbb4f11c1f9f1cdb04968e4e3faea7/reports/weekly/2026-W47.md">W47 原周报</a>
+        <a href="https://github.com/F00L42/llm-inference-radar/blob/b3b9aaae7fcbb4f11c1f9f1cdb04968e4e3faea7/reports/weekly/2026-W47-expanded.md">W47 扩展版</a>
+        <a href="https://github.com/F00L42/llm-inference-radar/blob/b3b9aaae7fcbb4f11c1f9f1cdb04968e4e3faea7/reports/strategy/2026-11-23-llm-engineering-directions.md">近半年工程方向</a>
+      </div>
+    </article>
+  </section>
+
+  <footer class="footer">页面可离线阅读。查阅原始信源需要网络。GPU/NPU 独立结果为 <code>pending_remote</code>。</footer>
+</main>
+<script>
+"use strict";
+
+for (const table of document.querySelectorAll("table")) {
+  const wrapper = table.parentElement.classList.contains("table-wrap")
+    ? table.parentElement
+    : document.createElement("div");
+  if (!wrapper.parentElement) {
+    wrapper.className = "table-wrap";
+    table.before(wrapper);
+    wrapper.append(table);
+  }
+  wrapper.tabIndex = 0;
+  wrapper.setAttribute("role", "region");
+  const title = table.closest("article")?.querySelector("h3")?.textContent.trim();
+  wrapper.setAttribute("aria-label", title ? title + " · 对照表" : "对照表");
+}
+
+const budgetInput = document.getElementById("verify-budget");
+const rejectInput = document.getElementById("reject-position");
+const tokenNodes = [...document.querySelectorAll("#verify-rail .token")];
+const verifyResult = document.getElementById("verify-result");
+function updateVerification() {
+  const budget = Number(budgetInput.value);
+  const rejection = Number(rejectInput.value);
+  const rejectionInBudget = rejection > 0 && rejection <= budget;
+  const accepted = rejectionInBudget ? rejection - 1 : budget;
+  tokenNodes.forEach((node, index) => {
+    const position = index + 1;
+    let state = "outside";
+    let label = "未纳入";
+    if (position <= accepted) {
+      state = "accepted";
+      label = "已接受";
+    } else if (rejectionInBudget && position === rejection) {
+      state = "rejected";
+      label = "被拒绝";
+    } else if (position <= budget) {
+      state = "discarded";
+      label = "已验未提交";
+    }
+    node.dataset.outcome = state;
+    node.lastElementChild.textContent = label;
+  });
+  const outcome = rejectionInBudget
+    ? "第 " + rejection + " 位由目标决定修正，后续草稿丢弃。"
+    : "预算内草稿均通过。";
+  verifyResult.textContent = "验证 " + budget + " 个草稿位置，接受 " + accepted + " 个。" + outcome + "示意不含额外目标输出与图填充。";
+}
+for (const input of [budgetInput, rejectInput]) input.addEventListener("change", updateVerification);
+document.getElementById("verify-controls").hidden = false;
+updateVerification();
+
+const filter = document.getElementById("investment-filter");
+const investmentRows = [...document.querySelectorAll("#investment-table tbody tr")];
+const count = document.getElementById("filter-result");
+function updateInvestment() {
+  let visible = 0;
+  for (const row of investmentRows) {
+    row.hidden = filter.value !== "all" && row.dataset.fit !== filter.value;
+    visible += Number(!row.hidden);
+  }
+  count.textContent = "显示 " + visible + " 项试验";
+}
+filter.addEventListener("change", updateInvestment);
+document.getElementById("investment-controls").hidden = false;
+updateInvestment();
+
+const pages = [...document.querySelectorAll(".deck-item, .chapter-card")];
+const sections = [...document.querySelectorAll("main > section")];
+const previous = document.getElementById("previous");
+const next = document.getElementById("next");
+const present = document.getElementById("present");
+const deckCount = document.getElementById("deck-count");
+const controls = document.querySelector(".deck-controls");
+const progress = document.querySelector(".progress");
+let pageIndex = 0;
+let presenting = false;
+let returnScroll = 0;
+present.hidden = false;
+
+function renderPage(index) {
+  pageIndex = Math.max(0, Math.min(pages.length - 1, index));
+  const page = pages[pageIndex];
+  pages.forEach((item) => { item.hidden = item !== page; });
+  sections.forEach((section) => { section.hidden = !section.contains(page); });
+  deckCount.textContent = (pageIndex + 1) + " / " + pages.length;
+  progress.firstElementChild.style.width = 100 * (pageIndex + 1) / pages.length + "%";
+  previous.disabled = pageIndex === 0;
+  next.disabled = pageIndex === pages.length - 1;
+  const heading = page.querySelector("h1, h3");
+  if (heading) {
+    heading.tabIndex = -1;
+    heading.focus({ preventScroll: true });
+  }
+  window.scrollTo(0, 0);
+}
+
+function closePresentation() {
+  presenting = false;
+  document.body.classList.remove("presenting");
+  controls.hidden = true;
+  progress.hidden = true;
+  pages.forEach((item) => { item.hidden = false; });
+  sections.forEach((item) => { item.hidden = false; });
+  present.textContent = "开始演示";
+  present.focus({ preventScroll: true });
+  window.scrollTo(0, returnScroll);
+}
+
+function openPresentation() {
+  returnScroll = window.scrollY;
+  const anchor = document.getElementById(window.location.hash.slice(1));
+  const visible = pages.findLastIndex((page) => page.getBoundingClientRect().top <= window.innerHeight / 3);
+  const current = anchor ? pages.findIndex((page) => page === anchor || anchor.contains(page)) : visible;
+  presenting = true;
+  document.body.classList.add("presenting");
+  controls.hidden = false;
+  progress.hidden = false;
+  present.textContent = "退出演示";
+  renderPage(Math.max(current, 0));
+}
+
+present.addEventListener("click", () => presenting ? closePresentation() : openPresentation());
+previous.addEventListener("click", () => renderPage(pageIndex - 1));
+next.addEventListener("click", () => renderPage(pageIndex + 1));
+document.addEventListener("keydown", (event) => {
+  if (!presenting || event.altKey || event.ctrlKey || event.metaKey) return;
+  if (event.key === "Escape") {
+    closePresentation();
+    return;
+  }
+  if (event.target.closest("input, select, textarea, [contenteditable]")) return;
+  if (event.key === "ArrowRight" || event.key === "PageDown" || event.key === "ArrowLeft" || event.key === "PageUp") {
+    event.preventDefault();
+    renderPage(pageIndex + (event.key === "ArrowRight" || event.key === "PageDown" ? 1 : -1));
+  }
+});
+document.addEventListener("click", (event) => {
+  if (!presenting) return;
+  const link = event.target.closest('a[href^="#"]');
+  if (!link) return;
+  const target = document.getElementById(link.getAttribute("href").slice(1));
+  const index = target ? pages.findIndex((page) => target === page || target.contains(page)) : -1;
+  if (index < 0) return;
+  event.preventDefault();
+  renderPage(index);
+});
+</script>
+</body>
+</html>
