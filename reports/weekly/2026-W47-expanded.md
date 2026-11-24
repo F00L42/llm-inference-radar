@@ -2,6 +2,8 @@
 
 **统计周期**　北京时间 2026-11-16 00:00 至 2026-11-23 00:00，右端不含。核查日期为 2026-11-23。范围涵盖推理引擎、算子与编译、内存与通信、低精度、模型架构、后训练基础设施和服务基准。
 
+**11-24 专题补充**　回查 GLM-5.4 循环层、SpecPilot 对昇腾 DSpark 的可迁移优化，以及 Uno、PARD-2 与扩散投机。W47 之后公开的材料依实际日期标注。 [阅读专题](#专题补充)
+
 **基线报告**　周报分支提交 `c08b11604e193d76d08f4ad17a5df92cf383af9a` 的报告截止于 11-19 16:16，解释了 5 个工作，其余为候选链接。基线文件 blob 为 `84c3e8499bfc47c154328338d0d4cd1c42a15696`。本报告沿用初始排查的 67 项信源清单。 [基线报告](https://github.com/F00L42/llm-inference-radar/blob/c08b11604e193d76d08f4ad17a5df92cf383af9a/reports/weekly/2026-W47.md) · [信源清单](../../config/sources.yaml)
 
 ## 工程结论
@@ -171,6 +173,63 @@ arXiv:2611.21003v1 于 11-16 提交。该家族覆盖 0.9B dense 至 375B-A23B M
 
 - **TensorLean，在 PTX 层验证 GPU kernel，11-20 团队公告。** 以张量级规范描述计算，在给定输入假设、PTX 模型和浮点误差范围内，用 Lean 检查结果正确性、数据竞争与终止。团队检查 149 个编译实例，其中 83 个通过规范。公司公告称发现 38 个不同问题，后续 GitHub 项目页列 39 项，计数应绑定各自快照。项目页将论文、PTX 语义及证明源码列为后续发布。本轮通过 11-23 机器之心回查到 W47 的官方公告。可将它用于评估未来算子证明与数值回归的覆盖范围。 [CertiK 技术公告](https://www.certik.com/blog/tensorlean-certik-and-columbia-university-researchers-formally-verified-production-ai-kernels-from-deepseek-and-flashattention) · [作者项目](https://github.com/TensorLean/TensorLean)
 - **EngineTailor 面向工作负载定制本地引擎，11-17 团队案例。** Agent 围绕同一模型、硬件与应用生成改动，再经独立输出检查和性能测量挑选候选。团队在 16 GB M1 Pro、同一 Clef 权重的视觉游戏决策中报告中位 3.91 → 1.92 s，39 次决策的模型总耗时约 152 → 76 s。场景特化程度很高，可借鉴的是把功能对齐、时延与资源约束作为三项独立验收。 [无问芯穹技术案例](https://www.infinigence-ai.com/news-updates/256.html)
+
+## 专题补充
+
+### GLM-5.4 循环层的已知结构与可复现实验
+
+**发布边界。** GLM-5.4 的官方技术公告发表于 11-23，属于 W48。公告列出 GLM Coding Plan、ZCode 和 Z.ai Chat，独立 API 列为即将推出，权重列为计划发布。截至 11-24，在官方 GLM-5 仓及 Hugging Face 组织未核实到可下载的 GLM-5.4 权重或配置。现阶段可复现的实验应基于有权重的循环模型，GLM-5.4 的细节以公开技术说明为准。 [Z.ai 技术公告](https://z.ai/blog/glm-5.4) · [GLM-5 官方仓](https://github.com/zai-org/GLM-5) · [Z.ai 官方模型组织](https://huggingface.co/zai-org)
+
+| 结构 | GLM-5.4 披露的做法 | 推理侧需验证的成本 |
+| --- | --- | --- |
+| 循环计算 | 从已预训练的约 750B GLM-5 基座继续训练，将中间 28 层的同一组参数执行两遍。第二遍以第一遍产生的隐状态为起点。 | 按实际 layer visit 记计算、权重读取和图节点。参数可复用，每 token 仍多执行一遍循环块。 |
+| 渐进写入 | 每遍有独立的逐 token 门控，对候选更新加权后写入残差流。作者观察到第一遍通常写得较少，第二遍进一步更新，第一遍的写入幅度也随 token 难度变化。 | 门控控制残差更新量。公告把按 token 跳过或增加循环次数列为后续工作。测 residual/gate 融合对中间张量和数值误差的影响。 |
+| 跨循环 KV | 第二遍读第一遍稀疏选出的历史 KV，同时维护第二遍自己的局部滑窗。两个流允许覆盖同一位置，因此历史表示与更新后的近邻表示都可参与注意力。 | 额外逻辑缓存由一份全长缓存变为局部窗口。验证双流寻址、重复位置的语义、滑窗驱逐和前缀恢复，分开计 HBM 驻留及每步读量。 |
+| 稀疏索引 | 第二遍复用第一遍 indexer 给出的索引。作者称所测结果接近每遍重新索引。 | 同时记录索引构造与搬运、稀疏 gather、注意力计算和图填充。第二遍仍需读 KV 并做注意力。 |
+
+上表依据 Z.ai 的架构披露。其 30B 同参数对照使用约多 10% 的训练计算，在 GPQA-Diamond、MMLU-Pro 等多数所测任务报告平均输出 token 减少 10%–14%。旗舰线上峰谷速度是厂商披露，公告缺少复现实验所需的硬件、并发及对照参数。开放实验应固定任务成功标准，分别报每 token 时间、输出长度和完成任务的总耗时。 [Z.ai 技术公告](https://z.ai/blog/glm-5.4)
+
+| 相关工作 | 与 GLM-5.4 的可比点 | 可验证方向 |
+| --- | --- | --- |
+| Universal Transformer、Huginn、Ouro | 从共享深度到可调 recurrent depth。Huginn 与 Ouro 提供可查的开权重研究模型；Ouro 用深度分配相关的训练目标。 | 选择开放研究权重做固定循环数扫描，分别对齐参数数目和推理算力，比长程推理质量、TTFO 和任务耗时。 [Universal Transformer](https://arxiv.org/abs/1807.03819) · [Huginn](https://arxiv.org/abs/2502.05171) · [Ouro](https://arxiv.org/abs/2510.25741) |
+| W47 Inkling 2 Mini 与可变循环研究版 | 固定版的 12 层共享 core 运行三遍，每遍独立 KV 与卷积状态，DSpark 读取固定的多遍 hidden-state taps。可变循环版的共享 KV 是后遍覆盖写，卷积状态仍按遍分开，与 GLM 的双流不同。 | vLLM 工程文的单 GB200、TP1、4K 仅前向例中，研究版三遍全独立与三遍共享的 KV 容量为 175K 和 194K token，batch 1 decode step 约 3.85 和 3.86 ms。测共享、降低深度两条不同的容量／质量曲线。 [Inkling 2 Mini](https://thinkingmachines.ai/news/inkling-2-mini/) · [可变版权重](https://huggingface.co/thinkingmachines/TML-d24-varloop-research) · [vLLM 实现与对照](https://vllm.ai/blog/2026-11-20-inkling2-mini) |
+| Recurrent KV Replay、LooM | 前者训练时构造只在指定迭代写 KV 的布局。LooM 在 causal encoder-decoder 中让全局内存每 token 写一次，并让重复的 decoder 层只在首次访问时发布 KV。 | 对照每遍独立、训练时共享与共享历史加局部状态。压测时对齐长上下文检索质量和额外存储，检查同一 token 在不同迭代的可恢复性。 [KV Replay v1](https://arxiv.org/abs/2611.19446v1) · [LooM v1](https://arxiv.org/abs/2611.06835v1) |
+| LLA、LoopKV、LoopVQ | LLA 用跨循环低秩表示并在读时重构；LoopKV 按循环与层选近似共用或量化；LoopVQ 对多个循环联合向量量化。 | 从独立 KV 基线开始，固定最大 HBM 对照可驻留并发、每步读取、解码端解包和任务成功率。小模型原型结果适合作设计依据。 [LLA v1](https://arxiv.org/abs/2607.15456v1) · [LoopKV v1](https://arxiv.org/abs/2611.04137v1) · [LoopVQ v1](https://arxiv.org/abs/2611.05304v1) |
+| LoopDuet、LoopFold、W47 LoopCache | LoopDuet 分配 prefill 与 decode 深度，LoopFold 学习将多个递归深度并入平行批，LoopCache 在循环模型内自投机，用循环 KV 排程减少长上下文的读取放大。 | 先测分阶段深度。需要准确保持目标模型时，用浅遍提案、完整深度验证，分别测草稿依赖的隐藏层、状态提交和真正的 KV 读流量。 [LoopDuet v1](https://arxiv.org/abs/2611.07211v1) · [LoopFold v1](https://arxiv.org/abs/2610.35556v1) · [LoopCache v1](https://arxiv.org/abs/2611.24301v1) |
+
+**先做一个可归因的实验。** 用 Inkling 可变循环研究版比较单遍、两遍、三遍和三遍共享，先关闭投机并走固定版本。以 4K／32K／业务长上下文，覆盖低并发、饱和以及热前缀。记录每遍和每种缓存的峰值、每轮读取、可分配 token、TTFT、TPOT、首个有效输出与成功任务成本。第二轮在固定循环权重上用支持的 DSpark 路径，与逐 token 基线做对照。GLM 式“第一遍全局／第二遍局部”需要匹配架构和训练，等官方配置或有等价语义的可用权重再验证。 [vLLM 实作](https://vllm.ai/blog/2026-11-20-inkling2-mini)
+
+### SpecPilot 在 910B4、vLLM-Ascend v0.32.0rc1 的可尝试方向
+
+**证据口径。** 公共 SpecPilot 实验使用 SGLang 和单卡 H100 或 RTX PRO 6000，包含 greedy 与 thinking。其项目页中 Qwen3.8-27B DSpark 的 H100 单请求 3.74 → 9.41×、FP8 批处理 1.94 → 3.93×，都是开发集相对于 AR 的整套结果；比值约 2.52 和 2.03。项目另外用未见样本给出相对 stock 的封存对照 2.38× 和 1.94×。迁移所指是机制，下面的 910B4 加速均为 `pending_remote`。 [SpecPilot 项目结果](https://stargazerx0.github.io/specpilot-project-page/) · [论文 v1](https://arxiv.org/html/2611.02501v1) · [实验代码](https://github.com/StargazerX0/SpecPilot)
+
+| 优先级 | 动作 | 最小对照与通过条件 |
+| --- | --- | --- |
+| P0 · 先 profile | 冻结 Qwen3.8-27B target 与 DSpark checkpoint、权重精度、TP、runner、CANN 和图模式。对照普通 AR 与 stock DSpark，分开测 draft backbone、base LM head、串行 Markov、元数据、verify 和状态 commit。 | 用设备 trace 确认真实路径和实际 padded shape。v0.32.0rc1 的 MRV1 DSpark proposer 显式关闭自身的图执行，目标侧启图和草稿侧仍需分别确认。 [MRV1 proposer](https://github.com/vllm-project/vllm-ascend/blob/v0.32.0rc1/vllm_ascend/worker/v1/spec_decode/dspark_proposer.py) |
+| P0 · 语义等价的元数据和搬运 | 检查 slot／page 映射、位置与长度物化、D2H 同步、logits/state copy 和验证结果提交。已经融合的输入构造与主机长度镜像沿用。对余下同 shape 的重复构造先做 buffer 复用，再判断是否融合。 | 用相同 token、相同分支和相同 slot 对照，记录 launch、同步、字节和峰值工作区，加入抢占、并发异长和全部／部分拒绝。纯布局与搬运改动适用严格 token 对照。 [SpecPilot 元数据实现](https://github.com/StargazerX0/SpecPilot/blob/main/settings/h100_batch_qwen38-27b-fp8_dspark/files/python/sglang/srt/speculative/specpilot_d4r3_host.py) · [Ascend proposer](https://github.com/vllm-project/vllm-ascend/blob/v0.32.0rc1/vllm_ascend/worker/v1/spec_decode/dspark_proposer.py) |
+| P0 · 候选集 Markov 打分 | 同 tag 的 MRV1 先算 base logits，沿草稿位置串行加前驱 token 的 Markov bias。对照完整 bias、base top-k 和 `base top-k ∪ 前驱条件候选` 三条草稿，保留一条链及原目标验证。上游有 gathered bias 接口，其具体 kernel 需按 NPU 构建实现。 | 先用 greedy，按 K 测候选构建、召回完整草稿 top-1、接受长度与每提交 token 耗时。仅在完整投影后 gather 不节省 base LM head GEMM。缩投影或采样时另验词表映射、实际 proposal 概率和目标采样分布。 [Ascend MRV1 路径](https://github.com/vllm-project/vllm-ascend/blob/v0.32.0rc1/vllm_ascend/worker/v1/spec_decode/llm_base_proposer.py) · [vLLM Qwen3 DSpark](https://github.com/vllm-project/vllm/blob/v0.32.0rc1/vllm/model_executor/models/qwen3_dspark.py) · [SpecPilot 候选实现](https://github.com/StargazerX0/SpecPilot/blob/main/settings/h100_batch_qwen38-27b-fp8_dspark/files/python/sglang/srt/speculative/specpilot_d1_ld.py) |
+| P0 · 实测共享验证预算 | 复用已存在的 MRV1 `DynamicSpecScheduler`，按累计接受概率与实测验证成本分配批内预算。MRV2 `enable_adaptive_verification` 是另一条 runner 路径，按 tag 文档确认 confidence head 和图约束。 | 扫请求数、总验证行、GDN／attention、TP 及执行模式，记录逻辑行、实际执行行、padding 和 `.item()` 同步。只在实测成本平台附近调整预算。H100 配置中的 192／256 属作者选点。 [MRV1 scheduler](https://github.com/vllm-project/vllm-ascend/blob/v0.32.0rc1/vllm_ascend/worker/v1/spec_decode/utils.py) · [tag 文档](https://github.com/vllm-project/vllm-ascend/blob/v0.32.0rc1/docs/source/user_guide/feature_guide/speculative_decoding.md) · [SpecPilot §4.4](https://arxiv.org/html/2611.02501v1#S4.SS4) |
+| P1 · 真正缩短草稿 | 先比较固定长度预生成后截断验证、按请求减少 drafter 的实际执行位置。后一条需要 ragged packing 或可覆盖的形状分桶，处理位置、采样 index 和 KV slot。混合流量中若出现验证批空余，再判断拼入短 prompt chunk 是否优于现有 chunked prefill。 | 只扫 checkpoint 支持的长度，记录实际位置与 GEMM 形状，确认 draft 与 verify 两端都节省。独立对照混合 prefill 的 TTFT、decode P99 ITL 与低优请求完成率。 [SpecPilot 请求级 draft 代码](https://github.com/StargazerX0/SpecPilot/blob/main/settings/h100_batch_qwen38-27b-fp8_dspark/files/python/sglang/srt/speculative/specpilot_d8r3_rblock.py) · [SpecPilot §4.4](https://arxiv.org/html/2611.02501v1#S4.SS4) |
+| P2 · 树验证、目标 head、W12、TLV | 树验证处理父 token 条件打分、GDN／卷积分支隔离和接受路径提交。Certified LM head 用保守界筛掉无望成为 argmax 的行，对剩余行用原精度重算并保留全量回退。W12 把 BF16 压缩并在 GEMM 内恢复，TLV 增加一次便宜的中间检查及再次起草。 | 仅在低并发且查清主瓶颈后逐项做。论文的 certified head 在 H100 较快、在所测 RTX PRO 6000 较慢；作者的 BF16 批量 TLV 比对照慢约 13%。tag 文档中 FIA 路径的 `num_speculative_tokens + 1 ≤ 16` 要单独验证，较宽的树不能照搬参数。 [论文 §4](https://arxiv.org/html/2611.02501v1#S4) · [作者反例](https://stargazerx0.github.io/specpilot-project-page/) · [Ascend tag 文档](https://github.com/vllm-project/vllm-ascend/blob/v0.32.0rc1/docs/source/user_guide/feature_guide/speculative_decoding.md) |
+
+**首轮交付与退出条件。** 同权重、同 prompt token IDs 和停止规则，分别扫并发 1、低并发与接近饱和的点。先按 trace 选 Markov、元数据或预算中最大的一项，单变量优化后检查每提交 token 的耗时、P95 TPOT／ITL、达标吞吐、实际 verify 行和接受长度分布。保存首次 token 分歧及 margin，分开比较 stock DSpark 和目标逐 token 基线。SpecPilot 的 teacher-forced 检查以共同前缀比较逐位置偏差，并用 stock 自身的漂移校准；对要求严格一致的改动另做自由生成全序列检查。采样态还需验证目标分布，候选裁剪不应继续用原 proposal 概率。若减少逻辑行后设备仍执行原规模，回到图形状和分派阶段。 [SpecPilot §3.3](https://arxiv.org/html/2611.02501v1#S3.SS3) · [W47 Ascend 自适应验证 #21137](https://github.com/vllm-project/vllm-ascend/pull/21137)
+
+### 扩散模型与投机解码的三条路线
+
+这组工作中的验证对象有三种：独立并行草稿交给 AR target 验证，共享 AR 模型内部起草和验证，以及直接加速扩散 target 的去噪轨迹。跑分应分别和同一目标权重、同一采样语义下的强基线对照。
+
+| 工作 | 机制与公开状态 | 值得试的方向 |
+| --- | --- | --- |
+| **Uno** · `2609.04010v1`，09-03 | AR 权重维持原模型分布，加入经 diffusion distillation 训练的轻量扩散参数，一遍并行起草；Ψ-Spec 由 AR 权重验证，公开实现支持线性与树采样。作者报所测中最高约 3× 原 AR 模型，代码和权重可用，推理由 `nano_vllm_uno` 样例引擎支撑。 | 先跑 Uno-Qwen3-8B 对相同底座 AR，再跑外置 DFlash／PARD-2 作为工程对照。确认共享权重、KV 布局、草稿驻留开销和高 batch 拐点。 [Uno v1](https://arxiv.org/abs/2609.04010v1) · [作者解释](https://kempnerinstitute.harvard.edu/research/deeper-learning/unlocking-lossless-speedups-in-llms-via-discrete-diffusion/) · [代码](https://github.com/ifm-ai/uno) |
+| **PARD-2** · `2605.08632`，05-09 首投，06-10 作者发布代码和权重 | 官方拼写为 **PARD-2**。这是 target-aligned 并行 drafter，以 CAT 权重调整训练目标以改善连续接受长度，通过随机注入 target 特征支持依赖和独立两种模式。论文报告最高 6.94× 的测试点。W47 SGLang #51465 为 HIP 集成开放 PR，复用 DFlash verify/accept 路径，不能从作者代码发布推断此 PR 已正式发行。 | 对同一可用 checkpoint 分别试两种模式，比较 target 特征传输、草稿时间、连续接受和吞吐。优先用发布的 Qwen3-8B drafter 做单机试验，910B4 需要另做后端兼容性核验。 [PARD-2 论文](https://arxiv.org/abs/2605.08632) · [作者代码及日期](https://github.com/AMD-AGI/PARD) · [Qwen3-8B 权重](https://huggingface.co/amd/PARD2-Qwen3-8B) · [SGLang #51465](https://github.com/sgl-project/sglang/pull/51465) |
+| **DFlash／DFlash2／DSpark** | DFlash 用 target 层特征做一次块扩散起草；DFlash2 加组内动态因果卷积和可选候选选择器；DSpark 在并行骨干后引入局部的串行 Markov 依赖与置信度。三者需按目标 checkpoint 和后端支持配对。 | 固定 target 与排序／停止规则比较块长度、候选质量、草稿开销和同等 SLO 下的输出 tok/s。记录预测步骤内的串行部分及其占比。 [DFlash v1](https://arxiv.org/abs/2602.06036v1) · [DFlash2 工程文档](https://docs.vllm.ai/projects/speculators/en/latest/user_guide/algorithms/dflash2/) · [DSpark v1](https://arxiv.org/abs/2607.05147v1) |
+| **DDTree、DCOCO、Parallel Reconsideration** | DDTree 从块扩散概率构造候选树。DCOCO 用上下文修正并行块，作者报告并发 4–32 对最强比较项有 6%–23% 的提升。Parallel Reconsideration 给不确定位置并行二次猜测，作者报告平均接受长度与解码速度的增量。 | 分开做多树分支、一次修正两条对照。按相同 verify 行预算或等 p95 时延测接受与状态提交，判断是继续花预算在 draft，还是在 target 多验证节点。 [DDTree](https://arxiv.org/abs/2604.12989) · [DCOCO](https://arxiv.org/abs/2610.12570) · [Parallel Reconsideration v1](https://arxiv.org/abs/2611.05724v1) |
+| **D3D、DNeo** | D3D 减少草稿对刚产生的 target hidden state 的依赖，验证当前块时并行准备可能的后继，目标是重叠两段执行。W47 提交的 DNeo 用 MoFA、历史拒绝信息和非均匀特征 tap 改善并行 drafter 编码，论文相对 DFlash2 报约 1.3×。 | 先记录 verify 后等待 target 特征和 draft 前向的空档。并行起草时同时记无效分支工作、竞争带宽以及接受收益，避免只统计重叠时间。 [D3D](https://arxiv.org/abs/2611.06425) · [DNeo v1](https://arxiv.org/abs/2611.21925v1) |
+| **LibraSpec、HybridSpec、NarrowSpec** | LibraSpec 用置信度与边际验证成本决定是否多验证一位；HybridSpec 针对 GDN-MoE 的验证成本与状态恢复；NarrowSpec 减小草稿残差维度并重新适配 draft，在 B200 和 GB10 效果不同。 | 优先以现有配置做成本驱动验证长度，只有 draft 实测占比高再尝试缩宽和重新训练。验证预算按模型、shape、图和精度标定。 [LibraSpec](https://arxiv.org/abs/2608.08721) · [HybridSpec](https://arxiv.org/abs/2611.04055) · [NarrowSpec v1](https://arxiv.org/abs/2611.23835v1) |
+| **以 dLLM 为目标的 SimSD、SPOT、Trajectory-Level SD、PV-Decoding** | dLLM 要验证的是掩码更新的**位置、token 与顺序**。SimSD 用掩码构造合法上下文，SPOT 学预测 commit order 后让 target 验证状态，Trajectory-Level SD 验证整段去噪轨迹，PV-Decoding 测 progressive verification 与 gate。SPOT 作者所测最高 3.2× 标准解码；PV-Decoding 的多 batch 实现存在退化。 | 先跑按指定提交次序逐步重放的基线，再测目标 pass 数、正确状态相等、每步提交 token、输出质量和并发曲线。若有近似步骤，另报其任务质量与失败。同一模型的 block continuous batching 可做强服务对照。 [SimSD](https://arxiv.org/abs/2606.02544) · [SPOT](https://arxiv.org/abs/2610.22543) · [Trajectory-Level](https://arxiv.org/abs/2608.27514) · [PV-Decoding](https://arxiv.org/abs/2610.24722) · [BlockServe](https://arxiv.org/abs/2607.08930) |
+| **图像／视频 DiT 的近邻路线** | SpeCa 借鉴提案和验证框架预测跨 denoising step 的特征，再判定是否回退到完整计算。论文以 FLUX、DiT 和 HunyuanVideo 等质量和速度指标衡量。 | 有图像／视频业务才开实验。固定分辨率、步数／采样器和 seeds 对比近似特征缓存、质量阈值和每请求 GPU 秒。 [SpeCa](https://arxiv.org/abs/2509.11628) |
+
+**立项顺序。** 现有 910B4 有 DSpark 时先做不换权重的三项 profile 驱动优化。另有 8B GPU 环境时，用同一 Qwen3-8B 目标跑普通 AR、DFlash、PARD-2 及 Uno。把相同 harness 的对照与作者原版复现分开，注明引擎、精度、停止、温度和并发，报告平均接受长度、draft/verify 行数、语法正确性、尾延迟和任务成功率。要探索循环模型与投机的交点，可先复现已经公开的 Inkling + DSpark，或用 LoopCache 检验浅层提案与完整循环验证的投入产出。此处硬件与性能实验均为 `pending_remote`。 [Inkling 引擎支持](https://vllm.ai/blog/2026-11-20-inkling2-mini) · [LoopCache v1](https://arxiv.org/abs/2611.24301v1)
 
 ## 可复现的工程验证矩阵
 
