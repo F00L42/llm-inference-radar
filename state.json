@@ -1,83 +1,83 @@
 {
   "arxiv": {
     "counts": {
-      "duplicates": 23,
+      "duplicates": 56,
       "failed": 0,
-      "in_window": 88,
-      "new": 61,
-      "passed": 84,
-      "read": 93
+      "in_window": 95,
+      "new": 31,
+      "passed": 87,
+      "read": 100
     },
-    "cursor": "2026-11-24T10:32:04.179730Z",
+    "cursor": "2026-11-25T09:21:36.069437Z",
     "error": null,
     "failures": 0,
-    "last_attempt": "2026-11-24T10:32:04.179730Z",
-    "last_success": "2026-11-24T10:32:04.179730Z",
-    "window_start": "2026-11-20T08:31:04.947664Z"
+    "last_attempt": "2026-11-25T09:21:36.069437Z",
+    "last_success": "2026-11-25T09:21:36.069437Z",
+    "window_start": "2026-11-21T10:32:04.179730Z"
   },
   "github/sgl-project/sglang": {
     "counts": {
-      "duplicates": 551,
+      "duplicates": 581,
       "failed": 0,
-      "in_window": 2310,
-      "new": 533,
-      "passed": 1084,
-      "read": 2390
+      "in_window": 2362,
+      "new": 519,
+      "passed": 1100,
+      "read": 2432
     },
-    "cursor": "2026-11-24T10:32:04.179730Z",
+    "cursor": "2026-11-25T09:21:36.069437Z",
     "error": null,
     "failures": 0,
-    "last_attempt": "2026-11-24T10:32:04.179730Z",
-    "last_success": "2026-11-24T10:32:04.179730Z",
-    "window_start": "2026-11-20T08:31:04.947664Z"
+    "last_attempt": "2026-11-25T09:21:36.069437Z",
+    "last_success": "2026-11-25T09:21:36.069437Z",
+    "window_start": "2026-11-21T10:32:04.179730Z"
   },
   "github/vllm-project/vllm": {
     "counts": {
-      "duplicates": 835,
+      "duplicates": 838,
       "failed": 0,
-      "in_window": 2396,
-      "new": 508,
-      "passed": 1343,
-      "read": 2506
+      "in_window": 2326,
+      "new": 496,
+      "passed": 1334,
+      "read": 2436
     },
-    "cursor": "2026-11-24T10:32:04.179730Z",
+    "cursor": "2026-11-25T09:21:36.069437Z",
     "error": null,
     "failures": 0,
-    "last_attempt": "2026-11-24T10:32:04.179730Z",
-    "last_success": "2026-11-24T10:32:04.179730Z",
-    "window_start": "2026-11-20T08:31:04.947664Z"
+    "last_attempt": "2026-11-25T09:21:36.069437Z",
+    "last_success": "2026-11-25T09:21:36.069437Z",
+    "window_start": "2026-11-21T10:32:04.179730Z"
   },
   "github/vllm-project/vllm-ascend": {
     "counts": {
-      "duplicates": 229,
+      "duplicates": 290,
       "failed": 0,
-      "in_window": 1091,
-      "new": 271,
-      "passed": 500,
-      "read": 1139
+      "in_window": 1207,
+      "new": 281,
+      "passed": 571,
+      "read": 1261
     },
-    "cursor": "2026-11-24T10:32:04.179730Z",
+    "cursor": "2026-11-25T09:21:36.069437Z",
     "error": null,
     "failures": 0,
-    "last_attempt": "2026-11-24T10:32:04.179730Z",
-    "last_success": "2026-11-24T10:32:04.179730Z",
-    "window_start": "2026-11-20T08:31:04.947664Z"
+    "last_attempt": "2026-11-25T09:21:36.069437Z",
+    "last_success": "2026-11-25T09:21:36.069437Z",
+    "window_start": "2026-11-21T10:32:04.179730Z"
   },
   "hf_daily": {
     "counts": {
-      "duplicates": 10,
+      "duplicates": 6,
       "failed": 0,
-      "in_window": 126,
-      "new": 6,
-      "passed": 16,
-      "read": 126
+      "in_window": 117,
+      "new": 5,
+      "passed": 11,
+      "read": 117
     },
-    "cursor": "2026-11-24T10:32:04.179730Z",
+    "cursor": "2026-11-25T09:21:36.069437Z",
     "error": null,
     "failures": 0,
-    "last_attempt": "2026-11-24T10:32:04.179730Z",
-    "last_success": "2026-11-24T10:32:04.179730Z",
-    "window_start": "2026-11-20T08:31:04.947664Z"
+    "last_attempt": "2026-11-25T09:21:36.069437Z",
+    "last_success": "2026-11-25T09:21:36.069437Z",
+    "window_start": "2026-11-21T10:32:04.179730Z"
   },
   "manual": {
     "counts": {
@@ -89,7 +89,7 @@
       "read": 0
     },
     "error": null,
-    "last_attempt": "2026-11-24T10:32:04.179730Z",
-    "window_start": "2026-11-24T10:32:04.179730Z"
+    "last_attempt": "2026-11-25T09:21:36.069437Z",
+    "window_start": "2026-11-25T09:21:36.069437Z"
   }
 }
